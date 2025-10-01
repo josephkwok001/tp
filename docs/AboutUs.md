@@ -11,15 +11,16 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Tan Wei Xian
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/weixianuni.png" width="200px">
 
 [[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
+[[github](https://github.com/weixianuni)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Project Advisor
+* Role: Deliverables and Deadlines
+* Responsibilities: Ensure project deliverables are done on time and in the right format.
 
 ### Jane Doe
 
