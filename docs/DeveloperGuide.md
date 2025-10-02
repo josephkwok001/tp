@@ -275,8 +275,10 @@ _{Explain here how the data archiving feature will be implemented}_
 **Target user profile**:
 
 * Real estate agents
-* Typing preferred
+* Can type fast
 * Requires fast access to large number of contacts
+* Prefers typing to mouse interactions
+* Is reasonably comfortable using CLI apps
 
 
 **Value proposition**: A streamlined real estate tool that centralizes client management, property listings, appointments, tasks, and negotiations. It enhances efficiency with quick data access, timely reminders, and intuitive scheduling. Agents benefit from centralized notes, and a typing-optimized interface, enabling smarter decisions, improved productivity, and higher closing rates.
