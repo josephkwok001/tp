@@ -306,12 +306,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 1. Agent requests to view help
-2. System shows a summary of available commands 
+2. System shows a summary of available commands
    Use case ends.
 
 **Extensions**
-* 1a. Agent requests help for a specific command.  
-  * 1a1. System shows detailed usage for that command.  
+* 1a. Agent requests help for a specific command.
+  * 1a1. System shows detailed usage for that command.
   * Use case ends.
 
 ---
@@ -322,16 +322,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1. Agent requests to add a person
 2. System requests required details (name, phone, email, address)
 3. Agent enters the requested details
-4. System validates and saves the person, and shows confirmation 
+4. System validates and saves the person, and shows confirmation
    Use case ends.
 
 **Extensions**
 * 3a. One or more fields are missing/invalid.
-  * 3a1. System indicates the problematic fields.  
-  * 3a2. Agent re-enters details.  
+  * 3a1. System indicates the problematic fields.
+  * 3a2. Agent re-enters details.
   * Use case resumes at step 4.
-* 3b. A duplicate person is detected (based on unique fields).  
-  * 3b1. System warns about duplication and rejects the add.  
+* 3b. A duplicate person is detected (based on unique fields).
+  * 3b1. System warns about duplication and rejects the add.
   * Use case ends.
 
 ---
@@ -342,19 +342,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1. Agent requests to edit a specific person
 2. System requests the fields to update
 3. Agent provides new values
-4. System validates and updates the person, then shows confirmation 
+4. System validates and updates the person, then shows confirmation
    Use case ends.
 
 **Extensions**
-* 1a. The specified person does not exist.  
-  * 1a1. System shows an error message.  
+* 1a. The specified person does not exist.
+  * 1a1. System shows an error message.
   * Use case ends.
-* 3a. New values are invalid (e.g., phone/email format).  
-  * 3a1. System indicates invalid fields.  
-  * 3a2. Agent corrects and resubmits.  
+* 3a. New values are invalid (e.g., phone/email format).
+  * 3a1. System indicates invalid fields.
+  * 3a2. Agent corrects and resubmits.
   * Use case resumes at step 4.
-* 3b. Update would create a duplicate with another person.  
-  * 3b1. System warns and rejects the update.  
+* 3b. Update would create a duplicate with another person.
+  * 3b1. System warns and rejects the update.
   * Use case ends.
 
 ---
@@ -369,10 +369,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 2a. The list is empty.  
+* 2a. The list is empty.
   * Use case ends.
-* 3a. The given index is invalid.  
-  * 3a1. System shows an error message.  
+* 3a. The given index is invalid.
+  * 3a1. System shows an error message.
   * Use case resumes at step 2.
 
 ---
@@ -385,11 +385,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 1a. Keywords are invalid (e.g., empty/whitespace only).  
-  * 1a1. System shows usage guidance.  
+* 1a. Keywords are invalid (e.g., empty/whitespace only).
+  * 1a1. System shows usage guidance.
   * Use case ends.
-* 2a. No persons match the keywords.  
-  * 2a1. System shows “no results found”.  
+* 2a. No persons match the keywords.
+  * 2a1. System shows “no results found”.
   * Use case ends.
 
 ---
@@ -406,18 +406,18 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 2a. No persons match the keyword(s).  
-  * 2a1. System shows “no results found”.  
+* 2a. No persons match the keyword(s).
+  * 2a1. System shows “no results found”.
   * Use case ends.
-* 3a. The selected index is invalid.  
-  * 3a1. System shows an error message.  
+* 3a. The selected index is invalid.
+  * 3a1. System shows an error message.
   * Use case resumes at step 2.
-* 5a. The tag already exists on this person.  
-  * 5a1. System informs duplication and rejects the add.  
+* 5a. The tag already exists on this person.
+  * 5a1. System informs duplication and rejects the add.
   * Use case ends.
-* 5b. Tag value is invalid (e.g., length/characters).  
-  * 5b1. System shows validation error.  
-  * 5b2. Agent re-enters a valid tag.  
+* 5b. Tag value is invalid (e.g., length/characters).
+  * 5b1. System shows validation error.
+  * 5b2. Agent re-enters a valid tag.
   * Use case resumes at step 6.
 
 ---
@@ -434,10 +434,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 2a. No persons match → same as UC06–2a.  
-* 3a. Invalid index → same as UC06–3a.  
-* 5a. The tag does not exist on this person.  
-  * 5a1. System informs that the tag is not found and rejects the remove.  
+* 2a. No persons match → same as UC06–2a.
+* 3a. Invalid index → same as UC06–3a.
+* 5a. The tag does not exist on this person.
+  * 5a1. System informs that the tag is not found and rejects the remove.
   * Use case ends.
 
 ---
@@ -450,8 +450,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 1a. There are no persons stored.  
-  * 1a1. System shows an empty list message.  
+* 1a. There are no persons stored.
+  * 1a1. System shows an empty list message.
   * Use case ends.
 
 ---
@@ -466,8 +466,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 2a. Agent cancels at the confirmation step.  
-  * 2a1. System aborts the operation.  
+* 2a. Agent cancels at the confirmation step.
+  * 2a1. System aborts the operation.
   * Use case ends.
 
 ---
@@ -481,8 +481,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
    Use case ends.
 
 **Extensions**
-* 2a. There is no command to undo.  
-  * 2a1. System shows an error indicating no undoable action.  
+* 2a. There is no command to undo.
+  * 2a1. System shows an error indicating no undoable action.
   * Use case ends.
 
 ---
@@ -492,12 +492,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 1. Agent requests to redo the last undone command
 2. System checks redo history
-3. System reapplies the command and shows confirmation 
+3. System reapplies the command and shows confirmation
    Use case ends.
 
 **Extensions**
-* 2a. There is no command to redo.  
-  * 2a1. System shows an error indicating no redoable action.  
+* 2a. There is no command to redo.
+  * 2a1. System shows an error indicating no redoable action.
   * Use case ends.
 
 ### Non-Functional Requirements
