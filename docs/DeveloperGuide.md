@@ -300,32 +300,205 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `EstateSearch` and the **Actor** is the `real estate agents`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case UC01: View help**
 
 **MSS**
-
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
-
-    Use case ends.
+1. Agent requests to view help
+2. System shows a summary of available commands 
+   Use case ends.
 
 **Extensions**
+* 1a. Agent requests help for a specific command.  
+  * 1a1. System shows detailed usage for that command.  
+  * Use case ends.
 
-* 2a. The list is empty.
+---
 
-  Use case ends.
+**Use case UC02: Add a person (client)**
 
-* 3a. The given index is invalid.
+**MSS**
+1. Agent requests to add a person
+2. System requests required details (name, phone, email, address)
+3. Agent enters the requested details
+4. System validates and saves the person, and shows confirmation 
+   Use case ends.
 
-    * 3a1. AddressBook shows an error message.
+**Extensions**
+* 3a. One or more fields are missing/invalid.
+  * 3a1. System indicates the problematic fields.  
+  * 3a2. Agent re-enters details.  
+  * Use case resumes at step 4.
+* 3b. A duplicate person is detected (based on unique fields).  
+  * 3b1. System warns about duplication and rejects the add.  
+  * Use case ends.
 
-      Use case resumes at step 2.
+---
 
-*{More to be added}*
+**Use case UC03: Edit a person**
+
+**MSS**
+1. Agent requests to edit a specific person
+2. System requests the fields to update
+3. Agent provides new values
+4. System validates and updates the person, then shows confirmation 
+   Use case ends.
+
+**Extensions**
+* 1a. The specified person does not exist.  
+  * 1a1. System shows an error message.  
+  * Use case ends.
+* 3a. New values are invalid (e.g., phone/email format).  
+  * 3a1. System indicates invalid fields.  
+  * 3a2. Agent corrects and resubmits.  
+  * Use case resumes at step 4.
+* 3b. Update would create a duplicate with another person.  
+  * 3b1. System warns and rejects the update.  
+  * Use case ends.
+
+---
+
+**Use case UC04: Delete a person**
+
+**MSS**
+1. Agent requests to list persons
+2. System shows a list of persons
+3. Agent requests to delete a specific person in the list
+4. System deletes the person and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. The list is empty.  
+  * Use case ends.
+* 3a. The given index is invalid.  
+  * 3a1. System shows an error message.  
+  * Use case resumes at step 2.
+
+---
+
+**Use case UC05: Find persons by keywords**
+
+**MSS**
+1. Agent requests to find persons by one or more keywords
+2. System filters and shows matching persons
+   Use case ends.
+
+**Extensions**
+* 1a. Keywords are invalid (e.g., empty/whitespace only).  
+  * 1a1. System shows usage guidance.  
+  * Use case ends.
+* 2a. No persons match the keywords.  
+  * 2a1. System shows “no results found”.  
+  * Use case ends.
+
+---
+
+**Use case UC06: Add a tag to a person (find-then-act)**
+
+**MSS**
+1. Agent requests to find persons by keyword(s)
+2. System shows matching persons
+3. Agent selects a specific person from the results
+4. System requests the tag to add
+5. Agent provides the tag
+6. System adds the tag to the person and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. No persons match the keyword(s).  
+  * 2a1. System shows “no results found”.  
+  * Use case ends.
+* 3a. The selected index is invalid.  
+  * 3a1. System shows an error message.  
+  * Use case resumes at step 2.
+* 5a. The tag already exists on this person.  
+  * 5a1. System informs duplication and rejects the add.  
+  * Use case ends.
+* 5b. Tag value is invalid (e.g., length/characters).  
+  * 5b1. System shows validation error.  
+  * 5b2. Agent re-enters a valid tag.  
+  * Use case resumes at step 6.
+
+---
+
+**Use case UC07: Remove a tag from a person (find-then-act)**
+
+**MSS**
+1. Agent requests to find persons by keyword(s)
+2. System shows matching persons
+3. Agent selects a specific person from the results
+4. System requests the tag to remove
+5. Agent specifies the tag
+6. System removes the tag and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. No persons match → same as UC06–2a.  
+* 3a. Invalid index → same as UC06–3a.  
+* 5a. The tag does not exist on this person.  
+  * 5a1. System informs that the tag is not found and rejects the remove.  
+  * Use case ends.
+
+---
+
+**Use case UC08: List persons**
+
+**MSS**
+1. Agent requests to list persons
+2. System shows all persons
+   Use case ends.
+
+**Extensions**
+* 1a. There are no persons stored.  
+  * 1a1. System shows an empty list message.  
+  * Use case ends.
+
+---
+
+**Use case UC09: Clear all persons (dangerous operation)**
+
+**MSS**
+1. Agent requests to clear all persons
+2. System requests confirmation
+3. Agent confirms the clear operation
+4. System deletes all persons and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. Agent cancels at the confirmation step.  
+  * 2a1. System aborts the operation.  
+  * Use case ends.
+
+---
+
+**Use case UC10: Undo the last modifying command**
+
+**MSS**
+1. Agent requests to undo the last modifying command
+2. System checks undo history
+3. System restores the previous state and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. There is no command to undo.  
+  * 2a1. System shows an error indicating no undoable action.  
+  * Use case ends.
+
+---
+
+**Use case UC11: Redo the last undone command**
+
+**MSS**
+1. Agent requests to redo the last undone command
+2. System checks redo history
+3. System reapplies the command and shows confirmation 
+   Use case ends.
+
+**Extensions**
+* 2a. There is no command to redo.  
+  * 2a1. System shows an error indicating no redoable action.  
+  * Use case ends.
 
 ### Non-Functional Requirements
 
