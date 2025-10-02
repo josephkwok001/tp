@@ -500,11 +500,27 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+1. Technical Requirements
+   1. The system must avoid OS-dependent features and be portable across Windows, Linux, and macOS without requiring code changes.
+   2. The app must run exclusively on Java 17, and shall not require features from higher versions.
+   3. The data stored should be stored in a single human editable text file.
+   4. The app should not rely on external database software.
+   5. The app should only support offline usage with no server component.
 
-*{More to be added}*
+2. Usability & Quality Requirements
+   1. Any user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+   2. The app should be usable by people with visual disabilities (e.g. colour blindness).
+   3. All error messages must provide clear, actionable guidance without technical jargon.
+   4. The product is offered as a free offline service.
+   5. The user interface should be intuitive enough for users who are not IT-savvy.
+   6. The application should not require the user to have advanced IT knowledge to operate.
+   7. The app shall not require an installer; it should be deliverable as a standalone package (e.g. single JAR) that can run without setup steps.
+   8. The product should be for a single user.
+
+3. Performance Requirements
+   1. All command-based operations (add, delete, update, search)The system must avoid OS-dependent features and be portable across Windows, Linux, and macOS without requiring code changes. must complete within 1 second under normal usage.
+   2. The GUI must support standard resolutions (e.g. 1920×1080 and above) without layout issues, and degrade gracefully (no broken layouts) down to lower resolutions (e.g. 1280×720) or scaled UI modes.
+   3. The system must support at least 1,000 contacts without exceeding 1s for add/delete/update/search operations.
 
 ### Glossary
 
