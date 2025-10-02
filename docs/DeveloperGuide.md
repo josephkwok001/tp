@@ -274,29 +274,26 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+* Real estate agents
+* Typing preferred
+* Requires fast access to large number of contacts
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
 
+**Value proposition**: A streamlined real estate tool that centralizes client management, property listings, appointments, tasks, and negotiations. It enhances efficiency with quick data access, timely reminders, and intuitive scheduling. Agents benefit from centralized notes, and a typing-optimized interface, enabling smarter decisions, improved productivity, and higher closing rates.
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| Priority | As a …​                                   | I want to …​                 | So that I can…​                                                      |
+|----------|-------------------------------------------|------------------------------|----------------------------------------------------------------------|
+| `* * *`  | agent using the app                       | add contacts to my contact list       | see my contacts                |
+| `* * *`  | long-time user                            | delete contacts that I am no longer interested in or require             |  clean my contacts list                                                                    |
+| `* * *`  | user  | exit the application through the cli              | be efficient in my use of the cli without having to use the gui                                 |
+| `* * *`  | real estate agent                                      | see all the contacts that I have        | better organise my contacts based on their purposes such as buyers, sellers, rentals etc. |
 
 *{More to be added}*
+
 
 ### Use cases
 
