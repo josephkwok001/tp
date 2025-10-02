@@ -33,6 +33,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Responsibilities: Ensure project deliverables are done on time and in the right format.
 =======
 
+### Loh Zhi Qin
+
+<img src="images/lohzq88.png" width="200px">
+
+[[github](https://github.com/lohzq88)]
+
+* Role: Developer
+* Responsibilities: Documentation, Code Quality 
 
 ### Jane Doe
 
