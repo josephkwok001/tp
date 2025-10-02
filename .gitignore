@@ -22,3 +22,15 @@ src/test/data/sandbox/
 .DS_Store
 docs/_site/
 docs/_markbind/logs/
+bin/
+build/
+out/
+.gradle/
+*.class
+*.log
+bin/
+build/
+out/
+.gradle/
+*.class
+*.log

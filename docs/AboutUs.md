@@ -16,7 +16,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/ebt-wu)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Team Lead and Integration 
+* Role: Team Lead and Integration
 * Responsibilities: Overall project coordination and versioning of the code, maintaining the code repository, integrating various parts of the software to create a whole
 
 ### Tan Wei Xian
@@ -37,7 +37,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/lohzq88)]
 
 * Role: Developer
-* Responsibilities: Documentation, Code Quality 
+* Responsibilities: Documentation, Code Quality
 
 ### Da Jiaxuan
 
