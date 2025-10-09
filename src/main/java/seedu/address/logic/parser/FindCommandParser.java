@@ -33,16 +33,14 @@ public class FindCommandParser implements Parser<FindCommand> {
             }
             String[] nameKeywords = nameArgs.split("\\s+");
             return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
-        }
-        else if (trimmedArgs.startsWith("t/")) {
+        } else if (trimmedArgs.startsWith("t/")) {
             String tagArgs = trimmedArgs.substring(2).trim();
             if (tagArgs.isEmpty()) {
                 throw new ParseException("No tag provided after t/");
             }
             String[] tagKeywords = tagArgs.split("\\s+");
             return new FindCommand(new TagContainsKeywordsPredicate(Arrays.asList(tagKeywords)));
-        }
-        else {
+        } else {
             throw new ParseException("Command should start with n/ or t/ for find.");
         }
 
