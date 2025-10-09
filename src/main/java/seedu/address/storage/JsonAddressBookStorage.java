@@ -19,7 +19,7 @@ import seedu.address.model.ReadOnlyAddressBook;
  */
 public class JsonAddressBookStorage implements AddressBookStorage {
 
-    private static final Logger logger = LogsCenter.getLogger(JsonAddressBookStorage.class);
+    private static final Logger LOGGER = LogsCenter.getLogger(JsonAddressBookStorage.class);
 
     private Path filePath;
 
@@ -47,14 +47,14 @@ public class JsonAddressBookStorage implements AddressBookStorage {
 
         Optional<JsonSerializableAddressBook> jsonAddressBook = JsonUtil.readJsonFile(
                 filePath, JsonSerializableAddressBook.class);
-        if (!jsonAddressBook.isPresent()) {
+        if (jsonAddressBook.isEmpty()) {
             return Optional.empty();
         }
 
         try {
             return Optional.of(jsonAddressBook.get().toModelType());
         } catch (IllegalValueException ive) {
-            logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());
+            LOGGER.info("Illegal values found in " + filePath + ": " + ive.getMessage());
             throw new DataLoadingException(ive);
         }
     }
