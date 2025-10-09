@@ -51,7 +51,7 @@ class JsonSerializableAddressBook {
      */
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
-        for (int i=0; i<persons.size(); i++) {
+        for (int i = 0; i < persons.size(); i++) {
             Person person;
             try {
                 person = persons.get(i).toModelType();
