@@ -6,6 +6,8 @@ package seedu.address.model.person;
  */
 public class Listing {
 
+    public static final String MESSAGE_CONSTRAINTS = "Listings can take any values, and it should not be blank";
+
     public final String value;
 
     /**
@@ -34,4 +36,25 @@ public class Listing {
     public String toString() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof Listing)) {
+            return false;
+        }
+
+        Listing otherListing = (Listing) other;
+        return value.equals(otherListing.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
+
 }

@@ -38,7 +38,7 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("address") String listing,
+            @JsonProperty("listing") String listing,
             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
@@ -111,7 +111,7 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Listing.class.getSimpleName()));
         }
         if (!Listing.isValidListing(listing)) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+            throw new IllegalValueException(Listing.MESSAGE_CONSTRAINTS);
         }
         final Listing modelListing = new Listing(listing);
 
