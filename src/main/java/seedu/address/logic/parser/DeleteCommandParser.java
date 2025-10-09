@@ -24,12 +24,13 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_EMAIL);
 
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            // Delete by email
-            String emailArg = argMultimap.getValue(PREFIX_EMAIL).get();
+            String emailArg = argMultimap.getValue(PREFIX_EMAIL).get().trim();
+            if (emailArg.isEmpty()) {
+                throw new ParseException(Email.MESSAGE_CONSTRAINTS);
+            }
             Email email = ParserUtil.parseEmail(emailArg);
             return new DeleteCommand(email);
         } else {
-            // Delete by index (fallback to old behavior)
             try {
                 Index index = ParserUtil.parseIndex(args.trim());
                 return new DeleteCommand(index);
