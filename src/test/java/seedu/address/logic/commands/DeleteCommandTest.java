@@ -17,6 +17,7 @@ import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Email;
 import seedu.address.model.person.Person;
 
 /**
@@ -80,6 +81,30 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void execute_validEmailUnfilteredList_success() {
+        // Use an email from a typical person in the address book
+        Person personToDelete = model.getFilteredPersonList().get(0);
+        Email email = personToDelete.getEmail();
+        DeleteCommand deleteCommand = new DeleteCommand(email);
+
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+                Messages.format(personToDelete));
+
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.deletePerson(personToDelete);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_invalidEmailUnfilteredList_throwsCommandException() {
+        Email nonExistentEmail = new Email("nonexistent@email.com");
+        DeleteCommand deleteCommand = new DeleteCommand(nonExistentEmail);
+
+        assertCommandFailure(deleteCommand, model, "No person found with the specified email.");
+    }
+
+    @Test
     public void equals() {
         DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_PERSON);
         DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_PERSON);
@@ -102,11 +127,41 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void equals_emailBased() {
+        Email email1 = new Email("alice@example.com");
+        Email email2 = new Email("bob@example.com");
+
+        DeleteCommand deleteByEmail1 = new DeleteCommand(email1);
+        DeleteCommand deleteByEmail2 = new DeleteCommand(email2);
+
+        // same object -> returns true
+        assertTrue(deleteByEmail1.equals(deleteByEmail1));
+
+        // same values -> returns true
+        DeleteCommand deleteByEmail1Copy = new DeleteCommand(email1);
+        assertTrue(deleteByEmail1.equals(deleteByEmail1Copy));
+
+        // different types -> returns false
+        assertFalse(deleteByEmail1.equals(1));
+
+        // null -> returns false
+        assertFalse(deleteByEmail1.equals(null));
+
+        // different email -> returns false
+        assertFalse(deleteByEmail1.equals(deleteByEmail2));
+    }
+
+    @Test
     public void toStringMethod() {
         Index targetIndex = Index.fromOneBased(1);
-        DeleteCommand deleteCommand = new DeleteCommand(targetIndex);
-        String expected = DeleteCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
-        assertEquals(expected, deleteCommand.toString());
+        DeleteCommand deleteCommandByIndex = new DeleteCommand(targetIndex);
+        String expectedByIndex = DeleteCommand.class.getCanonicalName() + "{targetIndex=" + targetIndex + "}";
+        assertEquals(expectedByIndex, deleteCommandByIndex.toString());
+
+        Email email = new seedu.address.model.person.Email("alice@example.com");
+        DeleteCommand deleteCommandByEmail = new DeleteCommand(email);
+        String expectedByEmail = DeleteCommand.class.getCanonicalName() + "{targetEmail=" + email + "}";
+        assertEquals(expectedByEmail, deleteCommandByEmail.toString());
     }
 
     /**
