@@ -108,6 +108,16 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String listing} into a {@code Listing}.
+     * Leading and trailing whitespaces will be trimmed.
+     */
+    public static Listing parseListing(String listing) throws ParseException {
+        requireNonNull(listing);
+        String trimmedListing = listing.trim();
+        return new Listing(trimmedListing);
+    }
+
+    /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
@@ -117,15 +127,5 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
-    }
-
-    /**
-     * Parses a {@code String listing} into a {@code Listing}.
-     * Leading and trailing whitespaces will be trimmed.
-     */
-    public static Listing parseListing(String listing) throws ParseException {
-        requireNonNull(listing);
-        String trimmedListing = listing.trim();
-        return new Listing(trimmedListing);
     }
 }
