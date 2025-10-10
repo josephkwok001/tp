@@ -4,10 +4,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
 public class ListingTest {
+
+    @Test
+    public void constructor_null_throwsNullPointerException() {
+        // A null listing should throw a NullPointerException
+        assertThrows(NullPointerException.class, () -> new Listing(null));
+    }
+
+    @Test
+    public void constructor_invalidListing_throwsIllegalArgumentException() {
+        // An empty string is an invalid listing
+        String invalidListingEmpty = "";
+        assertThrows(IllegalArgumentException.class, () -> new Listing(invalidListingEmpty));
+
+        // A string with only spaces is an invalid listing
+        String invalidListingBlank = "       ";
+        assertThrows(IllegalArgumentException.class, () -> new Listing(invalidListingBlank));
+    }
 
     @Test
     public void constructor_validListing_createsListing() {
