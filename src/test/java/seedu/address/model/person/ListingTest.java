@@ -19,20 +19,17 @@ public class ListingTest {
 
     @Test
     public void isValidListing() {
-        // Based on the provided code, isValidListing always returns true.
-        // These tests verify that behavior but contradict MESSAGE_CONSTRAINTS.
-        // A corrected implementation should handle these cases differently.
+        assertFalse(Listing.isValidListing(null));
 
-        // Test with null (based on current implementation, this is true)
-        assertTrue(Listing.isValidListing(null));
+        // blank listings -> returns false
+        assertFalse(Listing.isValidListing("")); // empty string
+        assertFalse(Listing.isValidListing(" ")); // spaces only
+        assertFalse(Listing.isValidListing("\t\n")); // whitespace characters
 
-        // Test with a blank string (based on current implementation, this is true)
-        assertTrue(Listing.isValidListing("")); // Empty
-        assertTrue(Listing.isValidListing(" ")); // Spaces only
-
-        // Test with valid strings
+        // valid listings -> returns true
         assertTrue(Listing.isValidListing("A random listing"));
         assertTrue(Listing.isValidListing("123 Main St, #01-02"));
+        assertTrue(Listing.isValidListing("  Valid listing with spaces  ")); // leading/trailing spaces are fine
     }
 
     @Test

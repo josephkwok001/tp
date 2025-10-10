@@ -30,7 +30,7 @@ public class Listing {
      * Returns true if a given string is a valid listing.
      */
     public static boolean isValidListing(String test) {
-        return true;
+        return test != null && !test.isBlank();
     }
 
     public String toString() {
