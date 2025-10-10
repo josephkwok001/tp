@@ -1,5 +1,8 @@
 package seedu.address.model.person;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
+
 /**
  * Represents a Person's listing in the address book.
  * Guarantees: immutable; is always valid
@@ -13,9 +16,13 @@ public class Listing {
     /**
      * Constructs a {@code Listing}.
      *
-     * @param listing A valid listing.
+     * @param listing A valid, non-blank listing description.
+     * @throws NullPointerException if {@code listing} is null.
+     * @throws IllegalArgumentException if {@code listing} is blank.
      */
     public Listing(String listing) {
+        requireNonNull(listing); // Checks for null first, a common practice
+        checkArgument(isValidListing(listing), MESSAGE_CONSTRAINTS);
         this.value = listing;
     }
 
