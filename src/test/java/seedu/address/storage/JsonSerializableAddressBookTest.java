@@ -30,10 +30,12 @@ public class JsonSerializableAddressBookTest {
     }
 
     @Test
-    public void toModelType_invalidPersonFile_throwsIllegalValueException() throws Exception {
+    public void toModelType_invalidPersonFile_success() throws Exception {
         JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(INVALID_PERSON_FILE,
                 JsonSerializableAddressBook.class).get();
-        assertThrows(IllegalValueException.class, dataFromFile::toModelType);
+        AddressBook addressBookFromFile = dataFromFile.toModelType();
+        AddressBook emptyAddressBook = new AddressBook();
+        assertEquals(addressBookFromFile, emptyAddressBook);
     }
 
     @Test
