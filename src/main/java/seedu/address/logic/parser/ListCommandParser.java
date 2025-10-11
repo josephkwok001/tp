@@ -20,8 +20,7 @@ public class ListCommandParser implements Parser<ListCommand> {
      */
     public ListCommand parse(String args) throws ParseException {
         if (!args.trim().isEmpty()) {
-            throw new ParseException(String.format(
-                    MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_SUCCESS));
+            throw new ParseException("List command does not take any arguments.");
         }
         return new ListCommand();
     }

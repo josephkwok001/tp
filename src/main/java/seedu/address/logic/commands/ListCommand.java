@@ -24,4 +24,14 @@ public class ListCommand extends Command {
         String msg = String.format("%s (%d %s)", MESSAGE_SUCCESS, count, count == 1 ? "person" : "persons");
         return new CommandResult(msg);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this || other instanceof ListCommand;
+    }
+
+    @Override
+    public int hashCode() {
+        return ListCommand.class.hashCode();
+    }
 }
