@@ -19,6 +19,9 @@ public class ListCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(MESSAGE_SUCCESS);
+
+        int count = model.getFilteredPersonList().size();
+        String msg = String.format("%s (%d %s)", MESSAGE_SUCCESS, count, count == 1 ? "person" : "persons");
+        return new CommandResult(msg);
     }
 }
