@@ -17,7 +17,8 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds contacts by name or tag and displays them as a list.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Find contacts by name or tag and displays them as a "
+            + "list.\n"
             + "Parameters: find n/NAME OR find t/TAG\n"
             + "Example: " + COMMAND_WORD + " n/Alice\n"
             + "Example: " + COMMAND_WORD + " t/Friends";
