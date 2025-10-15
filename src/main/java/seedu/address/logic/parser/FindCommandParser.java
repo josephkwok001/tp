@@ -41,7 +41,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             String[] tagKeywords = tagArgs.split("\\s+");
             return new FindCommand(new TagContainsKeywordsPredicate(Arrays.asList(tagKeywords)));
         } else {
-            throw new ParseException("Command should start with n/ or t/ for find.");
+            throw new ParseException("Command should start with n/NAME or t/TAG for find.");
         }
 
     }
