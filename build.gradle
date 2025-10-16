@@ -23,17 +23,7 @@ checkstyle {
 test {
     useJUnitPlatform()
 
-    scanForTestClasses = false
-    include '**/*Test.class', '**/*Tests.class', '**/*TestCase.class'
-    exclude '**/*$*'
-
     finalizedBy jacocoTestReport
-
-    testLogging {
-        events "failed", "skipped"
-        exceptionFormat "full"
-        showStandardStreams = true
-    }
 }
 
 task coverage(type: JacocoReport) {
@@ -52,8 +42,7 @@ task coverage(type: JacocoReport) {
 }
 
 dependencies {
-    // 升级 JUnit
-    String jUnitVersion = '5.10.2'
+    String jUnitVersion = '5.4.0'
     String javaFxVersion = '17.0.7'
 
     implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
@@ -72,8 +61,9 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.0'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.7.4'
 
-    testImplementation "org.junit.jupiter:junit-jupiter:$jUnitVersion"
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitVersion
+
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitVersion
 }
 
 shadowJar {
