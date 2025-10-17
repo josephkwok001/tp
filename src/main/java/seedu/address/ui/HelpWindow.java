@@ -15,8 +15,51 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class HelpWindow extends UiPart<Stage> {
 
-    public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String BUTTON_MESSAGE = "Copy URL";
+    public static final String COPY_SUCCESSFUL_MESSAGE = "URL Copied!";
+    public static final String USERGUIDE_URL = "https://ay2526s1-cs2103t-w12-4.github.io/tp/UserGuide.html";
+    public static final String HELP_MESSAGE = "EstateSearch Help\n\n"
+            + "========================\n"
+            + "  COMMAND SUMMARY\n"
+            + "========================\n\n"
+
+            // Managing Contacts
+            + "--- Managing Contacts ---\n"
+            + "add: Adds a new client to the address book.\n"
+            + "  Format: add n/NAME p/PHONE e/EMAIL a/ADDRESS l/LISTING [t/TAG]...\n"
+            + "  Example: add n/John Doe p/98765432 e/johnd@example.com a/311, "
+            + "Clementi Ave 2 l/The Clementi Mall t/buyer\n\n"
+
+            + "edit: Edits an existing client by their index number.\n"
+            + "  Format: edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]...\n"
+            + "  Example: edit 1 p/91234567 e/new.email@example.com\n\n"
+
+            + "delete: Deletes a client by their index number.\n"
+            + "  Format: delete INDEX\n"
+            + "  Example: delete 2\n\n"
+
+            + "clear: Clears all clients from the address book.\n"
+            + "  Format: clear\n"
+            + "  >> WARNING: This command is irreversible! <<\n\n"
+
+            // Viewing Data
+            + "--- Viewing Data ---\n"
+            + "list: Shows a list of all clients.\n"
+            + "  Format: list\n\n"
+
+            + "find: Finds clients who match all given criteria (case-insensitive).\n"
+            + "  Format: find [n/KEYWORD]... [t/KEYWORD]...\n"
+            + "  Example: find n/Alex t/buyer\n\n"
+
+            // Application Commands
+            + "--- Application ---\n"
+            + "help: Shows this help menu.\n"
+            + "  Format: help\n\n"
+
+            + "exit: Exits the application.\n"
+            + "  Format: exit\n\n";
+
+    public static final String URL_MESSAGE = "For more information refer to the user guide:";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -27,6 +70,9 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     private Label helpMessage;
 
+    @FXML
+    private Label urlMessage;
+
     /**
      * Creates a new HelpWindow.
      *
@@ -35,6 +81,7 @@ public class HelpWindow extends UiPart<Stage> {
     public HelpWindow(Stage root) {
         super(FXML, root);
         helpMessage.setText(HELP_MESSAGE);
+        urlMessage.setText(URL_MESSAGE);
     }
 
     /**
@@ -63,6 +110,7 @@ public class HelpWindow extends UiPart<Stage> {
      *     </ul>
      */
     public void show() {
+        copyButton.setText(BUTTON_MESSAGE);
         logger.fine("Showing help page about the application.");
         getRoot().show();
         getRoot().centerOnScreen();
@@ -98,5 +146,6 @@ public class HelpWindow extends UiPart<Stage> {
         final ClipboardContent url = new ClipboardContent();
         url.putString(USERGUIDE_URL);
         clipboard.setContent(url);
+        copyButton.setText(COPY_SUCCESSFUL_MESSAGE);
     }
 }
