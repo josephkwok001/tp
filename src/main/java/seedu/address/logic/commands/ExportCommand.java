@@ -21,7 +21,7 @@ import seedu.address.model.tag.Tag;
  * are properly escaped according to CSV rules.
  *
  */
-public class ExportCommand extends Command{
+public class ExportCommand extends Command {
     /** The command word used in the CLI. */
     public static final String COMMAND_WORD = "export";
 
@@ -83,12 +83,12 @@ public class ExportCommand extends Command{
             writer.append("Name,Phone,Email,Address,Listing,Tags\n");
 
             for (Person p : model.getFilteredPersonList()) {
-                writer.append(escapeCSV(p.getName().toString())).append(",");
-                writer.append(escapeCSV(p.getPhone().toString())).append(",");
-                writer.append(escapeCSV(p.getEmail().toString())).append(",");
-                writer.append(escapeCSV(p.getAddress().toString())).append(",");
-                writer.append(escapeCSV(p.getListing().toString())).append(",");
-                writer.append(escapeCSV(
+                writer.append(escapeCsv(p.getName().toString())).append(",");
+                writer.append(escapeCsv(p.getPhone().toString())).append(",");
+                writer.append(escapeCsv(p.getEmail().toString())).append(",");
+                writer.append(escapeCsv(p.getAddress().toString())).append(",");
+                writer.append(escapeCsv(p.getListing().toString())).append(",");
+                writer.append(escapeCsv(
                         p.getTags().stream().map(Tag::toString).collect(Collectors.joining(";"))
                 )).append("\n");
             }
@@ -109,7 +109,7 @@ public class ExportCommand extends Command{
      * @param value The string value to escape.
      * @return The escaped string ready for CSV output.
      */
-    private String escapeCSV(String value) {
+    private String escapeCsv(String value) {
         if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
             value = value.replace("\"", "\"\"");
             return "\"" + value + "\"";
