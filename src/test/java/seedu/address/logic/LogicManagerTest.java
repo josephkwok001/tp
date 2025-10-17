@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
@@ -89,6 +90,55 @@ public class LogicManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void guiSettings_roundTrip() {
+        GuiSettings settings = new GuiSettings(1024, 768, 50, 40);
+        logic.setGuiSettings(settings);
+        assertEquals(settings, logic.getGuiSettings());
+    }
+
+    @Test
+    public void getAddressBookFilePath_delegatesToModel() {
+        // Initially ModelManager path is typically null; assert both ways to be safe.
+        // Then set it and expect LogicManager to reflect it.
+        Path custom = temporaryFolder.resolve("custom.json");
+        model.setAddressBookFilePath(custom);
+        assertEquals(custom, logic.getAddressBookFilePath());
+    }
+
+    @Test
+    public void execute_addCommand_persistsToStorage() throws Exception {
+        // Build a valid add command.
+        String addCmd = AddCommand.COMMAND_WORD
+                + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
+                + ADDRESS_DESC_AMY + LISTING_DESC_AMY;
+
+        // Execute and expect success.
+        CommandResult result = logic.execute(addCmd);
+        // Keep message check simple; exact string is covered elsewhere.
+        org.junit.jupiter.api.Assertions.assertTrue(
+                result.getFeedbackToUser().toLowerCase().contains("new person added")
+                        || result.getFeedbackToUser().toLowerCase().contains("added"),
+                "Add feedback should indicate success, but was: " + result.getFeedbackToUser()
+        );
+
+        // Person should be in the in-memory model.
+        Person expected = new PersonBuilder(AMY).withTags().build();
+        org.junit.jupiter.api.Assertions.assertTrue(
+                logic.getFilteredPersonList().stream().anyMatch(expected::isSamePerson),
+                "Added person must appear in the filtered list."
+        );
+
+        // And also persisted to the test file.
+        Path filePath = temporaryFolder.resolve("addressBook.json");
+        JsonAddressBookStorage reloader = new JsonAddressBookStorage(filePath);
+        ReadOnlyAddressBook reloaded = reloader.readAddressBook(filePath).orElseThrow();
+        org.junit.jupiter.api.Assertions.assertTrue(
+                reloaded.getPersonList().stream().anyMatch(expected::isSamePerson),
+                "Added person must be persisted to storage file."
+        );
     }
 
     /**

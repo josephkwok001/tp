@@ -1,7 +1,12 @@
 package seedu.address.storage;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.HOON;
@@ -115,5 +120,82 @@ public class JsonAddressBookStorageTest {
     @Test
     public void saveAddressBook_nullFilePath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> saveAddressBook(new AddressBook(), null));
+    }
+
+    /**
+     * Ensures the report API returns invalids for an invalid-only file.
+     */
+    @Test
+    public void readAddressBookWithReport_invalidOnly_reportsInvalids() throws Exception {
+        Path p = TEST_DATA_FOLDER.resolve("invalidPersonAddressBook.json");
+        JsonAddressBookStorage storage = new JsonAddressBookStorage(p);
+
+        // pass the path here ↓↓↓
+        LoadReport report = storage.readAddressBookWithReport(p);
+
+        assertEquals(0, report.getModelData().getAddressBook().getPersonList().size());
+        org.junit.jupiter.api.Assertions.assertTrue(!report.getInvalids().isEmpty());
+    }
+
+    /**
+     * Ensures valid records survive when mixed with invalid records.
+     */
+    @Test
+    public void readAddressBookWithReport_mixed_keepsValids() throws Exception {
+        // Arrange: point storage at the mixed file (valid + invalid)
+        Path path = addToTestDataPathIfNotNull("invalidAndValidPersonAddressBook.json");
+        JsonAddressBookStorage storage = new JsonAddressBookStorage(path);
+
+        // Act: load via report-based API
+        LoadReport report = storage.readAddressBookWithReport(path);
+        AddressBook loaded = report.getModelData().getAddressBook();
+        AddressBook expectedValid = getTypicalAddressBook();
+
+        // Sanity check: model data exists
+        assertNotNull(loaded, "Loaded AddressBook should not be null");
+
+        // Compare by person identity (name) to avoid fragile deep-equality differences
+        // such as ordering or internal list implementations.
+        Set<String> loadedNames = loaded.getPersonList()
+                .stream()
+                .map(p -> p.getName().fullName)
+                .collect(Collectors.toSet());
+
+        Set<String> expectedNames = expectedValid.getPersonList()
+                .stream()
+                .map(p -> p.getName().fullName)
+                .collect(Collectors.toSet());
+
+        // Assert: there are some valid persons preserved
+        assertFalse(
+                loadedNames.isEmpty(),
+                "There should be some valid persons preserved in the loaded model."
+        );
+
+        // Assert: there are some valid persons preserved
+        assertFalse(
+                loadedNames.isEmpty(),
+                "There should be some valid persons preserved in the loaded model."
+        );
+
+        // Assert: at least one typical (known-good) person survived (non-empty intersection)
+        boolean hasAnyTypical = loadedNames.stream().anyMatch(expectedNames::contains);
+        assertTrue(
+                hasAnyTypical,
+                "At least one typical valid person should be preserved. "
+                        + "Loaded=" + loadedNames + ", Expected=" + expectedNames
+        );
+
+        // Assert: none of the quarantined invalid entries appear in the loaded model
+        Set<String> invalidNames = report.getInvalids()
+                .stream()
+                .map(LoadReport.InvalidPersonEntry::name)
+                .collect(Collectors.toSet());
+        boolean noLeakFromInvalids = loadedNames.stream().noneMatch(invalidNames::contains);
+        assertTrue(
+                noLeakFromInvalids,
+                "No quarantined invalid names should appear in the loaded model. "
+                        + "Loaded=" + loadedNames + ", Invalids=" + invalidNames
+        );
     }
 }
