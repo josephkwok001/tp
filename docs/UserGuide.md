@@ -155,6 +155,20 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+### Exporting data : `export`
+
+Exports the current filtered contacts to a CSV file.
+
+Format: `export FILENAME`
+
+* Exports all contacts currently shown in the filtered list to a CSV file.
+* The CSV file is automatically saved with a .csv extension
+* The FILENAME must not be empty and cannot contain only whitespace.
+
+Examples:
+* `export clients` creates a file named `clients.csv` containing all filtered contacts
+* `export my_contacts` creates a file named `my_contacts.csv`
+
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -207,3 +221,4 @@ Action     | Format, Examples
 **Find**   | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`
 **List**   | `list`
 **Help**   | `help`
+**Export** | `export FILENAME`
