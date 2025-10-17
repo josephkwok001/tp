@@ -29,13 +29,13 @@ public class LoadReportTest {
     }
 
     @Test
-    public void constructor_nullInvalids_throwsNullPointerException() {
+    public void modelData_nullAddressBook_throwsNpe() {
         LoadReport.ModelData data = new LoadReport.ModelData(new AddressBook());
         assertThrows(NullPointerException.class, () -> new LoadReport(data, null));
     }
 
     @Test
-    public void modelData_constructor_nullAddressBook_throwsNullPointerException() {
+    public void modelData_nullAb_throwsNpe() {
         assertThrows(NullPointerException.class, () -> new LoadReport.ModelData(null));
     }
 
@@ -66,12 +66,12 @@ public class LoadReportTest {
     }
 
     @Test
-    public void invalidPersonEntry_accessors_andFieldInvalid_work() {
+    public void invalidPersonEntry_accessorsAndFieldInvalid_work() {
         HashSet<String> invalid = new HashSet<>(Arrays.asList("name", "email"));
         LoadReport.InvalidPersonEntry entry = new LoadReport.InvalidPersonEntry(
                 3,
                 "Bad name and email",
-                "A!ice",           // original invalid values from JSON
+                "A!ice", // original invalid values from JSON
                 "91234567",
                 "not-an-email",
                 "Blk 1",
@@ -97,7 +97,7 @@ public class LoadReportTest {
     }
 
     @Test
-    public void invalidPersonEntry_noInvalidFields_allFieldInvalidFalse() {
+    public void invalidPersonEntry_noInvalidFields_allFalse() {
         LoadReport.InvalidPersonEntry entry = new LoadReport.InvalidPersonEntry(
                 0,
                 "Some reason",

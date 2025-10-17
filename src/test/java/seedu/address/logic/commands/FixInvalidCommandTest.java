@@ -40,7 +40,10 @@ public class FixInvalidCommandTest {
      * =========================== */
     private static class ModelStub implements Model {
         final List<Person> persons = new ArrayList<>();
-        ReadOnlyAddressBook lastSetAddressBook;
+        private ReadOnlyAddressBook lastSetAddressBook;
+        ReadOnlyAddressBook getLastSetAddressBook() {
+            return lastSetAddressBook;
+        }
 
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {}

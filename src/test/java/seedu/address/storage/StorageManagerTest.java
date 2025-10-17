@@ -1,19 +1,16 @@
 package seedu.address.storage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.AddressBook;
@@ -53,7 +50,7 @@ public class StorageManagerTest {
         storageManager.saveUserPrefs(original);
 
         UserPrefs retrieved = storageManager.readUserPrefs().get();
-        assertEquals(original, retrieved);
+        Assertions.assertEquals(original, retrieved);
     }
 
     @Test
@@ -62,12 +59,12 @@ public class StorageManagerTest {
         storageManager.saveAddressBook(original);
 
         ReadOnlyAddressBook retrieved = storageManager.readAddressBook().get();
-        assertEquals(original, new AddressBook(retrieved));
+        Assertions.assertEquals(original, new AddressBook(retrieved));
     }
 
     @Test
     public void getAddressBookFilePath() {
-        assertNotNull(storageManager.getAddressBookFilePath());
+        Assertions.assertNotNull(storageManager.getAddressBookFilePath());
     }
 
     /**
@@ -75,7 +72,7 @@ public class StorageManagerTest {
      * (unless the implementation repairs them all, in which case the accounting check still passes).
      */
     @Test
-    public void readAddressBookWithReport_invalidOnly_reportsInvalidsOrRepairs_allAccounted() throws Exception {
+    public void readAddressBookWithReport_invalidOnly_allAccounted() throws Exception {
         Path invalidOnly = TEST_DATA_FOLDER.resolve("invalidPersonAddressBook.json");
 
         StorageManager mgr = new StorageManager(
@@ -86,13 +83,13 @@ public class StorageManagerTest {
         LoadReport report = mgr.readAddressBookWithReport(invalidOnly);
 
         AddressBook loaded = report.getModelData().getAddressBook();
-        assertNotNull(loaded, "Loaded AddressBook should not be null.");
+        Assertions.assertNotNull(loaded, "Loaded AddressBook should not be null.");
 
         int validCount = loaded.getPersonList().size();
         int invalidCount = report.getInvalids().size();
         int totalInJson = countPersonsArray(invalidOnly);
 
-        assertEquals(totalInJson, validCount + invalidCount,
+        Assertions.assertEquals(totalInJson, validCount + invalidCount,
                 "Valid + invalid should equal number of raw JSON entries.");
     }
 
@@ -102,7 +99,7 @@ public class StorageManagerTest {
      * whether the implementation quarantines or repairs.
      */
     @Test
-    public void readAddressBookWithReport_mixed_keepsValids_allAccounted() throws Exception {
+    public void readAddressBookWithReport_mixed_allAccounted() throws Exception {
         Path mixed = TEST_DATA_FOLDER.resolve("invalidAndValidPersonAddressBook.json");
 
         StorageManager mgr = new StorageManager(
@@ -113,15 +110,15 @@ public class StorageManagerTest {
         LoadReport report = mgr.readAddressBookWithReport(mixed);
         AddressBook loaded = report.getModelData().getAddressBook();
 
-        assertNotNull(loaded, "Loaded AddressBook should not be null.");
-        assertFalse(loaded.getPersonList().isEmpty(),
+        Assertions.assertNotNull(loaded, "Loaded AddressBook should not be null.");
+        Assertions.assertFalse(loaded.getPersonList().isEmpty(),
                 "Loaded AddressBook should contain at least one valid person.");
 
         int validCount = loaded.getPersonList().size();
         int invalidCount = report.getInvalids().size();
         int totalInJson = countPersonsArray(mixed);
 
-        assertEquals(totalInJson, validCount + invalidCount,
+        Assertions.assertEquals(totalInJson, validCount + invalidCount,
                 "Valid + invalid should equal number of raw JSON entries.");
     }
 
@@ -130,10 +127,14 @@ public class StorageManagerTest {
         // Arrange: stub AddressBookStorage that records the path it was called with
         class RecordingAddressBookStorage implements AddressBookStorage {
             final Path configuredPath;
-            Path lastPath; // recorded when readAddressBookWithReport(Path) is called
+            private Path lastPath; // recorded when readAddressBookWithReport(Path) is called
 
             RecordingAddressBookStorage(Path configuredPath) {
                 this.configuredPath = configuredPath;
+            }
+
+            Path getLastPath() {
+                return lastPath;
             }
 
             @Override
@@ -190,8 +191,8 @@ public class StorageManagerTest {
         LoadReport report = mgr.readAddressBookWithReport();
 
         // Assert: report exists and, critically, the storage was called with its configured path
-        assertNotNull(report.getModelData().getAddressBook(), "Report should contain model data.");
-        assertEquals(configured, recordingAb.lastPath,
+        Assertions.assertNotNull(report.getModelData().getAddressBook(), "Report should contain model data.");
+        Assertions.assertEquals(configured, recordingAb.getLastPath(),
                 "No-arg readAddressBookWithReport() must delegate using getAddressBookFilePath().");
     }
 
