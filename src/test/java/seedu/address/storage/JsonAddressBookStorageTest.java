@@ -50,11 +50,16 @@ public class JsonAddressBookStorageTest {
         assertThrows(DataLoadingException.class, () -> readAddressBook("notJsonFormatAddressBook.json"));
     }
 
+    /**
+     * When the JSON contains invalid person entries, the storage layer should
+     * throw DataLoadingException instead of returning an empty book.
+     */
     @Test
-    public void readAddressBook_invalidPersonAddressBook_getEmptyBook() throws Exception {
-        AddressBook emptyBook = new AddressBook();
-        ReadOnlyAddressBook readBook = readAddressBook("invalidPersonAddressBook.json").get();
-        assertEquals(emptyBook, new AddressBook(readBook));
+    public void readAddressBook_invalidPersonAddressBook_throwsDataLoadingException() {
+        assertThrows(DataLoadingException.class, () ->
+                // The helper calls storage.readAddressBook(...) which will throw
+                readAddressBook("invalidPersonAddressBook.json")
+        );
     }
 
     @Test

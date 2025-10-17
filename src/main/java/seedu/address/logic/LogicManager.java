@@ -19,11 +19,11 @@ import seedu.address.model.person.Person;
 import seedu.address.storage.Storage;
 
 /**
- * The main LogicManager of the app.
+ * The main logic layer entry point.
+ * Parses user input into commands and persists model updates via {@link Storage}.
  */
 public class LogicManager implements Logic {
     public static final String FILE_OPS_ERROR_FORMAT = "Could not save data due to the following error: %s";
-
     public static final String FILE_OPS_PERMISSION_ERROR_FORMAT =
             "Could not save data to file %s due to insufficient permissions to write to the file or the folder.";
 
@@ -34,21 +34,31 @@ public class LogicManager implements Logic {
     private final AddressBookParser addressBookParser;
 
     /**
-     * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
+     * Creates a {@code LogicManager}.
+     *
+     * @param model    application model to mutate and query.
+     * @param storage  storage backend used to persist model changes and to support storage-backed commands.
      */
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        addressBookParser = new AddressBookParser();
+        this.addressBookParser = new AddressBookParser(storage);
     }
 
+    /**
+     * Parses and executes a user command string.
+     *
+     * @param commandText raw user input from the UI.
+     * @return the {@link CommandResult} produced by executing the parsed command.
+     * @throws CommandException if command execution fails.
+     * @throws ParseException   if parsing the input fails.
+     */
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
-        CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
-        commandResult = command.execute(model);
+        CommandResult commandResult = command.execute(model);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
