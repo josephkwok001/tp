@@ -48,4 +48,16 @@ public class AddressBookParserFeatureTest {
         AddressBookParser p = new AddressBookParser(fake);
         assertTrue(p.parseCommand("list-invalid") instanceof ListInvalidCommand);
     }
+
+    @Test
+    void parseFixInvalid_requiresStorage_guarded() {
+        AddressBookParser p = new AddressBookParser();
+        assertThrows(ParseException.class, () -> p.parseCommand("fix-invalid i/1"));
+    }
+
+    @Test
+    void parseListInvalid_requiresStorage_guarded() {
+        AddressBookParser p = new AddressBookParser();
+        assertThrows(ParseException.class, () -> p.parseCommand("list-invalid"));
+    }
 }

@@ -36,6 +36,7 @@ import seedu.address.storage.StorageManager;
 import seedu.address.testutil.PersonBuilder;
 
 public class LogicManagerTest {
+
     private static final IOException DUMMY_IO_EXCEPTION = new IOException("dummy IO exception");
     private static final IOException DUMMY_AD_EXCEPTION = new AccessDeniedException("dummy access denied exception");
 
@@ -77,14 +78,16 @@ public class LogicManagerTest {
 
     @Test
     public void execute_storageThrowsIoException_throwsCommandException() {
-        assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
-                LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
+        assertCommandFailureForExceptionFromStorage(
+                DUMMY_IO_EXCEPTION,
+                String.format(LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
     }
 
     @Test
     public void execute_storageThrowsAdException_throwsCommandException() {
-        assertCommandFailureForExceptionFromStorage(DUMMY_AD_EXCEPTION, String.format(
-                LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
+        assertCommandFailureForExceptionFromStorage(
+                DUMMY_AD_EXCEPTION,
+                String.format(LogicManager.FILE_OPS_PERMISSION_ERROR_FORMAT, DUMMY_AD_EXCEPTION.getMessage()));
     }
 
     @Test
@@ -101,8 +104,6 @@ public class LogicManagerTest {
 
     @Test
     public void getAddressBookFilePath_delegatesToModel() {
-        // Initially ModelManager path is typically null; assert both ways to be safe.
-        // Then set it and expect LogicManager to reflect it.
         Path custom = temporaryFolder.resolve("custom.json");
         model.setAddressBookFilePath(custom);
         assertEquals(custom, logic.getAddressBookFilePath());
@@ -110,28 +111,23 @@ public class LogicManagerTest {
 
     @Test
     public void execute_addCommand_persistsToStorage() throws Exception {
-        // Build a valid add command.
         String addCmd = AddCommand.COMMAND_WORD
                 + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + ADDRESS_DESC_AMY + LISTING_DESC_AMY;
 
-        // Execute and expect success.
         CommandResult result = logic.execute(addCmd);
-        // Keep message check simple; exact string is covered elsewhere.
         org.junit.jupiter.api.Assertions.assertTrue(
                 result.getFeedbackToUser().toLowerCase().contains("new person added")
                         || result.getFeedbackToUser().toLowerCase().contains("added"),
                 "Add feedback should indicate success, but was: " + result.getFeedbackToUser()
         );
 
-        // Person should be in the in-memory model.
         Person expected = new PersonBuilder(AMY).withTags().build();
         org.junit.jupiter.api.Assertions.assertTrue(
                 logic.getFilteredPersonList().stream().anyMatch(expected::isSamePerson),
                 "Added person must appear in the filtered list."
         );
 
-        // And also persisted to the test file.
         Path filePath = temporaryFolder.resolve("addressBook.json");
         JsonAddressBookStorage reloader = new JsonAddressBookStorage(filePath);
         ReadOnlyAddressBook reloaded = reloader.readAddressBook(filePath).orElseThrow();
@@ -142,72 +138,58 @@ public class LogicManagerTest {
     }
 
     /**
-     * Executes the command and confirms that
-     * - no exceptions are thrown <br>
-     * - the feedback message is equal to {@code expectedMessage} <br>
-     * - the internal model manager state is the same as that in {@code expectedModel} <br>
-     * @see #assertCommandFailure(String, Class, String, Model)
+     * Executes the command and confirms that no exception is thrown,
+     * the feedback equals {@code expectedMessage}, and the model equals {@code expectedModel}.
      */
-    private void assertCommandSuccess(String inputCommand, String expectedMessage,
-            Model expectedModel) throws CommandException, ParseException {
+    private void assertCommandSuccess(String inputCommand, String expectedMessage, Model expectedModel)
+            throws CommandException, ParseException {
         CommandResult result = logic.execute(inputCommand);
         assertEquals(expectedMessage, result.getFeedbackToUser());
         assertEquals(expectedModel, model);
     }
 
     /**
-     * Executes the command, confirms that a ParseException is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
+     * Executes the command and confirms that a ParseException is thrown with the expected message.
      */
     private void assertParseException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, ParseException.class, expectedMessage);
     }
 
     /**
-     * Executes the command, confirms that a CommandException is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
+     * Executes the command and confirms that a CommandException is thrown with the expected message.
      */
     private void assertCommandException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, CommandException.class, expectedMessage);
     }
 
     /**
-     * Executes the command, confirms that the exception is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
+     * Executes the command and confirms that the given exception type is thrown with the expected message.
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
-            String expectedMessage) {
+                                      String expectedMessage) {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 
     /**
-     * Executes the command and confirms that
-     * - the {@code expectedException} is thrown <br>
-     * - the resulting error message is equal to {@code expectedMessage} <br>
-     * - the internal model manager state is the same as that in {@code expectedModel} <br>
-     * @see #assertCommandSuccess(String, String, Model)
+     * Executes the command and confirms the exception type and message,
+     * and that the model equals {@code expectedModel}.
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
-            String expectedMessage, Model expectedModel) {
+                                      String expectedMessage, Model expectedModel) {
         assertThrows(expectedException, expectedMessage, () -> logic.execute(inputCommand));
         assertEquals(expectedModel, model);
     }
 
     /**
-     * Tests the Logic component's handling of an {@code IOException} thrown by the Storage component.
-     *
-     * @param e the exception to be thrown by the Storage component
-     * @param expectedMessage the message expected inside exception thrown by the Logic component
+     * Verifies that Logic translates storage exceptions into CommandException with the expected message.
      */
     private void assertCommandFailureForExceptionFromStorage(IOException e, String expectedMessage) {
         Path prefPath = temporaryFolder.resolve("ExceptionUserPrefs.json");
 
-        // Inject LogicManager with an AddressBookStorage that throws the IOException e when saving
         JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(prefPath) {
             @Override
-            public void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath)
-                    throws IOException {
+            public void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException {
                 throw e;
             }
         };
@@ -215,10 +197,8 @@ public class LogicManagerTest {
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ExceptionUserPrefs.json"));
         StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-
         logic = new LogicManager(model, storage);
 
-        // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + LISTING_DESC_AMY;
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();

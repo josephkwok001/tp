@@ -176,27 +176,31 @@ public class MainApp extends Application {
                     }
                 }
             }
+
             sb.append(String.format("• Person #%d\n", idx + 1));
-            if (!badFields.isEmpty()) {
-                sb.append("  - Invalid fields: ").append(String.join(", ", badFields)).append("\n");
-                for (String f : badFields) {
-                    String msg;
-                    if (f.equals("name")) {
-                        msg = seedu.address.model.person.Name.MESSAGE_CONSTRAINTS;
-                    } else if (f.equals("phone")) {
-                        msg = seedu.address.model.person.Phone.MESSAGE_CONSTRAINTS;
-                    } else if (f.equals("email")) {
-                        msg = seedu.address.model.person.Email.SHORT_MESSAGE_CONSTRAINTS;
-                    } else if (f.equals("address")) {
-                        msg = seedu.address.model.person.Address.MESSAGE_CONSTRAINTS;
-                    } else if (f.equals("listing")) {
-                        msg = seedu.address.model.person.Listing.MESSAGE_CONSTRAINTS;
-                    } else {
-                        msg = "Invalid value.";
-                    }
-                    String prettyMsg = msg.replaceAll("(?m)^", "        ");
-                    sb.append("    - ").append(f).append(":\n").append(prettyMsg).append("\n");
+            if (badFields.isEmpty()) {
+                sb.append("\n");
+                continue;
+            }
+
+            sb.append("  - Invalid fields: ").append(String.join(", ", badFields)).append("\n");
+            for (String f : badFields) {
+                String msg;
+                if (f.equals("name")) {
+                    msg = seedu.address.model.person.Name.MESSAGE_CONSTRAINTS;
+                } else if (f.equals("phone")) {
+                    msg = seedu.address.model.person.Phone.MESSAGE_CONSTRAINTS;
+                } else if (f.equals("email")) {
+                    msg = seedu.address.model.person.Email.SHORT_MESSAGE_CONSTRAINTS;
+                } else if (f.equals("address")) {
+                    msg = seedu.address.model.person.Address.MESSAGE_CONSTRAINTS;
+                } else if (f.equals("listing")) {
+                    msg = seedu.address.model.person.Listing.MESSAGE_CONSTRAINTS;
+                } else {
+                    msg = "Invalid value.";
                 }
+                String prettyMsg = msg.replaceAll("(?m)^", "        ");
+                sb.append("    - ").append(f).append(":\n").append(prettyMsg).append("\n");
             }
             sb.append("\n");
         }

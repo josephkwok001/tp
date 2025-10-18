@@ -46,7 +46,6 @@ public class LoadReportTest {
         LoadReport report = new LoadReport(data, Collections.emptyList());
 
         assertNotNull(report.getModelData());
-        // We expect the exact instance we passed in to be wrapped and returned
         assertEquals(ab, report.getModelData().getAddressBook());
     }
 
@@ -60,7 +59,6 @@ public class LoadReportTest {
         List<LoadReport.InvalidPersonEntry> exposed = report.getInvalids();
         assertNotNull(exposed);
 
-        // The returned list must be unmodifiable; adding should throw.
         assertThrows(UnsupportedOperationException.class, () ->
                 exposed.add(dummyInvalid(0, "x", Collections.emptyList())));
     }
