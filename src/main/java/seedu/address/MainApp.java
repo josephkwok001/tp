@@ -6,13 +6,6 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
@@ -266,137 +259,6 @@ public class MainApp extends Application {
         ui.start(primaryStage);
     }
 
-    /**
-     * Reads LoadReport and returns the number of invalid entries.
-     * Returns 0 if loading fails.
-     */
-    private int countInvalidEntries() {
-        try {
-            seedu.address.storage.LoadReport report = storage.readAddressBookWithReport();
-            return report.getInvalids().size();
-        } catch (seedu.address.commons.exceptions.DataLoadingException e) {
-            logger.warning("Load report failed: " + e.getMessage());
-            return 0;
-        }
-    }
-
-    /**
-     * Opens a correction wizard repeatedly until all invalid entries are fixed.
-     * Returns false if the user cancels (so the UI should not start),
-     * or true once the invalid entries are resolved.
-     */
-    private boolean runFixWizardUntilClear(Stage owner) {
-        while (true) {
-            seedu.address.storage.LoadReport report;
-            try {
-                report = storage.readAddressBookWithReport();
-            } catch (seedu.address.commons.exceptions.DataLoadingException e) {
-                logger.warning("Load report failed during wizard: " + e.getMessage());
-                return false;
-            }
-
-            if (report.getInvalids().isEmpty()) {
-                return true; // all fixed
-            }
-
-            var inv = report.getInvalids().get(0);
-
-            var fieldsOpt = showFixDialog(owner, inv);
-            if (fieldsOpt.isEmpty()) {
-                return false; // user canceled -> do not start UI
-            }
-            var f = fieldsOpt.get();
-
-            // Merge: user supplies only invalid fields; keep originals otherwise
-            String name = inv.fieldInvalid("name") ? f.name : inv.name();
-            String phone = inv.fieldInvalid("phone") ? f.phone : inv.phone();
-            String email = inv.fieldInvalid("email") ? f.email : inv.email();
-            String address = inv.fieldInvalid("address") ? f.address : inv.address();
-            String listing = inv.fieldInvalid("listing") ? f.listing : inv.listing();
-
-            // IMPORTANT: send 1-based index for ParserUtil; parser will convert back to 0-based.
-            String cmd = String.format(
-                    "fix-invalid i/%d n/%s p/%s e/%s a/%s l/%s",
-                    inv.index() + 1, name, phone, email, address, listing
-            );
-
-            try {
-                logic.execute(cmd);
-            } catch (Exception e) {
-                logger.info("fix-invalid failed, will prompt again: " + e.getMessage());
-                // loop and ask again
-            }
-        }
-    }
-
-
-
-    private Optional<PersonFields> showFixDialog(
-            Stage owner, seedu.address.storage.LoadReport.InvalidPersonEntry inv) {
-        Dialog<PersonFields> dialog = new Dialog<>();
-        dialog.initOwner(owner);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setTitle("Fix Invalid Entry");
-        dialog.setHeaderText(
-                "Invalid entries were detected:\n"
-                        + "Invalid entry detected at index " + (inv.index() + 1) + ":\n"
-                        + inv.reason()
-                        + "\n\nOnly the highlighted fields are required."
-        );
-
-        ButtonType saveBtn = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-        ButtonType skipBtn = new ButtonType("Skip", ButtonBar.ButtonData.CANCEL_CLOSE);
-        dialog.getDialogPane().getButtonTypes().addAll(saveBtn, skipBtn);
-
-        TextField name = new TextField(inv.name());
-        TextField phone = new TextField(inv.phone());
-        TextField email = new TextField(inv.email());
-        TextField address = new TextField(inv.address());
-        TextField listing = new TextField(inv.listing());
-
-        name.setEditable(inv.fieldInvalid("name"));
-        phone.setEditable(inv.fieldInvalid("phone"));
-        email.setEditable(inv.fieldInvalid("email"));
-        address.setEditable(inv.fieldInvalid("address"));
-        listing.setEditable(inv.fieldInvalid("listing"));
-
-        java.util.function.Consumer<TextField> grey = tf -> {
-            if (!tf.isEditable()) {
-                tf.setStyle("-fx-opacity: 0.75; -fx-control-inner-background: #f4f4f4;");
-            }
-        };
-
-        grey.accept(name);
-        grey.accept(phone);
-        grey.accept(email);
-        grey.accept(address);
-        grey.accept(listing);
-
-
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(8);
-        grid.setPadding(new Insets(10));
-        grid.add(new Label("Name:"), 0, 0);
-        grid.add(name, 1, 0);
-        grid.add(new Label("Phone:"), 0, 1);
-        grid.add(phone, 1, 1);
-        grid.add(new Label("Email:"), 0, 2);
-        grid.add(email, 1, 2);
-        grid.add(new Label("Address:"), 0, 3);
-        grid.add(address, 1, 3);
-        grid.add(new Label("Listing:"), 0, 4);
-        grid.add(listing, 1, 4);
-        dialog.getDialogPane().setContent(grid);
-
-        dialog.setResultConverter(btn -> btn == saveBtn
-                ? new PersonFields(name.getText().trim(), phone.getText().trim(),
-                email.getText().trim(), address.getText().trim(), listing.getText().trim())
-                : null);
-
-        return dialog.showAndWait();
-    }
-
     @Override
     public void stop() {
         logger.info("============================ [ Stopping AddressBook ] =============================");
@@ -404,38 +266,6 @@ public class MainApp extends Application {
             storage.saveUserPrefs(model.getUserPrefs());
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
-        }
-    }
-
-    /**
-     * Returns true if the on-disk data contains invalid entries.
-     */
-    private boolean hasInvalidEntries() {
-        try {
-            seedu.address.storage.LoadReport report = storage.readAddressBookWithReport();
-            return !report.getInvalids().isEmpty();
-        } catch (seedu.address.commons.exceptions.DataLoadingException e) {
-            logger.warning("Load report failed: " + e.getMessage());
-            return false;
-        }
-    }
-
-    /**
-     * Container for dialog results.
-     */
-    private static final class PersonFields {
-        final String name;
-        final String phone;
-        final String email;
-        final String address;
-        final String listing;
-
-        PersonFields(String n, String p, String e, String a, String l) {
-            this.name = n;
-            this.phone = p;
-            this.email = e;
-            this.address = a;
-            this.listing = l;
         }
     }
 }
