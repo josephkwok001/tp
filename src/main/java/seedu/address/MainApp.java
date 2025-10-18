@@ -72,27 +72,11 @@ public class MainApp extends Application {
 
     private Model initModelManager(Storage storageArg, ReadOnlyUserPrefs userPrefs) {
         logger.info("Using data file : " + storageArg.getAddressBookFilePath());
-
         ReadOnlyAddressBook initialData;
-
         try {
-            // Use the report-based loader so valid entries are preserved even if some are invalid
             seedu.address.storage.LoadReport report = storageArg.readAddressBookWithReport();
-
-            // If the file was empty/missing, this will be an empty AddressBook (per your storage impl)
             initialData = report.getModelData().getAddressBook();
-
-            // Optional: log how many invalids were quarantined (helpful for debugging)
-            logger.info("Quarantined invalid entries: " + report.getInvalids().size());
-
-            // If the file truly does not exist, you can choose sample data instead:
-            if (initialData.getPersonList().isEmpty()
-                    && !java.nio.file.Files.exists(storageArg.getAddressBookFilePath())) {
-                logger.info("Creating a new data file " + storageArg.getAddressBookFilePath()
-                        + " populated with a sample AddressBook.");
-                initialData = seedu.address.model.util.SampleDataUtil.getSampleAddressBook();
-            }
-
+            logger.info("Invalid entries detected: " + report.getInvalids().size());
         } catch (seedu.address.commons.exceptions.DataLoadingException e) {
             logger.warning("Data file at " + storageArg.getAddressBookFilePath()
                     + " could not be loaded. Will be starting with an empty AddressBook.");
@@ -101,10 +85,8 @@ public class MainApp extends Application {
             logger.warning("Unexpected error loading data: " + e.getMessage());
             initialData = new seedu.address.model.AddressBook();
         }
-
         return new ModelManager(initialData, userPrefs);
     }
-
 
     private void initLogging(Config cfg) {
         LogsCenter.init(cfg);
@@ -144,6 +126,83 @@ public class MainApp extends Application {
         return initializedConfig;
     }
 
+    private seedu.address.model.AddressBook toValidOnly(seedu.address.storage.LoadReport report) {
+        java.util.Set<Integer> badIdx = report.getInvalids().stream()
+                .map(seedu.address.storage.LoadReport.InvalidPersonEntry::index)
+                .collect(java.util.stream.Collectors.toCollection(java.util.LinkedHashSet::new));
+        seedu.address.model.AddressBook filtered = new seedu.address.model.AddressBook();
+        java.util.List<seedu.address.model.person.Person> persons =
+                report.getModelData().getAddressBook().getPersonList();
+        for (int i = 0; i < persons.size(); i++) {
+            if (!badIdx.contains(i)) {
+                filtered.addPerson(persons.get(i));
+            }
+        }
+        return filtered;
+    }
+
+    private String buildInvalidSummary(seedu.address.storage.LoadReport report) {
+        java.util.Map<Integer, java.util.List<seedu.address.storage.LoadReport.InvalidPersonEntry>> byIdx =
+                report.getInvalids().stream().collect(
+                        java.util.stream.Collectors.groupingBy(
+                                seedu.address.storage.LoadReport.InvalidPersonEntry::index,
+                                java.util.TreeMap::new,
+                                java.util.stream.Collectors.toList()
+                        )
+                );
+        int invalidPersonCount = byIdx.size();
+        int invalidRecordCount = report.getInvalids().size();
+        int validCount = report.getModelData().getAddressBook().getPersonList().size();
+        int total = validCount + invalidPersonCount;
+        int kept = validCount;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Some entries in your data file are invalid and will be ignored.\n\n")
+                .append(String.format("Total persons: %d\n", total))
+                .append(String.format("Invalid persons (ignored): %d\n", invalidPersonCount))
+                .append(String.format("Valid persons (loaded): %d\n", kept))
+                .append(String.format("Invalid records: %d\n\n", invalidRecordCount))
+                .append("Details by person index:\n\n");
+
+        java.util.List<String> allFields = java.util.Arrays.asList("name", "phone", "email", "address", "listing");
+
+        for (var e : byIdx.entrySet()) {
+            int idx = e.getKey();
+            java.util.Set<String> badFields = new java.util.LinkedHashSet<>();
+            for (var inv : e.getValue()) {
+                for (String f : allFields) {
+                    if (inv.fieldInvalid(f)) {
+                        badFields.add(f);
+                    }
+                }
+            }
+            sb.append(String.format("• Person #%d\n", idx + 1));
+            if (!badFields.isEmpty()) {
+                sb.append("  - Invalid fields: ").append(String.join(", ", badFields)).append("\n");
+                for (String f : badFields) {
+                    String msg;
+                    if (f.equals("name")) {
+                        msg = seedu.address.model.person.Name.MESSAGE_CONSTRAINTS;
+                    } else if (f.equals("phone")) {
+                        msg = seedu.address.model.person.Phone.MESSAGE_CONSTRAINTS;
+                    } else if (f.equals("email")) {
+                        msg = seedu.address.model.person.Email.SHORT_MESSAGE_CONSTRAINTS;
+                    } else if (f.equals("address")) {
+                        msg = seedu.address.model.person.Address.MESSAGE_CONSTRAINTS;
+                    } else if (f.equals("listing")) {
+                        msg = seedu.address.model.person.Listing.MESSAGE_CONSTRAINTS;
+                    } else {
+                        msg = "Invalid value.";
+                    }
+                    String prettyMsg = msg.replaceAll("(?m)^", "        ");
+                    sb.append("    - ").append(f).append(":\n").append(prettyMsg).append("\n");
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     /**
      * Loads user preferences from storage or returns defaults.
      */
@@ -176,21 +235,30 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         logger.info("Starting AddressBook " + VERSION);
-
-        // Create a dummy scene early to avoid NPE when dialogs open before UI init
         primaryStage.setScene(new javafx.scene.Scene(new javafx.scene.Group()));
-
-        int invalidCount = countInvalidEntries();
-        logger.info("Invalid entry count at startup: " + invalidCount);
-
-        if (invalidCount > 0) {
-            boolean fixed = runFixWizardUntilClear(primaryStage);
-            if (!fixed) {
-                logger.info("User cancelled the invalid-entry wizard. UI will not start.");
-                return;
+        try {
+            var report = storage.readAddressBookWithReport();
+            int invalidCount = report.getInvalids().size();
+            logger.info("Invalid entry count at startup: " + invalidCount);
+            if (invalidCount > 0) {
+                String summary = buildInvalidSummary(report);
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                        javafx.scene.control.Alert.AlertType.INFORMATION);
+                alert.initOwner(primaryStage);
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.setTitle("Invalid Entries Detected");
+                alert.setHeaderText("Some entries in your data file are invalid and will be ignored.");
+                javafx.scene.control.TextArea ta = new javafx.scene.control.TextArea(summary);
+                ta.setEditable(false);
+                ta.setWrapText(true);
+                ta.setPrefRowCount(18);
+                alert.getDialogPane().setContent(ta);
+                alert.getDialogPane().setMinWidth(640);
+                alert.showAndWait();
             }
+        } catch (seedu.address.commons.exceptions.DataLoadingException e) {
+            logger.warning("Load report failed: " + e.getMessage());
         }
-
         ui.start(primaryStage);
     }
 
