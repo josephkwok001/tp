@@ -50,16 +50,14 @@ public class JsonAddressBookStorage implements AddressBookStorage {
     @Override
     public Optional<ReadOnlyAddressBook> readAddressBook(Path file) throws DataLoadingException {
         requireNonNull(file);
-        Optional<JsonSerializableAddressBook> json =
+        Optional<JsonSerializableAddressBook> jsonAddressBook =
                 JsonUtil.readJsonFile(file, JsonSerializableAddressBook.class);
-        if (json.isEmpty()) {
-            // No file or empty file -> no model.
+        if (jsonAddressBook.isEmpty()) {
             return Optional.empty();
         }
         try {
-            return Optional.of(json.get().toModelType());
+            return Optional.of(jsonAddressBook.get().toModelType());
         } catch (IllegalValueException ive) {
-            // Structural issues or validation failures while converting to model.
             logger.info("Illegal values found in " + file + ": " + ive.getMessage());
             throw new DataLoadingException(ive);
         }
@@ -74,7 +72,7 @@ public class JsonAddressBookStorage implements AddressBookStorage {
     public void saveAddressBook(ReadOnlyAddressBook addressBook, Path file) throws IOException {
         requireNonNull(addressBook);
         requireNonNull(file);
-        FileUtil.createIfMissing(file); // Create file and parent dirs if needed.
+        FileUtil.createIfMissing(file);
         JsonUtil.saveJsonFile(new JsonSerializableAddressBook(addressBook), file);
     }
 
@@ -87,19 +85,17 @@ public class JsonAddressBookStorage implements AddressBookStorage {
     public LoadReport readAddressBookWithReport(Path file) throws DataLoadingException {
         requireNonNull(file);
 
-        Optional<JsonSerializableAddressBook> json =
+        Optional<JsonSerializableAddressBook> jsonAddressBook =
                 JsonUtil.readJsonFile(file, JsonSerializableAddressBook.class);
 
-        if (json.isEmpty()) {
-            // Empty/missing file => empty model, no invalids.
+        if (jsonAddressBook.isEmpty()) {
             return new LoadReport(
                     new LoadReport.ModelData(new seedu.address.model.AddressBook()),
                     java.util.Collections.emptyList());
         }
 
         try {
-            // JsonSerializableAddressBook is expected to provide this method.
-            return json.get().toModelTypeWithReport();
+            return jsonAddressBook.get().toModelTypeWithReport();
         } catch (IllegalValueException ive) {
             logger.info("Illegal values found in " + file + ": " + ive.getMessage());
             throw new DataLoadingException(ive);
@@ -107,38 +103,28 @@ public class JsonAddressBookStorage implements AddressBookStorage {
     }
 
     /**
-     * Replaces exactly one element in the raw JSON "persons" array at the specified index.
-     *
-     * This preserves the order and indices of all other entries. It does NOT rebuild the whole
-     * file from the in-memory model, thus avoiding unintended reordering.
-     *
-     * After writing, it re-reads the file and returns a fresh LoadReport so the caller can
-     * refresh the model and continue fixing remaining invalid entries (if any).
+     * Replaces exactly one element in the raw JSON "persons" array at the specified index,
+     * writes back atomically, then re-reads and returns a fresh LoadReport.
      */
     @Override
     public LoadReport overwriteRawEntryAtIndex(int index, Person person)
             throws DataLoadingException, IOException {
         requireNonNull(person);
 
-        // Use the same ObjectMapper as the rest of the app for consistent settings.
         final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
         final File file = filePath.toFile();
 
-        // Ensure the file exists; if absent, create an empty JSON file.
         FileUtil.createIfMissing(filePath);
 
-        // Read the current JSON root. For an empty file, readTree(...) returns null.
         ObjectNode root;
         var node = mapper.readTree(file);
         if (node == null || !node.isObject()) {
-            // Initialize a minimal root with an empty "persons" array
             root = mapper.createObjectNode();
             root.set("persons", mapper.createArrayNode());
         } else {
             root = (ObjectNode) node;
         }
 
-        // Locate the "persons" array; create it if missing, but fail if it's not an array.
         var personsNode = root.get("persons");
         if (personsNode == null) {
             personsNode = mapper.createArrayNode();
@@ -149,18 +135,13 @@ public class JsonAddressBookStorage implements AddressBookStorage {
         }
         ArrayNode persons = (ArrayNode) personsNode;
 
-        // Validate bounds strictly to avoid creating holes or silently appending.
         if (index < 0 || index >= persons.size()) {
             throw new IOException("Index out of bounds: " + index + " (size=" + persons.size() + ")");
         }
 
-        // Convert the corrected Person to its JSON-adapted form expected by the file format.
         ObjectNode replacement = (ObjectNode) mapper.valueToTree(new JsonAdaptedPerson(person));
-
-        // In-place replacement at the exact index.
         persons.set(index, replacement);
 
-        // Write the updated JSON via a temp file, then atomically move it into place.
         Path tmp = filePath.resolveSibling(filePath.getFileName() + ".tmp");
         mapper.writerWithDefaultPrettyPrinter().writeValue(tmp.toFile(), root);
         java.nio.file.Files.move(
@@ -169,7 +150,6 @@ public class JsonAddressBookStorage implements AddressBookStorage {
                 java.nio.file.StandardCopyOption.ATOMIC_MOVE
         );
 
-        // Re-read and produce a fresh LoadReport after the modification.
         return readAddressBookWithReport(filePath);
     }
 }
