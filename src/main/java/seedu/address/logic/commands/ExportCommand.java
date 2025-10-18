@@ -77,8 +77,6 @@ public class ExportCommand extends Command {
             parentFolder.mkdirs();
         }
 
-        System.out.println("Exporting CSV to: " + file.getAbsolutePath());
-
         try (FileWriter writer = new FileWriter(file)) {
             writer.append("Name,Phone,Email,Address,Listing,Tags\n");
 
