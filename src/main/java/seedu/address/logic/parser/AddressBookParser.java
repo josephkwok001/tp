@@ -16,9 +16,13 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.FixInvalidCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListInvalidCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.storage.Storage;
+
 /**
  * Parses user input.
  */
@@ -29,6 +33,16 @@ public class AddressBookParser {
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
     private static final Logger logger = LogsCenter.getLogger(AddressBookParser.class);
+
+    private final Storage storage;
+
+    public AddressBookParser(Storage storage) {
+        this.storage = storage;
+    }
+
+    public AddressBookParser() {
+        this(null);
+    }
 
     /**
      * Parses user input into command for execution.
@@ -46,9 +60,6 @@ public class AddressBookParser {
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
 
-        // Note to developers: Change the log level in config.json to enable lower level (i.e., FINE, FINER and lower)
-        // log messages such as the one below.
-        // Lower level log messages are used sparingly to minimize noise in the code.
         logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
 
         switch (commandWord) {
@@ -76,6 +87,24 @@ public class AddressBookParser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
+
+        case FixInvalidCommand.COMMAND_WORD:
+            ensureStorageAvailableFor("fix-invalid");
+            return new FixInvalidCommandParser(storage).parse(arguments);
+
+        // your feature: read LoadReport via storage supplier
+        case ListInvalidCommand.COMMAND_WORD:
+            ensureStorageAvailableFor("list-invalid");
+            return new ListInvalidCommand(() -> {
+                try {
+                    return storage.readAddressBookWithReport();
+                } catch (seedu.address.commons.exceptions.DataLoadingException e) {
+                    return new seedu.address.storage.LoadReport(
+                            new seedu.address.storage.LoadReport.ModelData(new seedu.address.model.AddressBook()),
+                            java.util.List.of());
+                }
+            });
+
         case ExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
 
@@ -85,4 +114,9 @@ public class AddressBookParser {
         }
     }
 
+    private void ensureStorageAvailableFor(String feature) throws ParseException {
+        if (storage == null) {
+            throw new ParseException("Storage is not available for: " + feature);
+        }
+    }
 }
