@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
@@ -15,13 +16,11 @@ import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
-import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -37,7 +36,6 @@ import seedu.address.ui.UiManager;
 public class MainApp extends Application {
 
     public static final Version VERSION = new Version(0, 2, 2, true);
-
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
@@ -61,52 +59,38 @@ public class MainApp extends Application {
         storage = new StorageManager(addressBookStorage, userPrefsStorage);
 
         model = initModelManager(storage, userPrefs);
-
         logic = new LogicManager(model, storage);
-
         ui = new UiManager(logic);
     }
 
-    /**
-     * Returns a {@code ModelManager} with the data from {@code storage}'s address book and {@code userPrefs}. <br>
-     * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
-     * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
-     */
-    private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
-        logger.info("Using data file : " + storage.getAddressBookFilePath());
-
-        Optional<ReadOnlyAddressBook> addressBookOptional;
+    private Model initModelManager(Storage storageArg, ReadOnlyUserPrefs userPrefs) {
+        logger.info("Using data file : " + storageArg.getAddressBookFilePath());
         ReadOnlyAddressBook initialData;
         try {
-            addressBookOptional = storage.readAddressBook();
-            if (!addressBookOptional.isPresent()) {
-                logger.info("Creating a new data file " + storage.getAddressBookFilePath()
-                        + " populated with a sample AddressBook.");
-            }
-            initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
-        } catch (DataLoadingException e) {
-            logger.warning("Data file at " + storage.getAddressBookFilePath() + " could not be loaded."
-                    + " Will be starting with an empty AddressBook.");
-            initialData = new AddressBook();
+            seedu.address.storage.LoadReport report = storageArg.readAddressBookWithReport();
+            initialData = report.getModelData().getAddressBook();
+            logger.info("Invalid entries detected: " + report.getInvalids().size());
+        } catch (seedu.address.commons.exceptions.DataLoadingException e) {
+            logger.warning("Data file at " + storageArg.getAddressBookFilePath()
+                    + " could not be loaded. Will be starting with an empty AddressBook.");
+            initialData = new seedu.address.model.AddressBook();
+        } catch (Exception e) {
+            logger.warning("Unexpected error loading data: " + e.getMessage());
+            initialData = new seedu.address.model.AddressBook();
         }
-
         return new ModelManager(initialData, userPrefs);
     }
 
-    private void initLogging(Config config) {
-        LogsCenter.init(config);
+    private void initLogging(Config cfg) {
+        LogsCenter.init(cfg);
     }
 
     /**
-     * Returns a {@code Config} using the file at {@code configFilePath}. <br>
-     * The default file path {@code Config#DEFAULT_CONFIG_FILE} will be used instead
-     * if {@code configFilePath} is null.
+     * Loads config from file or returns default config.
      */
     protected Config initConfig(Path configFilePath) {
         Config initializedConfig;
-        Path configFilePathUsed;
-
-        configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
+        Path configFilePathUsed = Config.DEFAULT_CONFIG_FILE;
 
         if (configFilePath != null) {
             logger.info("Custom Config file specified " + configFilePath);
@@ -122,12 +106,11 @@ public class MainApp extends Application {
             }
             initializedConfig = configOptional.orElse(new Config());
         } catch (DataLoadingException e) {
-            logger.warning("Config file at " + configFilePathUsed + " could not be loaded."
-                    + " Using default config properties.");
+            logger.warning("Config file at " + configFilePathUsed
+                    + " could not be loaded. Using default config properties.");
             initializedConfig = new Config();
         }
 
-        //Update config file in case it was missing to begin with or there are new/unused fields
         try {
             ConfigUtil.saveConfig(initializedConfig, configFilePathUsed);
         } catch (IOException e) {
@@ -136,31 +119,109 @@ public class MainApp extends Application {
         return initializedConfig;
     }
 
+    private seedu.address.model.AddressBook toValidOnly(seedu.address.storage.LoadReport report) {
+        java.util.Set<Integer> badIdx = report.getInvalids().stream()
+                .map(seedu.address.storage.LoadReport.InvalidPersonEntry::index)
+                .collect(java.util.stream.Collectors.toCollection(java.util.LinkedHashSet::new));
+        seedu.address.model.AddressBook filtered = new seedu.address.model.AddressBook();
+        java.util.List<seedu.address.model.person.Person> persons =
+                report.getModelData().getAddressBook().getPersonList();
+        for (int i = 0; i < persons.size(); i++) {
+            if (!badIdx.contains(i)) {
+                filtered.addPerson(persons.get(i));
+            }
+        }
+        return filtered;
+    }
+
+    private String buildInvalidSummary(seedu.address.storage.LoadReport report) {
+        java.util.Map<Integer, java.util.List<seedu.address.storage.LoadReport.InvalidPersonEntry>> byIdx =
+                report.getInvalids().stream().collect(
+                        java.util.stream.Collectors.groupingBy(
+                                seedu.address.storage.LoadReport.InvalidPersonEntry::index,
+                                java.util.TreeMap::new,
+                                java.util.stream.Collectors.toList()
+                        )
+                );
+        int invalidPersonCount = byIdx.size();
+        int invalidRecordCount = report.getInvalids().size();
+        int validCount = report.getModelData().getAddressBook().getPersonList().size();
+        int total = validCount + invalidPersonCount;
+        int kept = validCount;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Some entries in your data file are invalid and will be ignored.\n\n")
+                .append(String.format("Total persons: %d\n", total))
+                .append(String.format("Invalid persons (ignored): %d\n", invalidPersonCount))
+                .append(String.format("Valid persons (loaded): %d\n", kept))
+                .append(String.format("Invalid records: %d\n\n", invalidRecordCount))
+                .append("Details by person index:\n\n");
+
+        java.util.List<String> allFields = java.util.Arrays.asList("name", "phone", "email", "address", "listing");
+
+        for (var e : byIdx.entrySet()) {
+            int idx = e.getKey();
+            java.util.Set<String> badFields = new java.util.LinkedHashSet<>();
+            for (var inv : e.getValue()) {
+                for (String f : allFields) {
+                    if (inv.fieldInvalid(f)) {
+                        badFields.add(f);
+                    }
+                }
+            }
+
+            sb.append(String.format("• Person #%d\n", idx + 1));
+            if (badFields.isEmpty()) {
+                sb.append("\n");
+                continue;
+            }
+
+            sb.append("  - Invalid fields: ").append(String.join(", ", badFields)).append("\n");
+            for (String f : badFields) {
+                String msg;
+                if (f.equals("name")) {
+                    msg = seedu.address.model.person.Name.MESSAGE_CONSTRAINTS;
+                } else if (f.equals("phone")) {
+                    msg = seedu.address.model.person.Phone.MESSAGE_CONSTRAINTS;
+                } else if (f.equals("email")) {
+                    msg = seedu.address.model.person.Email.SHORT_MESSAGE_CONSTRAINTS;
+                } else if (f.equals("address")) {
+                    msg = seedu.address.model.person.Address.MESSAGE_CONSTRAINTS;
+                } else if (f.equals("listing")) {
+                    msg = seedu.address.model.person.Listing.MESSAGE_CONSTRAINTS;
+                } else {
+                    msg = "Invalid value.";
+                }
+                String prettyMsg = msg.replaceAll("(?m)^", "        ");
+                sb.append("    - ").append(f).append(":\n").append(prettyMsg).append("\n");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     /**
-     * Returns a {@code UserPrefs} using the file at {@code storage}'s user prefs file path,
-     * or a new {@code UserPrefs} with default configuration if errors occur when
-     * reading from the file.
+     * Loads user preferences from storage or returns defaults.
      */
-    protected UserPrefs initPrefs(UserPrefsStorage storage) {
-        Path prefsFilePath = storage.getUserPrefsFilePath();
+    protected UserPrefs initPrefs(UserPrefsStorage storageArg) {
+        Path prefsFilePath = storageArg.getUserPrefsFilePath();
         logger.info("Using preference file : " + prefsFilePath);
 
         UserPrefs initializedPrefs;
         try {
-            Optional<UserPrefs> prefsOptional = storage.readUserPrefs();
+            Optional<UserPrefs> prefsOptional = storageArg.readUserPrefs();
             if (!prefsOptional.isPresent()) {
                 logger.info("Creating new preference file " + prefsFilePath);
             }
             initializedPrefs = prefsOptional.orElse(new UserPrefs());
         } catch (DataLoadingException e) {
-            logger.warning("Preference file at " + prefsFilePath + " could not be loaded."
-                    + " Using default preferences.");
+            logger.warning("Preference file at " + prefsFilePath
+                    + " could not be loaded. Using default preferences.");
             initializedPrefs = new UserPrefs();
         }
 
-        //Update prefs file in case it was missing to begin with or there are new/unused fields
         try {
-            storage.saveUserPrefs(initializedPrefs);
+            storageArg.saveUserPrefs(initializedPrefs);
         } catch (IOException e) {
             logger.warning("Failed to save config file : " + StringUtil.getDetails(e));
         }
@@ -170,7 +231,31 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        logger.info("Starting AddressBook " + MainApp.VERSION);
+        logger.info("Starting AddressBook " + VERSION);
+        primaryStage.setScene(new javafx.scene.Scene(new javafx.scene.Group()));
+        try {
+            var report = storage.readAddressBookWithReport();
+            int invalidCount = report.getInvalids().size();
+            logger.info("Invalid entry count at startup: " + invalidCount);
+            if (invalidCount > 0) {
+                String summary = buildInvalidSummary(report);
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                        javafx.scene.control.Alert.AlertType.INFORMATION);
+                alert.initOwner(primaryStage);
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.setTitle("Invalid Entries Detected");
+                alert.setHeaderText("Some entries in your data file are invalid and will be ignored.");
+                javafx.scene.control.TextArea ta = new javafx.scene.control.TextArea(summary);
+                ta.setEditable(false);
+                ta.setWrapText(true);
+                ta.setPrefRowCount(18);
+                alert.getDialogPane().setContent(ta);
+                alert.getDialogPane().setMinWidth(640);
+                alert.showAndWait();
+            }
+        } catch (seedu.address.commons.exceptions.DataLoadingException e) {
+            logger.warning("Load report failed: " + e.getMessage());
+        }
         ui.start(primaryStage);
     }
 

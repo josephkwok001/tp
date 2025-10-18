@@ -118,4 +118,65 @@ class JsonAdaptedPerson {
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelListing, modelTags);
     }
 
+    /**
+     * Returns a compact JSON string representing this adapted person, or "{}" if
+     * serialization fails. Intended for diagnostics in load reports.
+     */
+    public String toRawJsonString() {
+        try {
+            return seedu.address.commons.util.JsonUtil.toJsonString(this);
+        } catch (Exception e) {
+            return "{}";
+        }
+    }
+
+    // --- Add these getters so the loader can prefill the dialog with originals ---
+    public String getName() {
+        return name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getListing() {
+        return listing;
+    }
+
+    /**
+     * Returns the set of field keys that are invalid, based on the same validation
+     * rules used by toModelType(). Keys are one or more of:
+     *   "name", "phone", "email", "address", "listing"
+     *
+     * This lets the load-report and the fix wizard know exactly which inputs to
+     * require from the user, while pre-filling the valid ones as read-only.
+     */
+    public java.util.Set<String> invalidFieldKeys() {
+        java.util.Set<String> invalids = new java.util.HashSet<>();
+
+        if (name == null || !Name.isValidName(name)) {
+            invalids.add("name");
+        }
+        if (phone == null || !Phone.isValidPhone(phone)) {
+            invalids.add("phone");
+        }
+        if (email == null || !Email.isValidEmail(email)) {
+            invalids.add("email");
+        }
+        if (address == null || !Address.isValidAddress(address)) {
+            invalids.add("address");
+        }
+        if (listing == null || !Listing.isValidListing(listing)) {
+            invalids.add("listing");
+        }
+        return invalids;
+    }
 }
