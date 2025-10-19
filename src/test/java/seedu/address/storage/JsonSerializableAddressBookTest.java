@@ -29,13 +29,18 @@ public class JsonSerializableAddressBookTest {
         assertEquals(addressBookFromFile, typicalPersonsAddressBook);
     }
 
+    /**
+     * Converting an address book JSON with invalid person data should fail with
+     * IllegalValueException.
+     */
     @Test
-    public void toModelType_invalidPersonFile_success() throws Exception {
-        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(INVALID_PERSON_FILE,
-                JsonSerializableAddressBook.class).get();
-        AddressBook addressBookFromFile = dataFromFile.toModelType();
-        AddressBook emptyAddressBook = new AddressBook();
-        assertEquals(addressBookFromFile, emptyAddressBook);
+    public void toModelType_invalidPersonFile_throwsIllegalValueException() throws Exception {
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(
+                INVALID_PERSON_FILE, JsonSerializableAddressBook.class
+        ).get();
+
+        // Expect failure because at least one person violates model constraints.
+        assertThrows(IllegalValueException.class, dataFromFile::toModelType);
     }
 
     @Test

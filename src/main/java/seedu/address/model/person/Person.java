@@ -122,4 +122,14 @@ public class Person {
                 .toString();
     }
 
+    /**
+     * Returns true if all fields of this person are valid according to their individual validation rules.
+     */
+    public boolean isFullyValid() {
+        return Name.isValidName(name.fullName)
+                && Phone.isValidPhone(phone.value)
+                && Email.isValidEmail(email.value)
+                && Address.isValidAddress(address.value)
+                && Listing.isValidListing(listing.value);
+    }
 }

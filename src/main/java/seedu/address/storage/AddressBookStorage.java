@@ -26,20 +26,35 @@ public interface AddressBookStorage {
     Optional<ReadOnlyAddressBook> readAddressBook() throws DataLoadingException;
 
     /**
+     * Returns AddressBook data as a {@link ReadOnlyAddressBook} from the given path.
+     *
      * @see #getAddressBookFilePath()
      */
     Optional<ReadOnlyAddressBook> readAddressBook(Path filePath) throws DataLoadingException;
 
     /**
      * Saves the given {@link ReadOnlyAddressBook} to the storage.
+     *
      * @param addressBook cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
     void saveAddressBook(ReadOnlyAddressBook addressBook) throws IOException;
 
     /**
+     * Saves the given {@link ReadOnlyAddressBook} to the provided path.
+     *
      * @see #saveAddressBook(ReadOnlyAddressBook)
      */
     void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException;
 
+    /**
+     * Reads the address book and returns a structured {@link LoadReport}
+     * containing both parsed entries and invalid entries with reasons.
+     *
+     * @param filePath location of the data. Cannot be null.
+     * @throws DataLoadingException if low-level IO or decoding fails.
+     */
+    LoadReport readAddressBookWithReport(Path filePath) throws DataLoadingException;
+    LoadReport overwriteRawEntryAtIndex(int index, seedu.address.model.person.Person person)
+            throws seedu.address.commons.exceptions.DataLoadingException, java.io.IOException;
 }
