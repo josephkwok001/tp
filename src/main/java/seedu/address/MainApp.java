@@ -1,6 +1,8 @@
 package seedu.address;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -21,6 +23,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
@@ -29,6 +32,7 @@ import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
+
 
 /**
  * Runs the application.
@@ -67,9 +71,25 @@ public class MainApp extends Application {
         logger.info("Using data file : " + storageArg.getAddressBookFilePath());
         ReadOnlyAddressBook initialData;
         try {
-            seedu.address.storage.LoadReport report = storageArg.readAddressBookWithReport();
-            initialData = report.getModelData().getAddressBook();
-            logger.info("Invalid entries detected: " + report.getInvalids().size());
+            var dataPath = storageArg.getAddressBookFilePath();
+            if (!Files.exists(dataPath)) {
+                logger.info("Creating a new data file " + dataPath + " populated with a sample AddressBook.");
+                ReadOnlyAddressBook sample = SampleDataUtil.getSampleAddressBook();
+                initialData = sample;
+                try {
+                    storageArg.saveAddressBook(sample);
+                } catch (AccessDeniedException ade) {
+                    logger.warning(String.format("Could not save sample data to %s due to insufficient permissions.",
+                            dataPath));
+                } catch (IOException ioe) {
+                    logger.warning(String.format("Could not save sample data: %s", ioe.getMessage()));
+                }
+            } else {
+                seedu.address.storage.LoadReport report = storageArg.readAddressBookWithReport();
+                initialData = report.getModelData().getAddressBook();
+                logger.info("Invalid entries detected: " + report.getInvalids().size());
+            }
+
         } catch (seedu.address.commons.exceptions.DataLoadingException e) {
             logger.warning("Data file at " + storageArg.getAddressBookFilePath()
                     + " could not be loaded. Will be starting with an empty AddressBook.");
