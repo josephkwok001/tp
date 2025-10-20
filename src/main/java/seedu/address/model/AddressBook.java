@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
+import seedu.address.model.property.Property;
+import seedu.address.model.property.UniquePropertyList;
 
 /**
  * Wraps all data at the address-book level
@@ -16,7 +18,7 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
-
+    private final UniquePropertyList properties;
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
      * between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
@@ -26,6 +28,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
+        properties = new UniquePropertyList();
     }
 
     public AddressBook() {}
@@ -94,6 +97,58 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+    /**
+     * Returns true if the address book contains an equivalent property as the given argument.
+     *
+     * @param property the property to check for presence in this address book
+     * @return true if an equivalent property exists in the address book, false otherwise
+     * @throws NullPointerException if {@code property} is null
+     */
+    public boolean hasProperty(Property property) {
+        requireNonNull(property);
+        return properties.contains(property);
+    }
+
+    /**
+     * Adds the given property to the address book.
+     * The property must not already exist in the address book.
+     *
+     * @param property the property to add
+     * @throws NullPointerException if {@code property} is null
+     * @throws DuplicatePropertyException if the property already exists in the address book
+     */
+    public void addProperty(Property property) {
+        properties.add(property);
+    }
+
+    /**
+     * Replaces the given target property in the address book with {@code editedProperty}.
+     * {@code target} must exist in the address book.
+     * The identity of {@code editedProperty} must not be the same as another existing property
+     * in the address book.
+     *
+     * @param target the property to be replaced
+     * @param editedProperty the property to replace with
+     * @throws NullPointerException if {@code target} or {@code editedProperty} is null
+     * @throws PropertyNotFoundException if the {@code target} does not exist in the address book
+     * @throws DuplicatePropertyException if the replacement would result in a duplicate property
+     */
+    public void setProperty(Property target, Property editedProperty) {
+        properties.setProperty(target, editedProperty);
+    }
+
+    /**
+     * Removes the equivalent property from the address book.
+     * The property must exist in the address book.
+     *
+     * @param toRemove the property to remove
+     * @throws NullPointerException if {@code toRemove} is null
+     * @throws PropertyNotFoundException if the property does not exist in the address book
+     */
+    public void removeProperty(Property toRemove) {
+        properties.remove(toRemove);
+    }
+
     //// util methods
 
     @Override
@@ -109,6 +164,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
+    public ObservableList<Property> getPropertyList() {
+        return properties.asUnmodifiableObservableList();
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -120,7 +180,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         AddressBook otherAddressBook = (AddressBook) other;
-        return persons.equals(otherAddressBook.persons);
+        return persons.equals(otherAddressBook.persons) && properties.equals(otherAddressBook.properties);
     }
 
     @Override

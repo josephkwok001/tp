@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -19,6 +20,7 @@ import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 
 /**
  * JSON-backed implementation of AddressBookStorage.
@@ -148,6 +150,56 @@ public class JsonAddressBookStorage implements AddressBookStorage {
                 tmp, filePath,
                 java.nio.file.StandardCopyOption.REPLACE_EXISTING,
                 java.nio.file.StandardCopyOption.ATOMIC_MOVE
+        );
+
+        return readAddressBookWithReport(filePath);
+    }
+
+    /**
+     * Replaces exactly one element in the raw JSON "properties" array at the specified index,
+     * writes back atomically, then re-reads and returns a fresh LoadReport.
+     */
+    public LoadReport overwriteRawPropertyAtIndex(int index, Property property)
+            throws DataLoadingException, IOException {
+        requireNonNull(property);
+
+        final ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        final File file = filePath.toFile();
+
+        FileUtil.createIfMissing(filePath);
+
+        ObjectNode root;
+        var node = mapper.readTree(file);
+        if (node == null || !node.isObject()) {
+            root = mapper.createObjectNode();
+            root.set("properties", mapper.createArrayNode());
+        } else {
+            root = (ObjectNode) node;
+        }
+
+        var propertiesNode = root.get("properties");
+        if (propertiesNode == null) {
+            propertiesNode = mapper.createArrayNode();
+            root.set("properties", propertiesNode);
+        }
+        if (!propertiesNode.isArray()) {
+            throw new IOException("'properties' is not a JSON array in " + filePath);
+        }
+        ArrayNode properties = (ArrayNode) propertiesNode;
+
+        if (index < 0 || index >= properties.size()) {
+            throw new IOException("Index out of bounds: " + index + " (size=" + properties.size() + ")");
+        }
+
+        ObjectNode replacement = (ObjectNode) mapper.valueToTree(new JsonAdaptedProperty(property));
+        properties.set(index, replacement);
+
+        Path tmp = filePath.resolveSibling(filePath.getFileName() + ".tmp");
+        mapper.writerWithDefaultPrettyPrinter().writeValue(tmp.toFile(), root);
+        java.nio.file.Files.move(
+                tmp, filePath,
+                StandardCopyOption.REPLACE_EXISTING,
+                StandardCopyOption.ATOMIC_MOVE
         );
 
         return readAddressBookWithReport(filePath);
