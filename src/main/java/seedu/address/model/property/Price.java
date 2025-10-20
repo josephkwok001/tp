@@ -31,6 +31,10 @@ public class Price {
         return price > 0; // Price must be positive
     }
 
+    public Integer getIntegerPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         return price.toString();
