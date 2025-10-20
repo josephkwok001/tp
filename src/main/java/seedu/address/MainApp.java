@@ -177,7 +177,7 @@ public class MainApp extends Application {
                 .append(String.format("Invalid records: %d\n\n", invalidRecordCount))
                 .append("Details by person index:\n\n");
 
-        java.util.List<String> allFields = java.util.Arrays.asList("name", "phone", "email", "address", "listing");
+        java.util.List<String> allFields = java.util.Arrays.asList("name", "phone", "email", "address");
 
         for (var e : byIdx.entrySet()) {
             int idx = e.getKey();
@@ -207,8 +207,6 @@ public class MainApp extends Application {
                     msg = seedu.address.model.person.Email.SHORT_MESSAGE_CONSTRAINTS;
                 } else if (f.equals("address")) {
                     msg = seedu.address.model.person.Address.MESSAGE_CONSTRAINTS;
-                } else if (f.equals("listing")) {
-                    msg = seedu.address.model.person.Listing.MESSAGE_CONSTRAINTS;
                 } else {
                     msg = "Invalid value.";
                 }

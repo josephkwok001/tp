@@ -12,7 +12,7 @@ import seedu.address.model.tag.Tag;
 public class PersonValidFlagTest {
 
     private static Person mk(String n, String p, String e, String a, String l) {
-        return new Person(new Name(n), new Phone(p), new Email(e), new Address(a), new Listing(l),
+        return new Person(new Name(n), new Phone(p), new Email(e), new Address(a),
                 java.util.Set.of(new Tag("t")));
     }
 

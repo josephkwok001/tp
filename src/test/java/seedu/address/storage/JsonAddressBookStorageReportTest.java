@@ -19,9 +19,9 @@ public class JsonAddressBookStorageReportTest {
     void readWithReport_keepsJsonIntact_noDeletion() throws Exception {
         Path temp = Files.createTempFile("ab", ".json");
         String json = "{ \"persons\":[\n"
-                + "  { \"name\":\"12345\",\"phone\":\"abc\",\"email\":\"bad\",\"address\":\" \",\"listing\":\"\" },\n"
+                + "  { \"name\":\"12345\",\"phone\":\"abc\",\"email\":\"bad\",\"address\":\" \" },\n"
                 + "  { \"name\":\"Roy Balakrishnan\",\"phone\":\"92624417\",\"email\":\"royb@example.com\","
-                + "\"address\":\"Blk 45\",\"listing\":\"Landed Property\" }\n"
+                + "\"address\":\"Blk 45\" }\n"
                 + "] }\n";
         Files.write(temp, json.getBytes(StandardCharsets.UTF_8));
 
