@@ -27,6 +27,7 @@ import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.LoadReport;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
@@ -85,7 +86,7 @@ public class MainApp extends Application {
                     logger.warning(String.format("Could not save sample data: %s", ioe.getMessage()));
                 }
             } else {
-                seedu.address.storage.LoadReport report = storageArg.readAddressBookWithReport();
+                LoadReport report = storageArg.readAddressBookWithReport();
                 initialData = report.getModelData().getAddressBook();
                 logger.info("Invalid entries detected: " + report.getInvalids().size());
             }
