@@ -12,7 +12,10 @@ import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.property.Price;
+import seedu.address.model.property.Property;
 import seedu.address.model.tag.Tag;
+
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -41,10 +44,30 @@ public class SampleDataUtil {
         };
     }
 
+    public static Property[] getSampleProperties() {
+        return new Property[] {
+            new Property(
+                new seedu.address.model.property.Address("123 Example St"),
+                new Price(500000),
+                new seedu.address.model.property.Name("Sunny Villa")),
+            new Property(
+                new seedu.address.model.property.Address("45 Orchard Rd"),
+                new Price(1200000),
+                new seedu.address.model.property.Name("City Loft")),
+            new Property(
+                new seedu.address.model.property.Address("7 Bukit Timah"),
+                new Price(2000000),
+                new seedu.address.model.property.Name("Hilltop Mansion"))
+        };
+    }
+
     public static ReadOnlyAddressBook getSampleAddressBook() {
         AddressBook sampleAb = new AddressBook();
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
+        }
+        for (Property sampleProp : getSampleProperties()) {
+            sampleAb.addProperty(sampleProp);
         }
         return sampleAb;
     }

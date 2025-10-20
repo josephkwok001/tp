@@ -12,6 +12,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 
 /**
  * An immutable AddressBook that is serializable to and from JSON.
@@ -22,22 +23,32 @@ import seedu.address.model.person.Person;
 class JsonSerializableAddressBook {
 
     public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_PROPERTY = "Properties list contains duplicate property(ies).";
 
     private static final Logger LOGGER =
             LogsCenter.getLogger(JsonSerializableAddressBook.class);
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
+    private final List<JsonAdaptedProperty> properties = new ArrayList<>();
 
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
+    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
+                                       @JsonProperty("properties") List<JsonAdaptedProperty> properties) {
         if (persons != null) {
             this.persons.addAll(persons);
+        }
+        if (properties != null) {
+            this.properties.addAll(properties);
         }
     }
 
     public JsonSerializableAddressBook(seedu.address.model.ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream()
                 .map(JsonAdaptedPerson::new)
+                .toList());
+        // require ReadOnlyAddressBook to expose getPropertyList()
+        properties.addAll(source.getPropertyList().stream()
+                .map(JsonAdaptedProperty::new)
                 .toList());
     }
 
@@ -54,7 +65,6 @@ class JsonSerializableAddressBook {
             try {
                 Person p = jap.toModelType();
 
-                // Surface duplicates as "invalid" too (optional but helpful).
                 if (model.hasPerson(p)) {
                     invalidList.add(new LoadReport.InvalidPersonEntry(
                             i,
@@ -64,7 +74,7 @@ class JsonSerializableAddressBook {
                             jap.getEmail(),
                             jap.getAddress(),
                             jap.getListing(),
-                            java.util.Set.of() // no specific field is invalid; it's a duplicate
+                            java.util.Set.of()
                     ));
                     continue;
                 }
@@ -85,6 +95,15 @@ class JsonSerializableAddressBook {
             }
         }
 
+        for (int i = 0; i < properties.size(); i++) { // include try and catch block later on
+            JsonAdaptedProperty jap = properties.get(i);
+            Property prop = jap.toModelType();
+            if (model.hasProperty(prop)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_PROPERTY);
+            }
+            model.addProperty(prop);
+        }
+
         return new LoadReport(new LoadReport.ModelData(model), invalidList);
     }
 
@@ -94,10 +113,8 @@ class JsonSerializableAddressBook {
      * encountered, matching the original behavior.
      */
     public AddressBook toModelType() throws IllegalValueException {
-        // Reuse the report builder, but if any invalids exist, throw like the old code.
         LoadReport report = toModelTypeWithReport();
         if (!report.getInvalids().isEmpty()) {
-            // Mirror old behavior: fail fast with a generic message.
             throw new IllegalValueException(report.getInvalids().get(0).reason());
         }
         return report.getModelData().getAddressBook();
