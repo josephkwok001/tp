@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 
 /**
  * The API of the Model component.
@@ -63,6 +64,7 @@ public interface Model {
      */
     void deletePerson(Person target);
 
+    void deleteProperty(Property property);
     /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
@@ -84,4 +86,8 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    ObservableList<Property> getFilteredPropertyList();
+
+    void updateFilteredPropertyList(Predicate<Property> predicate);
 }
