@@ -16,12 +16,12 @@ public class Property {
 
     private final Address address;
     private final Price price;
-    private final String propertyName;
+    private final Name propertyName;
 
     /**
      * Every field must be present and not null.
      */
-    public Property(Address address, Price price, String propertyName) {
+    public Property(Address address, Price price, Name propertyName) {
         requireAllNonNull(address, price);
         this.address = address;
         this.price = price;
@@ -36,7 +36,7 @@ public class Property {
         return price;
     }
 
-    public String getPropertyName() {
+    public Name getPropertyName() {
         return propertyName;
     }
 
