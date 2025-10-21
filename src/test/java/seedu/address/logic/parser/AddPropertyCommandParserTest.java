@@ -1,16 +1,7 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_PROPERTY_1;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_PROPERTY_ADDRESS_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_PROPERTY_NAME_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_PROPERTY_1;
-import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
-import static seedu.address.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
-import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_PROPERTY_1;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_PROPERTY_1;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_PROPERTY_1;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PRICE_PROPERTY_1;
+import static seedu.address.logic.commands.CommandTestUtil.*;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalProperties.PROPERTY_1;
@@ -18,8 +9,9 @@ import static seedu.address.testutil.TypicalProperties.PROPERTY_1;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddPropertyCommand;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Name;
+import seedu.address.model.property.Address;
+import seedu.address.model.property.Price;
+import seedu.address.model.property.PropertyName;
 import seedu.address.model.property.Property;
 import seedu.address.testutil.PropertyBuilder;
 
@@ -60,8 +52,12 @@ public class AddPropertyCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, INVALID_PROPERTY_NAME_DESC + ADDRESS_DESC_PROPERTY_1
-                + PRICE_DESC_PROPERTY_1, Name.MESSAGE_CONSTRAINTS);
+                + PRICE_DESC_PROPERTY_1, PropertyName.MESSAGE_CONSTRAINTS);
 
+        // invalid price
+        assertParseFailure(parser, NAME_DESC_PROPERTY_1 + ADDRESS_DESC_PROPERTY_1
+                + INVALID_PROPERTY_PRICE_DESC,
+                Price.MESSAGE_CONSTRAINTS);
 
         // invalid address
         assertParseFailure(parser, NAME_DESC_PROPERTY_1 + PRICE_DESC_PROPERTY_1
@@ -70,7 +66,7 @@ public class AddPropertyCommandParserTest {
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_PROPERTY_NAME_DESC + PRICE_DESC_PROPERTY_1
-                        + INVALID_PROPERTY_ADDRESS_DESC, Name.MESSAGE_CONSTRAINTS);
+                        + INVALID_PROPERTY_ADDRESS_DESC, PropertyName.MESSAGE_CONSTRAINTS);
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_PROPERTY_1 + PRICE_DESC_PROPERTY_1

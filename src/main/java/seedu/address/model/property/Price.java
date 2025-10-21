@@ -5,11 +5,11 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Property's price in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidAddress(String)} //wrong javadoc
+ * Guarantees: immutable; is valid as declared in {@link #isValidPrice(Integer)}
  */
 public class Price {
 
-    public static final String MESSAGE_CONSTRAINTS = "Price can only take positive values";
+    public static final String MESSAGE_CONSTRAINTS = "Price can only take positive numbers";
 
     public final Integer price;
 

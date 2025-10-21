@@ -38,7 +38,15 @@ public class AddPropertyCommandParser implements Parser<AddPropertyCommand> {
                 PREFIX_PRICE);
         PropertyName name = ParserUtil.parsePropertyName(argMultimap.getValue(PREFIX_NAME).get());
         Address address = ParserUtil.parsePropertyAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
-        Price price = ParserUtil.parsePrice(Integer.valueOf(argMultimap.getValue(PREFIX_PRICE).get()));
+
+        int priceValue;
+        try {
+            priceValue = Integer.parseInt(argMultimap.getValue(PREFIX_PRICE).get());
+        } catch (NumberFormatException e) {
+            throw new ParseException(Price.MESSAGE_CONSTRAINTS);
+        }
+
+        Price price = ParserUtil.parsePrice(priceValue);
 
         Property property = new Property(address, price, name);
 
