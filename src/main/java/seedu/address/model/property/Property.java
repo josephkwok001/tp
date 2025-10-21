@@ -22,7 +22,7 @@ public class Property {
      * Every field must be present and not null.
      */
     public Property(Address address, Price price, Name propertyName) {
-        requireAllNonNull(address, price);
+        requireAllNonNull(address, price, propertyName);
         this.address = address;
         this.price = price;
         this.propertyName = propertyName;
