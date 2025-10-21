@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.property.Address;
-import seedu.address.model.property.Name;
+import seedu.address.model.property.PropertyName;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
 
@@ -51,12 +51,12 @@ class JsonAdaptedProperty {
      */
     public Property toModelType() throws IllegalValueException {
         if (propertyName == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, PropertyName.class.getSimpleName()));
         }
-        if (!Name.isValidName(propertyName)) {
-            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
+        if (!PropertyName.isValidName(propertyName)) {
+            throw new IllegalValueException(PropertyName.MESSAGE_CONSTRAINTS);
         }
-        final Name modelName = new Name(propertyName);
+        final PropertyName modelName = new PropertyName(propertyName);
 
         if (price == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Price.class.getSimpleName()));
@@ -119,7 +119,7 @@ class JsonAdaptedProperty {
         if (price == null || !Price.isValidPrice(price)) {
             invalids.add("price");
         }
-        if (propertyName == null || !Name.isValidName(propertyName)) {
+        if (propertyName == null || !PropertyName.isValidName(propertyName)) {
             invalids.add("propertyName");
         }
         return invalids;

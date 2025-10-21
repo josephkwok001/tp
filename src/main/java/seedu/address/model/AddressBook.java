@@ -10,6 +10,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.UniquePropertyList;
+import seedu.address.model.property.exceptions.DuplicatePropertyException;
+import seedu.address.model.property.exceptions.PropertyNotFoundException;
 
 /**
  * Wraps all data at the address-book level
@@ -58,6 +60,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setProperties(newData.getPropertyList());
     }
 
     //// person-level operations
@@ -97,6 +100,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+
+    //// property-level operations
+
     /**
      * Returns true if the address book contains an equivalent property as the given argument.
      *
@@ -122,6 +128,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces the contents of the property list with {@code properties}.
+     * {@code properties} must not contain duplicate properties.
+     */
+    public void setProperties(List<Property> properties) {
+        this.properties.setProperties(properties);
+    }
+
+    /**
      * Replaces the given target property in the address book with {@code editedProperty}.
      * {@code target} must exist in the address book.
      * The identity of {@code editedProperty} must not be the same as another existing property
@@ -130,8 +144,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @param target the property to be replaced
      * @param editedProperty the property to replace with
      * @throws NullPointerException if {@code target} or {@code editedProperty} is null
-     * @throws PropertyNotFoundException if the {@code target} does not exist in the address book
-     * @throws DuplicatePropertyException if the replacement would result in a duplicate property
      */
     public void setProperty(Property target, Property editedProperty) {
         properties.setProperty(target, editedProperty);
