@@ -10,7 +10,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
 
-public class DeletePropertyCommand {
+public class DeletePropertyCommand extends Command {
     public static final String COMMAND_WORD = "deletep";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
@@ -44,7 +44,7 @@ public class DeletePropertyCommand {
         model.deleteProperty(propertyToDelete);
 
         return new CommandResult(String.format(MESSAGE_DELETE_PROPERTY_SUCCESS,
-                Messages.format(propertyToDelete)));
+                Messages.formatProperty(propertyToDelete)));
     }
 
     @Override
