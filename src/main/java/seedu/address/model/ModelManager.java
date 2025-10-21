@@ -5,7 +5,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.util.function.Predicate;
-import java.util.logging.Filter;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -104,7 +103,9 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void deleteProperty(Property property) {addressBook.removeProperty(property);}
+    public void deleteProperty(Property property) {
+        addressBook.removeProperty(property);
+    }
 
     @Override
     public void addPerson(Person person) {
