@@ -92,6 +92,31 @@ public class AddressBookTest {
     }
 
     /**
+     * Ensures property list is empty on construction.
+     */
+    @Test
+    public void constructor_propertyListEmpty() {
+        assertEquals(Collections.emptyList(), addressBook.getPropertyList());
+    }
+
+    /**
+     * Ensures getPropertyList() exposes an unmodifiable view.
+     */
+    @Test
+    public void getPropertyList_modify_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> addressBook.getPropertyList().remove(0));
+    }
+
+    /**
+     * Adding a duplicate person should throw DuplicatePersonException.
+     */
+    @Test
+    public void addPerson_duplicate_throwsDuplicatePersonException() {
+        addressBook.addPerson(ALICE);
+        assertThrows(DuplicatePersonException.class, () -> addressBook.addPerson(new PersonBuilder(ALICE).build()));
+    }
+
+    /**
      * A stub ReadOnlyAddressBook whose persons list can violate interface constraints.
      */
     private static class AddressBookStub implements ReadOnlyAddressBook {
@@ -112,5 +137,4 @@ public class AddressBookTest {
             return properties;
         }
     }
-
 }
