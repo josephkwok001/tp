@@ -42,6 +42,8 @@ public class PersonCard extends UiPart<Region> {
     private Label listing;
     @FXML
     private FlowPane tags;
+    @FXML
+    private FlowPane ownedProperties;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -58,5 +60,10 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        person.getOwnedProperties().asUnmodifiableList().forEach(p -> {
+            Label chip = new Label(p.getPropertyName().toString());
+            chip.getStyleClass().add("owned-property");
+            ownedProperties.getChildren().add(chip);
+        });
     }
 }
