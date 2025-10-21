@@ -20,17 +20,17 @@ public class SetOwnedPropertyCommandParser implements Parser<SetOwnedPropertyCom
     @Override
     public SetOwnedPropertyCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_PERSON_INDEX, CliSyntax.PREFIX_NAME);
+                ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_INDEX, CliSyntax.PREFIX_NAME);
 
-        if (!arePrefixesPresent(argMultimap, CliSyntax.PREFIX_PERSON_INDEX, CliSyntax.PREFIX_NAME)
+        if (!arePrefixesPresent(argMultimap, CliSyntax.PREFIX_INDEX, CliSyntax.PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     SetOwnedPropertyCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_PERSON_INDEX, CliSyntax.PREFIX_NAME);
+        argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_INDEX, CliSyntax.PREFIX_NAME);
 
-        Index index = ParserUtil.parseIndex(argMultimap.getValue(CliSyntax.PREFIX_PERSON_INDEX).get());
+        Index index = ParserUtil.parseIndex(argMultimap.getValue(CliSyntax.PREFIX_INDEX).get());
 
         String propertyNameRaw = argMultimap.getValue(CliSyntax.PREFIX_NAME).get().trim();
         if (!Name.isValidName(propertyNameRaw)) {

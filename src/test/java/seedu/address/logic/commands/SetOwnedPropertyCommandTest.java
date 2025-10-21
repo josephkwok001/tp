@@ -31,6 +31,9 @@ import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
 import seedu.address.model.tag.Tag;
 
+/**
+ * Tests for {@link SetOwnedPropertyCommand}.
+ */
 public class SetOwnedPropertyCommandTest {
 
     @Test
@@ -63,10 +66,18 @@ public class SetOwnedPropertyCommandTest {
                 String.format(SetOwnedPropertyCommand.MESSAGE_SUCCESS, "Alex Yeoh", "City Loft"),
                 result.getFeedbackToUser());
 
-        Person updated = model.persons.get(0);
-        boolean hasCityLoft = updated.getOwnedProperties().asUnmodifiableList()
-                .stream().anyMatch(p -> p.isSameProperty(cityLoft));
-        org.junit.jupiter.api.Assertions.assertTrue(hasCityLoft);
+        OwnedProperties expectedOwned = alex.getOwnedProperties().withAdded(cityLoft);
+        Person expected = new Person(
+                alex.getName(),
+                alex.getPhone(),
+                alex.getEmail(),
+                alex.getAddress(),
+                alex.getListing(),
+                alex.getTags(),
+                expectedOwned
+        );
+
+        assertEquals(expected, model.persons.get(0));
     }
 
     @Test
@@ -144,7 +155,8 @@ public class SetOwnedPropertyCommandTest {
             return new UserPrefs(); }
         @Override public GuiSettings getGuiSettings() {
             return new GuiSettings(); }
-        @Override public void setGuiSettings(GuiSettings guiSettings) { }
+        @Override public void setGuiSettings(GuiSettings guiSettings) {
+        }
         @Override public Path getAddressBookFilePath() {
             throw new UnsupportedOperationException(); }
         @Override public void setAddressBookFilePath(Path addressBookFilePath) {
@@ -157,7 +169,6 @@ public class SetOwnedPropertyCommandTest {
             throw new UnsupportedOperationException(); }
         @Override public void addPerson(Person person) {
             throw new UnsupportedOperationException(); }
-        @Override public void updateFilteredPersonList(Predicate<Person> predicate) {
-        }
+        @Override public void updateFilteredPersonList(Predicate<Person> predicate) { }
     }
 }

@@ -31,7 +31,7 @@ public class OwnedProperties {
      *
      * @return unmodifiable list of properties
      */
-    public List<Property> asUnmodifiableList() {
+    public List<Property> getUnmodifiableList() {
         return Collections.unmodifiableList(list);
     }
 

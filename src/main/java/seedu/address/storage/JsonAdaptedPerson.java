@@ -68,7 +68,7 @@ class JsonAdaptedPerson {
                 .map(JsonAdaptedTag::new)
                 .toList());
         this.ownedProperties.addAll(
-                source.getOwnedProperties().asUnmodifiableList().stream()
+                source.getOwnedProperties().getUnmodifiableList().stream()
                         .map(p -> p.getPropertyName().toString())
                         .toList()
         );

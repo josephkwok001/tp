@@ -33,9 +33,7 @@ public class Person {
     public Person(Name name, Phone phone, Email email, Address address, Listing listing, Set<Tag> tags,
             OwnedProperties ownedProperties) {
         requireAllNonNull(name, phone, email, address, tags);
-        this.ownedProperties = (ownedProperties == null)
-                ? OwnedProperties.empty()
-                : ownedProperties;
+        this.ownedProperties = OwnedProperties.empty();
         this.name = name;
         this.phone = phone;
         this.email = email;
