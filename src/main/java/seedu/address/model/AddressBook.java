@@ -58,6 +58,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setProperties(newData.getPropertyList());
     }
 
     //// person-level operations
@@ -133,8 +134,8 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @throws PropertyNotFoundException if the {@code target} does not exist in the address book
      * @throws DuplicatePropertyException if the replacement would result in a duplicate property
      */
-    public void setProperty(Property target, Property editedProperty) {
-        properties.setProperty(target, editedProperty);
+    public void setProperties(List<Property> properties) {
+        this.properties.setProperties(properties);
     }
 
     /**
