@@ -113,6 +113,13 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void addProperty(Property property) {
+        addressBook.addProperty(property);
+    }
+
+
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 
