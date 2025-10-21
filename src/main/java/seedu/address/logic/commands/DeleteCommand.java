@@ -65,7 +65,8 @@ public class DeleteCommand extends Command {
 
             Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
             model.deletePerson(personToDelete);
-            return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.formatPerson(personToDelete)));
+            return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS,
+                    Messages.formatPerson(personToDelete)));
         } else if (targetEmail != null) {
             Optional<Person> personToDelete = model.getFilteredPersonList().stream()
                     .filter(p -> p.getEmail().equals(targetEmail))

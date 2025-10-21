@@ -136,6 +136,11 @@ public class ParserUtil {
         return tagSet;
     }
 
+    /**
+     * Parses an {@code Integer price} into a {@code Price}.
+     *
+     * @throws ParseException if the given {@code price} is invalid.
+     */
     public static Price parsePrice(Integer price) throws ParseException {
         requireNonNull(price);
         if (!Price.isValidPrice(price)) {
@@ -144,6 +149,12 @@ public class ParserUtil {
         return new Price(price);
     }
 
+    /**
+     * Parses a {@code String address} into a {@code PropertyAddress}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code address} is invalid.
+     */
     public static seedu.address.model.property.Address parsePropertyAddress(String address) throws ParseException {
         requireNonNull(address);
         String trimmedAddress = address.trim();
@@ -153,6 +164,12 @@ public class ParserUtil {
         return new seedu.address.model.property.Address(trimmedAddress);
     }
 
+    /**
+     * Parses a {@code String name} into a {@code PropertyName}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code name} is invalid.
+     */
     public static PropertyName parsePropertyName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();

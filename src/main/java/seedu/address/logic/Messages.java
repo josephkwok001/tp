@@ -51,6 +51,9 @@ public class Messages {
         return builder.toString();
     }
 
+    /**
+     * Formats the {@code property} for display to the user.
+     */
     public static String formatProperty(Property property) {
         final StringBuilder builder = new StringBuilder();
         builder.append(property.getPropertyName())
