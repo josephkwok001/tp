@@ -114,6 +114,21 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
+### Setting an owned property for a person : 'setop'
+
+Associates an existing property with the specified person as one of their owned properties.
+
+Format: 'setop i/INDEX_OF_PERSON n/PROPERTY_NAME'
+
+* Sets the owned property for the person at the specified 'INDEX'. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​ 
+* 'PROPERTY_NAME' must match the name of a property that already exists in the app.
+* If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F).
+* Repeating the command with the same property for the same person has no effect (duplicates are ignored).
+
+Examples:
+* 'setop i/1 n/Marina Bay Apt 12F' — adds Marina Bay Apt 12F to the 1st person’s owned properties.
+* list followed by 'setop i/3 n/Choa Chu Kang Landed Property' — associates Choa Chu Kang Landed Property with the 3rd person in the list.
+
 ### Locating persons by name: `find`
 
 Finds contacts by either name or tag criteria.
@@ -220,3 +235,6 @@ Action     | Format, Examples
 **List**   | `list`
 **Help**   | `help`
 **Export** | `export FILENAME`
+
+**Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
+
