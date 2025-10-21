@@ -49,7 +49,6 @@ class JsonSerializableAddressBook {
         persons.addAll(source.getPersonList().stream()
                 .map(JsonAdaptedPerson::new)
                 .toList());
-        // require ReadOnlyAddressBook to expose getPropertyList()
         properties.addAll(source.getPropertyList().stream()
                 .map(JsonAdaptedProperty::new)
                 .toList());
@@ -62,7 +61,7 @@ class JsonSerializableAddressBook {
     public LoadReport toModelTypeWithReport() throws IllegalValueException {
         AddressBook model = new AddressBook();
         List<LoadReport.InvalidPersonEntry> invalidList = new ArrayList<>();
-        for (int i = 0; i < properties.size(); i++) { // include try and catch block later on
+        for (int i = 0; i < properties.size(); i++) {
             JsonAdaptedProperty jap = properties.get(i);
             Property prop = jap.toModelType();
             if (model.hasProperty(prop)) {

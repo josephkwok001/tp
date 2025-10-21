@@ -18,7 +18,8 @@ import seedu.address.testutil.TypicalPersons;
 /**
  * Tests for {@link JsonSerializableAddressBook}.
  * This suite exercises legacy conversion, report-based conversion, dynamic in-memory mutation via replaceAt,
- * duplicate handling, empty input handling, and bounds checking.
+ * duplicate handling for persons and properties, unknown ownedProperties reporting, empty input handling,
+ * and bounds checking.
  */
 public class JsonSerializableAddressBookTest {
 
@@ -145,5 +146,33 @@ public class JsonSerializableAddressBookTest {
         JsonAdaptedPerson replacement = new JsonAdaptedPerson(TypicalPersons.ALICE);
         assertThrows(IndexOutOfBoundsException.class, () -> data.replaceAt(-1, replacement));
         assertThrows(IndexOutOfBoundsException.class, () -> data.replaceAt(9_999, replacement));
+    }
+
+    /**
+     * Ensures that unknown owned properties are collected as invalids by the report-based API.
+     */
+    @Test
+    public void toModelTypeWithReport_unknownOwnedProperties_collectsInvalids() throws Exception {
+        java.util.List<JsonAdaptedProperty> props = java.util.Collections.emptyList();
+
+        String name = "Zed Zero";
+        String phone = "12345678";
+        String email = "zed@example.com";
+        String address = "NUS";
+        String listing = "Buyer";
+        java.util.List<JsonAdaptedTag> tags = java.util.Collections.emptyList();
+        java.util.List<String> ownedProps = java.util.Arrays.asList("Unknown One", "Unknown Two");
+
+        JsonAdaptedPerson zed = new JsonAdaptedPerson(name, phone, email, address, listing, tags, ownedProps);
+
+        JsonSerializableAddressBook data = new JsonSerializableAddressBook(
+                java.util.Arrays.asList(zed), props);
+
+        LoadReport report = data.toModelTypeWithReport();
+
+        assertTrue(!report.getInvalids().isEmpty());
+        boolean hasUnknownMessage = report.getInvalids().stream()
+                .anyMatch(inv -> inv.reason().contains("Unknown owned properties"));
+        assertTrue(hasUnknownMessage);
     }
 }
