@@ -20,6 +20,10 @@ public class UiPartTest {
     private static final String VALID_FILE_PATH = "UiPartTest/validFile.fxml";
     private static final String VALID_FILE_WITH_FX_ROOT_PATH = "UiPartTest/validFileWithFxRoot.fxml";
     private static final TestFxmlObject VALID_FILE_ROOT = new TestFxmlObject("Hello World!");
+    /**
+     * Flag indicating whether JavaFX toolkit is available in this runtime.
+     */
+    private static boolean fxReady = false;
 
     @TempDir
     public Path testFolder;
@@ -116,11 +120,15 @@ public class UiPartTest {
      */
     @org.junit.jupiter.api.BeforeAll
     public static void initJavaFxToolkit() {
+        boolean ok = true;
         try {
-            javafx.application.Platform.startup(() -> {});
+            javafx.application.Platform.startup(() -> { });
         } catch (IllegalStateException ex) {
-            org.junit.jupiter.api.Assertions.assertNotNull(ex);
+            ok = true;
+        } catch (UnsupportedOperationException ex) {
+            ok = false;
         }
+        fxReady = ok;
     }
 
     /**
@@ -129,6 +137,7 @@ public class UiPartTest {
      */
     @org.junit.jupiter.api.Test
     public void personCard_rendersAllFields_andOwnedProperties() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
         seedu.address.model.person.Person base = seedu.address.testutil.TypicalPersons.ALICE;
         seedu.address.model.person.Person personWithData = new seedu.address.testutil.PersonBuilder(base)
                 .withTags("friends", "owesMoney")
@@ -188,6 +197,7 @@ public class UiPartTest {
      */
     @org.junit.jupiter.api.Test
     public void personCard_handlesEmptyOwnedProperties() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
         seedu.address.model.person.Person p = new seedu.address.testutil.PersonBuilder(
                 seedu.address.testutil.TypicalPersons.ALICE).withTags().build();
         injectOwnedPropertiesReflectively(p, java.util.List.of());
