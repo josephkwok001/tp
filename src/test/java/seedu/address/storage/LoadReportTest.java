@@ -73,7 +73,6 @@ public class LoadReportTest {
                 "91234567",
                 "not-an-email",
                 "Blk 1",
-                "HDB",
                 invalid
         );
 
@@ -83,14 +82,12 @@ public class LoadReportTest {
         assertEquals("91234567", entry.phone());
         assertEquals("not-an-email", entry.email());
         assertEquals("Blk 1", entry.address());
-        assertEquals("HDB", entry.listing());
 
         // fieldInvalid should reflect the provided set
         assertTrue(entry.fieldInvalid("name"));
         assertTrue(entry.fieldInvalid("email"));
         assertFalse(entry.fieldInvalid("phone"));
         assertFalse(entry.fieldInvalid("address"));
-        assertFalse(entry.fieldInvalid("listing"));
         assertFalse(entry.fieldInvalid("nonexistent"));
     }
 
@@ -103,7 +100,6 @@ public class LoadReportTest {
                 "91234567",
                 "b@c.com",
                 "Blk 2",
-                "Condo",
                 new HashSet<>()
         );
 
@@ -111,7 +107,6 @@ public class LoadReportTest {
         assertFalse(entry.fieldInvalid("phone"));
         assertFalse(entry.fieldInvalid("email"));
         assertFalse(entry.fieldInvalid("address"));
-        assertFalse(entry.fieldInvalid("listing"));
     }
 
     private static LoadReport.InvalidPersonEntry dummyInvalid(int idx,
@@ -124,7 +119,6 @@ public class LoadReportTest {
                 "P",
                 "E",
                 "A",
-                "L",
                 new HashSet<>(invalidKeys)
         );
     }

@@ -26,12 +26,12 @@ public class HelpWindow extends UiPart<Stage> {
             // Managing Contacts
             + "--- Managing Contacts ---\n"
             + "add: Adds a new client to the address book.\n"
-            + "  Format: add n/NAME p/PHONE e/EMAIL a/ADDRESS l/LISTING [t/TAG]...\n"
+            + "  Format: add n/NAME p/PHONE e/EMAIL a/ADDRESS [t/TAG]...\n"
             + "  Example: add n/John Doe p/98765432 e/johnd@example.com a/311, "
             + "Clementi Ave 2 l/The Clementi Mall t/buyer\n\n"
 
             + "edit: Edits an existing client by their index number.\n"
-            + "  Format: edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]...\n"
+            + "  Format: edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...\n"
             + "  Example: edit 1 p/91234567 e/new.email@example.com\n\n"
 
             + "delete: Deletes a client by their index number.\n"
