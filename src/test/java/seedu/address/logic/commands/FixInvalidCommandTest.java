@@ -25,6 +25,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.property.Property;
 import seedu.address.storage.LoadReport;
 import seedu.address.storage.Storage;
 
@@ -85,7 +86,15 @@ public class FixInvalidCommandTest {
         }
 
         @Override
+        public boolean hasProperty(Property property) {
+            return false;
+        }
+
+        @Override
         public void deletePerson(Person target) {}
+
+        @Override
+        public void deleteProperty(Property target) {}
 
         @Override
         public void addPerson(Person person) {
@@ -93,7 +102,15 @@ public class FixInvalidCommandTest {
         }
 
         @Override
+        public void addProperty(Property property) {
+
+        }
+
+        @Override
         public void setPerson(Person target, Person editedPerson) {}
+
+        @Override
+        public void setProperty(Property target, Property editedProperty) {}
 
         @Override
         public ObservableList<Person> getFilteredPersonList() {

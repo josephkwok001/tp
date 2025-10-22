@@ -13,6 +13,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyName;
 import seedu.address.model.tag.Tag;
 
 
@@ -48,15 +49,15 @@ public class SampleDataUtil {
             new Property(
                 new seedu.address.model.property.Address("123 Example St"),
                 new Price(500000),
-                new seedu.address.model.property.Name("Sunny Villa")),
+                new PropertyName("Sunny Villa")),
             new Property(
                 new seedu.address.model.property.Address("45 Orchard Rd"),
                 new Price(1200000),
-                new seedu.address.model.property.Name("City Loft")),
+                new PropertyName("City Loft")),
             new Property(
                 new seedu.address.model.property.Address("7 Bukit Timah"),
                 new Price(2000000),
-                new seedu.address.model.property.Name("Hilltop Mansion"))
+                new PropertyName("Hilltop Mansion"))
         };
     }
 
