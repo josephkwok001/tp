@@ -22,10 +22,10 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.property.Property;
 import seedu.address.storage.LoadReport;
 import seedu.address.storage.Storage;
 
@@ -86,7 +86,15 @@ public class FixInvalidCommandTest {
         }
 
         @Override
+        public boolean hasProperty(Property property) {
+            return false;
+        }
+
+        @Override
         public void deletePerson(Person target) {}
+
+        @Override
+        public void deleteProperty(Property target) {}
 
         @Override
         public void addPerson(Person person) {
@@ -94,7 +102,15 @@ public class FixInvalidCommandTest {
         }
 
         @Override
+        public void addProperty(Property property) {
+
+        }
+
+        @Override
         public void setPerson(Person target, Person editedPerson) {}
+
+        @Override
+        public void setProperty(Property target, Property editedProperty) {}
 
         @Override
         public ObservableList<Person> getFilteredPersonList() {
@@ -286,7 +302,6 @@ public class FixInvalidCommandTest {
                 new Phone("91234567"),
                 new Email("a@b.com"),
                 new Address("Blk 1"),
-                new Listing("HDB"),
                 new HashSet<>()
         );
     }
@@ -345,7 +360,6 @@ public class FixInvalidCommandTest {
                 new Phone("91234567"),
                 new Email("a@b.com"),
                 new Address("Blk 1"),
-                new Listing("HDB"),
                 new java.util.HashSet<>());
 
         Person bob = new Person(
@@ -353,7 +367,6 @@ public class FixInvalidCommandTest {
                 new Phone("98765432"),
                 new Email("b@c.com"),
                 new Address("Blk 2"),
-                new Listing("Condo"),
                 new java.util.HashSet<>());
 
         FixInvalidCommand c1 = new FixInvalidCommand(0, alice, s);

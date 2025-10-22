@@ -83,8 +83,7 @@ class JsonSerializableAddressBook {
                             jap.getPhone(),
                             jap.getEmail(),
                             jap.getAddress(),
-                            jap.getListing(),
-                            java.util.Set.of()
+                            java.util.Set.of() // no specific field is invalid; it's a duplicate
                     ));
                     continue;
                 }
@@ -99,7 +98,6 @@ class JsonSerializableAddressBook {
                         jap.getPhone(),
                         jap.getEmail(),
                         jap.getAddress(),
-                        jap.getListing(),
                         jap.invalidFieldKeys()
                 ));
             }

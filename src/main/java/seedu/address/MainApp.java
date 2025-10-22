@@ -27,6 +27,7 @@ import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
+import seedu.address.storage.LoadReport;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
 import seedu.address.storage.UserPrefsStorage;
@@ -85,7 +86,7 @@ public class MainApp extends Application {
                     logger.warning(String.format("Could not save sample data: %s", ioe.getMessage()));
                 }
             } else {
-                seedu.address.storage.LoadReport report = storageArg.readAddressBookWithReport();
+                LoadReport report = storageArg.readAddressBookWithReport();
                 initialData = report.getModelData().getAddressBook();
                 logger.info("Invalid entries detected: " + report.getInvalids().size());
             }
@@ -177,7 +178,7 @@ public class MainApp extends Application {
                 .append(String.format("Invalid records: %d\n\n", invalidRecordCount))
                 .append("Details by person index:\n\n");
 
-        java.util.List<String> allFields = java.util.Arrays.asList("name", "phone", "email", "address", "listing");
+        java.util.List<String> allFields = java.util.Arrays.asList("name", "phone", "email", "address");
 
         for (var e : byIdx.entrySet()) {
             int idx = e.getKey();
@@ -207,8 +208,6 @@ public class MainApp extends Application {
                     msg = seedu.address.model.person.Email.SHORT_MESSAGE_CONSTRAINTS;
                 } else if (f.equals("address")) {
                     msg = seedu.address.model.person.Address.MESSAGE_CONSTRAINTS;
-                } else if (f.equals("listing")) {
-                    msg = seedu.address.model.person.Listing.MESSAGE_CONSTRAINTS;
                 } else {
                     msg = "Invalid value.";
                 }

@@ -26,7 +26,6 @@
           </minWidth>
         </Label>
         <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
-        <Label fx:id="listing" text="\$listing" />
       </HBox>
       <FlowPane fx:id="tags" />
       <FlowPane fx:id="ownedProperties" hgap="5" vgap="5" prefWrapLength="300.0"/>

@@ -19,7 +19,7 @@ public class LoadReportAccessorsTest {
     void accessors_and_fieldInvalid() {
         LoadReport.ModelData md = new LoadReport.ModelData(new AddressBook());
         LoadReport.InvalidPersonEntry inv = new LoadReport.InvalidPersonEntry(
-                3, "r", "n", "p", "e", "a", "l", Set.of("name", "email"));
+                3, "r", "n", "p", "e", "a", Set.of("name", "email"));
         LoadReport lr = new LoadReport(md, List.of(inv));
         assertEquals(md, lr.getModelData());
         assertEquals(1, lr.getInvalids().size());

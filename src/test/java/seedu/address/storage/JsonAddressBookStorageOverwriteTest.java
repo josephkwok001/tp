@@ -32,7 +32,7 @@ public class JsonAddressBookStorageOverwriteTest {
     void overwriteOutOfBoundsThrowsIoException() throws Exception {
         Path p = write("ab.json",
                 "{ \"persons\": [ {\"name\":\"Roy Balakrishnan\",\"phone\":\"92624417\","
-                        + "\"email\":\"royb@example.com\",\"address\":\"Blk 45\",\"listing\":\"Landed Property\"} ] }");
+                        + "\"email\":\"royb@example.com\",\"address\":\"Blk 45\"} ] }");
         JsonAddressBookStorage storage = new JsonAddressBookStorage(p);
         Person alice = TypicalPersons.ALICE;
         assertThrows(java.io.IOException.class, () -> storage.overwriteRawEntryAtIndex(5, alice));
@@ -59,11 +59,11 @@ public class JsonAddressBookStorageOverwriteTest {
         Path p = write("three.json",
                 "{ \"persons\": [\n"
                         + "  {\"name\":\"Alice Pauline\",\"phone\":\"94351253\",\"email\":\"alice@example.com\","
-                        + "\"address\":\"123, Jurong West Ave 6, #08-111\",\"listing\":\"Condo\"},\n"
+                        + "\"address\":\"123, Jurong West Ave 6, #08-111\"},\n"
                         + "  {\"name\":\"Benson Meier\",\"phone\":\"98765432\",\"email\":\"johnd@example.com\","
-                        + "\"address\":\"311, Clementi Ave 2, #02-25\",\"listing\":\"HDB\"},\n"
+                        + "\"address\":\"311, Clementi Ave 2, #02-25\"},\n"
                         + "  {\"name\":\"Carl Kurz\",\"phone\":\"95352563\",\"email\":\"heinz@example.com\","
-                        + "\"address\":\"wall street\",\"listing\":\"Landed Property\"}\n"
+                        + "\"address\":\"wall street\"}\n"
                         + "] }");
 
         JsonAddressBookStorage storage = new JsonAddressBookStorage(p);
