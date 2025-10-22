@@ -16,7 +16,7 @@ import seedu.address.model.tag.Tag;
  * Exports the address book contacts to a CSV file.
  * <p>
  * The CSV file is stored in the {@code data} folder relative to the project root.
- * Each contact is exported with the following fields: Name, Phone, Email, Address, Listing, Tags.
+ * Each contact is exported with the following fields: Name, Phone, Email, Address, Tags.
  * Tags are separated by semicolons in the CSV. Fields containing commas, quotes, or newlines
  * are properly escaped according to CSV rules.
  *
@@ -78,14 +78,13 @@ public class ExportCommand extends Command {
         }
 
         try (FileWriter writer = new FileWriter(file)) {
-            writer.append("Name,Phone,Email,Address,Listing,Tags\n");
+            writer.append("Name,Phone,Email,Address,Tags\n");
 
             for (Person p : model.getFilteredPersonList()) {
                 writer.append(escapeCsv(p.getName().toString())).append(",");
                 writer.append(escapeCsv(p.getPhone().toString())).append(",");
                 writer.append(escapeCsv(p.getEmail().toString())).append(",");
                 writer.append(escapeCsv(p.getAddress().toString())).append(",");
-                writer.append(escapeCsv(p.getListing().toString())).append(",");
                 writer.append(escapeCsv(
                         p.getTags().stream().map(Tag::toString).collect(Collectors.joining(";"))
                 )).append("\n");

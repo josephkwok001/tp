@@ -43,9 +43,9 @@ public class ListInvalidCommandTest {
         // NOTE: constructor is now (index, reason) with a 1-based index
         List<LoadReport.InvalidPersonEntry> invalids = List.of(
                 new LoadReport.InvalidPersonEntry(
-                        1, "Bad phone", "Alice", "9123", "a@b.com", "Blk 1", "HDB", java.util.Set.of("phone")),
+                        1, "Bad phone", "Alice", "9123", "a@b.com", "Blk 1", java.util.Set.of("phone")),
                 new LoadReport.InvalidPersonEntry(
-                        3, "Bad email", "Bob", "9999", "x@y", "Blk 2", "Condo", java.util.Set.of("email"))
+                        3, "Bad email", "Bob", "9999", "x@y", "Blk 2", java.util.Set.of("email"))
         );
 
         Supplier<LoadReport> supplier = () -> new LoadReport(

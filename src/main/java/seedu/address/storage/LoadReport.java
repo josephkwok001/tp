@@ -10,7 +10,6 @@ import java.util.Set;
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -66,7 +65,6 @@ public final class LoadReport {
                         p.getPhone().toString(),
                         p.getEmail().toString(),
                         p.getAddress().toString(),
-                        p.getListing().toString(),
                         bad
                 ));
             }
@@ -94,9 +92,6 @@ public final class LoadReport {
         }
         if (!Address.isValidAddress(p.getAddress().value)) {
             bad.add("address");
-        }
-        if (!Listing.isValidListing(p.getListing().value)) {
-            bad.add("listing");
         }
         return bad;
     }
@@ -126,7 +121,6 @@ public final class LoadReport {
         private final String phone;
         private final String email;
         private final String address;
-        private final String listing;
         private final Set<String> invalidFields;
 
         /**
@@ -138,7 +132,6 @@ public final class LoadReport {
          * @param phone original phone string
          * @param email original email string
          * @param address original address string
-         * @param listing original listing string
          * @param invalidFields set of invalid field keys
          */
         public InvalidPersonEntry(int index,
@@ -147,7 +140,6 @@ public final class LoadReport {
                                   String phone,
                                   String email,
                                   String address,
-                                  String listing,
                                   Set<String> invalidFields) {
             this.index = index;
             this.reason = reason;
@@ -155,7 +147,6 @@ public final class LoadReport {
             this.phone = phone;
             this.email = email;
             this.address = address;
-            this.listing = listing;
             this.invalidFields = invalidFields;
         }
 
@@ -181,10 +172,6 @@ public final class LoadReport {
 
         public String address() {
             return address;
-        }
-
-        public String listing() {
-            return listing;
         }
 
         public Set<String> invalidFields() {

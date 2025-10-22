@@ -11,7 +11,6 @@ import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.property.Price;
@@ -112,16 +111,6 @@ public class ParserUtil {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
         return new Tag(trimmedTag);
-    }
-
-    /**
-     * Parses a {@code String listing} into a {@code Listing}.
-     * Leading and trailing whitespaces will be trimmed.
-     */
-    public static Listing parseListing(String listing) throws ParseException {
-        requireNonNull(listing);
-        String trimmedListing = listing.trim();
-        return new Listing(trimmedListing);
     }
 
     /**

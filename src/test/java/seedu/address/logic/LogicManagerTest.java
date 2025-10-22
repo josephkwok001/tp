@@ -5,7 +5,6 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDE
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.LISTING_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -113,7 +112,7 @@ public class LogicManagerTest {
     public void execute_addCommand_persistsToStorage() throws Exception {
         String addCmd = AddCommand.COMMAND_WORD
                 + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
-                + ADDRESS_DESC_AMY + LISTING_DESC_AMY;
+                + ADDRESS_DESC_AMY;
 
         CommandResult result = logic.execute(addCmd);
         org.junit.jupiter.api.Assertions.assertTrue(
@@ -200,7 +199,7 @@ public class LogicManagerTest {
         logic = new LogicManager(model, storage);
 
         String addCommand = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + LISTING_DESC_AMY;
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY;
         Person expectedPerson = new PersonBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);

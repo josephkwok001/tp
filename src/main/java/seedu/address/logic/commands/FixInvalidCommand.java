@@ -18,7 +18,7 @@ public class FixInvalidCommand extends Command {
     public static final String COMMAND_WORD = "fix-invalid";
     public static final String MESSAGE_USAGE =
             COMMAND_WORD + ": Fixes a quarantined invalid person at index i/INDEX with corrected fields.\n"
-                    + "Parameters: i/INDEX n/NAME p/PHONE e/EMAIL a/ADDRESS l/LISTING\n"
+                    + "Parameters: i/INDEX n/NAME p/PHONE e/EMAIL a/ADDRESS\n"
                     + "Example: " + COMMAND_WORD + " i/0 n/Alex p/987 e/alex@x.com a/Blk 1 l/HDB";
 
     private final int jsonIndex;

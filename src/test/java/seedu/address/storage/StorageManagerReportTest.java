@@ -21,8 +21,8 @@ public class StorageManagerReportTest {
         Path prefs = Files.createTempFile("sm_prefs", ".json");
         String json = "{ \"persons\":["
                 + "{ \"name\":\"Alice Bob\",\"phone\":\"91234567\",\"email\":\"alice@example.com\","
-                + "\"address\":\"1 Main\",\"listing\":\"HDB\" },"
-                + "{ \"name\":\"12345\",\"phone\":\"xx\",\"email\":\"bad\",\"address\":\" \",\"listing\":\"\" }"
+                + "\"address\":\"1 Main\" },"
+                + "{ \"name\":\"12345\",\"phone\":\"xx\",\"email\":\"bad\",\"address\":\" \" }"
                 + "] }";
         Files.write(ab, json.getBytes(StandardCharsets.UTF_8));
 

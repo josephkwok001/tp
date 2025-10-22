@@ -136,20 +136,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Replaces the given target property in the address book with {@code editedProperty}.
-     * {@code target} must exist in the address book.
-     * The identity of {@code editedProperty} must not be the same as another existing property
-     * in the address book.
-     *
-     * @param target the property to be replaced
-     * @param editedProperty the property to replace with
-     * @throws NullPointerException if {@code target} or {@code editedProperty} is null
-     */
-    public void setProperty(Property target, Property editedProperty) {
-        properties.setProperty(target, editedProperty);
-    }
-
-    /**
      * Removes the equivalent property from the address book.
      * The property must exist in the address book.
      *
