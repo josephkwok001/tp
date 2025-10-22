@@ -175,6 +175,19 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in EstateSearch.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Deleting a property : `deletep`
+
+Deletes the specified property from EstateSearch.
+
+Format: `deletep INDEX`
+
+* Deletes the property at the specified `INDEX`.
+* The index refers to the index number shown in the property list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+* `deletep 2` deletes the 2nd property in EstateSearch.
+
 ### Clearing all entries : `clear`
 
 Clears all entries from EstateSearch.
@@ -240,12 +253,13 @@ Action     | Format, Examples
 **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/client t/colleague`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`
 **List**   | `list`
 **Help**   | `help`
 **Export** | `export FILENAME`
 **Exit**   | `exit`
 **Add Property** | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`
+**Delete Property** | `deletep INDEX`<br> e.g., `deletep 3`
 **Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
 
