@@ -41,18 +41,5 @@
     "email" : "anna@example.com",
     "address" : "4th street",
     "tags" : [ ]
-  }],
-  "properties" : [ {
-    "address" : "123 Example St",
-    "price" : 500000,
-    "propertyName" : "Sunny Villa"
-  }, {
-    "address" : "45 Orchard Rd",
-    "price" : 1200000,
-    "propertyName" : "City Loft"
-  }, {
-    "address" : "7 Bukit Timah",
-    "price" : 2000000,
-    "propertyName" : "Hilltop Mansion"
-  } ]
+  }]
 }
