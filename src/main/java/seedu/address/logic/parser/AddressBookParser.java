@@ -111,7 +111,7 @@ public class AddressBookParser {
 
         case SetOwnedPropertyCommand.COMMAND_WORD:
             return new SetOwnedPropertyCommandParser().parse(arguments);
-            
+
         case AddPropertyCommand.COMMAND_WORD:
             return new AddPropertyCommandParser().parse(arguments);
 

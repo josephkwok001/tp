@@ -82,7 +82,7 @@ public class LogicManager implements Logic {
                 || name.equals("ExportCommand")
                 || name.equals("TagCommand")
                 || name.equals("UntagCommand")
-                || name.equals("SetOwnedPropertyCommand");
+                || name.equals("SetOwnedPropertyCommand")
                 || name.equals("AddPropertyCommand");
     }
 

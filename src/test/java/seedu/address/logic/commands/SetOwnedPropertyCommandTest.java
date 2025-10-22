@@ -22,7 +22,6 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.OwnedProperties;
 import seedu.address.model.person.Person;
@@ -43,7 +42,6 @@ public class SetOwnedPropertyCommandTest {
                 new Phone("87438807"),
                 new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                new Listing("Condo"),
                 Set.of(new Tag("friends")),
                 new OwnedProperties(java.util.Collections.emptyList())
         );
@@ -51,7 +49,7 @@ public class SetOwnedPropertyCommandTest {
         Property cityLoft = new Property(
                 new seedu.address.model.property.Address("45 Orchard Rd"),
                 new Price(1200000),
-                new seedu.address.model.property.Name("City Loft"));
+                new seedu.address.model.property.PropertyName("City Loft"));
 
         AddressBook ab = new AddressBook();
         ab.addPerson(alex);
@@ -72,7 +70,6 @@ public class SetOwnedPropertyCommandTest {
                 alex.getPhone(),
                 alex.getEmail(),
                 alex.getAddress(),
-                alex.getListing(),
                 alex.getTags(),
                 expectedOwned
         );
@@ -87,7 +84,6 @@ public class SetOwnedPropertyCommandTest {
                 new Phone("87438807"),
                 new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                new Listing("Condo"),
                 Set.of(),
                 new OwnedProperties(java.util.Collections.emptyList())
         );
@@ -110,7 +106,6 @@ public class SetOwnedPropertyCommandTest {
                 new Phone("87438807"),
                 new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                new Listing("Condo"),
                 Set.of(),
                 new OwnedProperties(java.util.Collections.emptyList())
         );
@@ -118,7 +113,7 @@ public class SetOwnedPropertyCommandTest {
         Property sunny = new Property(
                 new seedu.address.model.property.Address("123 Example St"),
                 new Price(500000),
-                new seedu.address.model.property.Name("Sunny Villa"));
+                new seedu.address.model.property.PropertyName("Sunny Villa"));
 
         AddressBook ab = new AddressBook();
         ab.addPerson(alex);
@@ -140,35 +135,92 @@ public class SetOwnedPropertyCommandTest {
             this.ab = ab;
         }
 
-        @Override public ObservableList<Person> getFilteredPersonList() {
-            return persons; }
-        @Override public void setPerson(Person target, Person editedPerson) {
+        @Override
+        public ObservableList<Person> getFilteredPersonList() {
+            return persons;
+        }
+
+        @Override
+        public void setPerson(Person target, Person editedPerson) {
             int idx = persons.indexOf(target);
             persons.set(idx, editedPerson);
         }
-        @Override public ReadOnlyAddressBook getAddressBook() {
-            return ab; }
 
-        @Override public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
-            throw new UnsupportedOperationException(); }
-        @Override public ReadOnlyUserPrefs getUserPrefs() {
-            return new UserPrefs(); }
-        @Override public GuiSettings getGuiSettings() {
-            return new GuiSettings(); }
-        @Override public void setGuiSettings(GuiSettings guiSettings) {
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return ab;
         }
-        @Override public Path getAddressBookFilePath() {
-            throw new UnsupportedOperationException(); }
-        @Override public void setAddressBookFilePath(Path addressBookFilePath) {
-            throw new UnsupportedOperationException(); }
-        @Override public void setAddressBook(ReadOnlyAddressBook addressBook) {
-            throw new UnsupportedOperationException(); }
-        @Override public boolean hasPerson(Person person) {
-            return false; }
-        @Override public void deletePerson(Person target) {
-            throw new UnsupportedOperationException(); }
-        @Override public void addPerson(Person person) {
-            throw new UnsupportedOperationException(); }
-        @Override public void updateFilteredPersonList(Predicate<Person> predicate) { }
+
+        @Override
+        public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ReadOnlyUserPrefs getUserPrefs() {
+            return new UserPrefs();
+        }
+
+        @Override
+        public GuiSettings getGuiSettings() {
+            return new GuiSettings();
+        }
+
+        @Override
+        public void setGuiSettings(GuiSettings guiSettings) { }
+
+        @Override
+        public Path getAddressBookFilePath() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setAddressBookFilePath(Path addressBookFilePath) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void setAddressBook(ReadOnlyAddressBook addressBook) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean hasPerson(Person person) {
+            return false;
+        }
+
+        @Override
+        public void deletePerson(Person target) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void addPerson(Person person) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void updateFilteredPersonList(Predicate<Person> predicate) { }
+
+        @Override
+        public void setProperty(Property target, Property editedProperty) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean hasProperty(Property property) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void deleteProperty(Property target) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void addProperty(Property property) {
+            throw new UnsupportedOperationException();
+        }
+
     }
 }

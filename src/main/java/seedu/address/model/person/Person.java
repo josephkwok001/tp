@@ -4,12 +4,10 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.property.Property;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -22,7 +20,6 @@ public class Person {
     private final Name name;
     private final Phone phone;
     private final Email email;
-    
 
     // Data fields
     private final Address address;
@@ -43,8 +40,8 @@ public class Person {
         this.tags.addAll(tags);
     }
 
-    public Person(Name name, Phone phone, Email email, Address address, Listing listing, Set<Tag> tags) {
-        this(name, phone, email, address, listing, tags, OwnedProperties.empty());
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        this(name, phone, email, address, tags, OwnedProperties.empty());
     }
 
     public Name getName() {

@@ -147,12 +147,12 @@ public class UiPartTest {
                 new seedu.address.model.property.Property(
                         new seedu.address.model.property.Address("A"),
                         new seedu.address.model.property.Price(1),
-                        new seedu.address.model.property.Name("A"));
+                        new seedu.address.model.property.PropertyName("A"));
         seedu.address.model.property.Property prop2 =
                 new seedu.address.model.property.Property(
                         new seedu.address.model.property.Address("B"),
                         new seedu.address.model.property.Price(2),
-                        new seedu.address.model.property.Name("B"));
+                        new seedu.address.model.property.PropertyName("B"));
 
         injectOwnedPropertiesReflectively(personWithData, java.util.List.of(prop1, prop2));
 
@@ -162,9 +162,8 @@ public class UiPartTest {
         javafx.scene.control.Label phoneLabel = getPrivateField(card, "phone");
         javafx.scene.control.Label addressLabel = getPrivateField(card, "address");
         javafx.scene.control.Label emailLabel = getPrivateField(card, "email");
-        javafx.scene.control.Label listingLabel = getPrivateField(card, "listing");
         javafx.scene.layout.FlowPane tagsPane = getPrivateField(card, "tags");
-        javafx.scene.layout.FlowPane ownedPane = getPrivateField(card, "ownedProperties");
+        javafx.scene.layout.FlowPane ownedPane = getOwnedPropertiesPane(card);
 
         org.junit.jupiter.api.Assertions.assertEquals(
                 personWithData.getName().fullName, nameLabel.getText());
@@ -174,8 +173,6 @@ public class UiPartTest {
                 personWithData.getAddress().value, addressLabel.getText());
         org.junit.jupiter.api.Assertions.assertEquals(
                 personWithData.getEmail().value, emailLabel.getText());
-        org.junit.jupiter.api.Assertions.assertEquals(
-                personWithData.getListing().value, listingLabel.getText());
 
         org.junit.jupiter.api.Assertions.assertTrue(
                 tagsPane.getChildren().size() >= 2);
@@ -238,4 +235,44 @@ public class UiPartTest {
         f.set(p, owned);
     }
 
+    /**
+     * Returns the first matching private field from PersonCard by trying candidate names.
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> T getPrivateFieldAny(seedu.address.ui.PersonCard card, String... candidates) throws Exception {
+        for (String name : candidates) {
+            try {
+                java.lang.reflect.Field f = seedu.address.ui.PersonCard.class.getDeclaredField(name);
+                f.setAccessible(true);
+                return (T) f.get(card);
+            } catch (NoSuchFieldException ignore) {
+                assert true;
+            }
+        }
+        throw new NoSuchFieldException(java.util.Arrays.toString(candidates));
+    }
+
+    /**
+     * Finds the FlowPane in PersonCard that contains labels with the "owned-property" style class.
+     */
+    private static javafx.scene.layout.FlowPane getOwnedPropertiesPane(seedu.address.ui.PersonCard card)
+            throws Exception {
+        for (java.lang.reflect.Field f : seedu.address.ui.PersonCard.class.getDeclaredFields()) {
+            if (f.getType() == javafx.scene.layout.FlowPane.class) {
+                f.setAccessible(true);
+                Object val = f.get(card);
+                if (val instanceof javafx.scene.layout.FlowPane) {
+                    javafx.scene.layout.FlowPane pane = (javafx.scene.layout.FlowPane) val;
+                    boolean hasOwnedChip = pane.getChildren().stream()
+                            .filter(n -> n instanceof javafx.scene.control.Label)
+                            .map(n -> (javafx.scene.control.Label) n)
+                            .anyMatch(lbl -> lbl.getStyleClass().contains("owned-property"));
+                    if (hasOwnedChip) {
+                        return pane;
+                    }
+                }
+            }
+        }
+        throw new NoSuchFieldException("owned properties pane not found");
+    }
 }

@@ -136,7 +136,6 @@ class JsonSerializableAddressBook {
                     base.getPhone(),
                     base.getEmail(),
                     base.getAddress(),
-                    base.getListing(),
                     base.getTags(),
                     new OwnedProperties(resolved)
             );
@@ -150,7 +149,6 @@ class JsonSerializableAddressBook {
                         jap.getPhone(),
                         jap.getEmail(),
                         jap.getAddress(),
-                        jap.getListing(),
                         java.util.Set.of("ownedProperties")
                 ));
             }

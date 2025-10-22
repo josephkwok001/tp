@@ -80,7 +80,6 @@ public class SetOwnedPropertyCommand extends Command {
                 target.getPhone(),
                 target.getEmail(),
                 target.getAddress(),
-                target.getListing(),
                 target.getTags(),
                 updatedOwned
         );

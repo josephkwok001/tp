@@ -152,7 +152,7 @@ class JsonAdaptedPerson {
         return java.util.Collections.unmodifiableList(ownedProperties);
     }
 
-     /**
+    /**
      * Returns the set of field keys that are invalid, based on the same validation
      * rules used by toModelType(). Keys are one or more of:
      *   "name", "phone", "email", "address"
