@@ -10,6 +10,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
 
+/**
+ * Deletes a property identified using it's displayed index from the address book.
+ */
 public class DeletePropertyCommand extends Command {
     public static final String COMMAND_WORD = "deletep";
 
@@ -52,6 +55,11 @@ public class DeletePropertyCommand extends Command {
         return other == this
                 || (other instanceof DeletePropertyCommand
                 && targetIndex.equals(((DeletePropertyCommand) other).targetIndex));
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getCanonicalName() + "{targetIndex=" + targetIndex + "}";
     }
 
 }

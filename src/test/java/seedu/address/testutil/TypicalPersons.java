@@ -19,6 +19,8 @@ import java.util.List;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Price;
+import seedu.address.model.property.Property;
 
 /**
  * A utility class containing a list of {@code Person} objects to be used in tests.
@@ -74,10 +76,35 @@ public class TypicalPersons {
         for (Person person : getTypicalPersons()) {
             ab.addPerson(person);
         }
+        for (Property property : getTypicalProperties()) {
+            ab.addProperty(property);
+        }
+
         return ab;
     }
 
     public static List<Person> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
     }
+
+    /**
+     * Returns a list of typical properties for testing.
+     */
+    public static List<Property> getTypicalProperties() {
+        return Arrays.asList(
+                new Property(
+                        new seedu.address.model.property.Address("123 Example St"),
+                        new Price(500000),
+                        new seedu.address.model.property.Name("Sunny Villa")),
+                new Property(
+                        new seedu.address.model.property.Address("45 Orchard Rd"),
+                        new Price(1200000),
+                        new seedu.address.model.property.Name("City Loft")),
+                new Property(
+                        new seedu.address.model.property.Address("7 Bukit Timah"),
+                        new Price(2000000),
+                        new seedu.address.model.property.Name("Hilltop Mansion"))
+        );
+    }
+
 }

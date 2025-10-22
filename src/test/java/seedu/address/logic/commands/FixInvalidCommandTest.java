@@ -26,6 +26,7 @@ import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.property.Property;
 import seedu.address.storage.LoadReport;
 import seedu.address.storage.Storage;
 
@@ -40,6 +41,8 @@ public class FixInvalidCommandTest {
      * =========================== */
     private static class ModelStub implements Model {
         final List<Person> persons = new ArrayList<>();
+        final List<Property> properties = new ArrayList<>();
+
         private ReadOnlyAddressBook lastSetAddressBook;
         ReadOnlyAddressBook getLastSetAddressBook() {
             return lastSetAddressBook;
@@ -89,8 +92,16 @@ public class FixInvalidCommandTest {
         public void deletePerson(Person target) {}
 
         @Override
+        public void deleteProperty(Property target) {}
+
+        @Override
         public void addPerson(Person person) {
             persons.add(person);
+        }
+
+        @Override
+        public void addProperty(Property property) {
+            properties.add(property);
         }
 
         @Override
@@ -103,6 +114,15 @@ public class FixInvalidCommandTest {
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {}
+
+        @Override
+        public ObservableList<Property> getFilteredPropertyList() {
+            return null;
+        }
+
+        @Override
+        public void updateFilteredPropertyList(Predicate<Property> predicate) {}
+
     }
 
     /* ===========================
