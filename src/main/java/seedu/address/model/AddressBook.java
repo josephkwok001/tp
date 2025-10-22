@@ -10,6 +10,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.UniquePropertyList;
+import seedu.address.model.property.exceptions.DuplicatePropertyException;
+import seedu.address.model.property.exceptions.PropertyNotFoundException;
 
 /**
  * Wraps all data at the address-book level
@@ -99,6 +101,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+
+    //// property-level operations
+
     /**
      * Returns true if the address book contains an equivalent property as the given argument.
      *
@@ -124,11 +129,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Replaces the entire properties list with {@code properties}.
+     * Replaces the contents of the property list with {@code properties}.
      * {@code properties} must not contain duplicate properties.
-     * @param properties the list of properties to set
-     * @throws NullPointerException if {@code properties} is null
-     * @throws DuplicatePropertyException if {@code properties} contains duplicate properties
      */
     public void setProperties(List<Property> properties) {
         this.properties.setProperties(properties);

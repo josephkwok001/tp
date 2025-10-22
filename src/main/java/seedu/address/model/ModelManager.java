@@ -98,6 +98,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasProperty(Property property) {
+        requireNonNull(property);
+        return addressBook.hasProperty(property);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
     }
@@ -118,13 +124,16 @@ public class ModelManager implements Model {
         addressBook.addProperty(property);
     }
 
-
-
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setProperty(Property target, Property editedProperty) {
+
     }
 
     //=========== Filtered Person List Accessors =============================================================

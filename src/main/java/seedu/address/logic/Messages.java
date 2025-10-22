@@ -36,7 +36,7 @@ public class Messages {
     /**
      * Formats the {@code person} for display to the user.
      */
-    public static String format(Person person) {
+    public static String formatPerson(Person person) {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
                 .append("; Phone: ")
@@ -45,8 +45,6 @@ public class Messages {
                 .append(person.getEmail())
                 .append("; Address: ")
                 .append(person.getAddress())
-                .append("; Listing: ")
-                .append(person.getListing())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();
@@ -64,6 +62,4 @@ public class Messages {
                 .append(property.getPropertyName());
         return builder.toString();
     }
-
-
 }

@@ -72,14 +72,6 @@ public class EditPersonDescriptorBuilder {
     }
 
     /**
-     * Sets the {@code Listing} of the {@code EditPersonDescriptor} that we are building.
-     */
-    public EditPersonDescriptorBuilder withListing(String listing) {
-        // No listing field in EditPersonDescriptor, so this method is intentionally left blank.
-        return this; // to avoid compilation error
-    }
-
-    /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditPersonDescriptor}
      * that we are building.
      */

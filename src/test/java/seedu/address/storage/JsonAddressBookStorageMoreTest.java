@@ -20,7 +20,7 @@ public class JsonAddressBookStorageMoreTest {
         Path temp = Files.createTempFile("ab_ok", ".json");
         String json = "{ \"persons\":["
                 + "{ \"name\":\"Alice Bob\",\"phone\":\"91234567\",\"email\":\"alice@example.com\","
-                + "\"address\":\"1 Main\",\"listing\":\"HDB\",\"tags\":[\"t\"] }"
+                + "\"address\":\"1 Main\",\"tags\":[\"t\"] }"
                 + "] }";
         Files.write(temp, json.getBytes(StandardCharsets.UTF_8));
         JsonAddressBookStorage storage = new JsonAddressBookStorage(temp);
@@ -34,9 +34,9 @@ public class JsonAddressBookStorageMoreTest {
     void read_missingField_quarantinedButFileUntouched() throws Exception {
         Path temp = Files.createTempFile("ab_missing", ".json");
         String json = "{ \"persons\":["
-                + "{ \"phone\":\"999\",\"email\":\"a@b.com\",\"address\":\"x\",\"listing\":\"HDB\" },"
+                + "{ \"phone\":\"999\",\"email\":\"a@b.com\",\"address\":\"x\" },"
                 + "{ \"name\":\"Roy Balakrishnan\",\"phone\":\"92624417\",\"email\":\"royb@example.com\","
-                + "\"address\":\"Blk 45\",\"listing\":\"Landed Property\" }"
+                + "\"address\":\"Blk 45\" }"
                 + "] }";
         Files.write(temp, json.getBytes(StandardCharsets.UTF_8));
         JsonAddressBookStorage storage = new JsonAddressBookStorage(temp);

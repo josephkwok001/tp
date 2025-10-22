@@ -28,7 +28,6 @@ public class MainAppSummaryTest {
                 "xx",
                 "bad",
                 " ",
-                "",
                 Set.of("name", "phone")
         );
         return new LoadReport(modelData, List.of(inv));
@@ -38,13 +37,12 @@ public class MainAppSummaryTest {
         LoadReport.ModelData modelData = new LoadReport.ModelData(new seedu.address.model.AddressBook());
         LoadReport.InvalidPersonEntry inv = new LoadReport.InvalidPersonEntry(
                 0,
-                "Invalid field(s): name, phone, email, address, listing",
+                "Invalid field(s): name, phone, email, address",
                 "12345",
                 "abc",
                 "bad",
                 " ",
-                "",
-                Set.of("name", "phone", "email", "address", "listing")
+                Set.of("name", "phone", "email", "address")
         );
         return new LoadReport(modelData, List.of(inv));
     }
@@ -62,7 +60,6 @@ public class MainAppSummaryTest {
         assertTrue(summary.contains("phone:"));
         assertTrue(summary.contains("email:"));
         assertTrue(summary.contains("address:"));
-        assertTrue(summary.contains("listing:"));
     }
 
     @Test

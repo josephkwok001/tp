@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.AddressBook;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -21,20 +20,20 @@ import seedu.address.storage.LoadReport;
  */
 public class MainAppToValidOnlyTest {
 
-    private static Person p(String n, String ph, String em, String ad, String li) {
-        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), new Listing(li), Set.of());
+    private static Person createPerson(String n, String ph, String em, String ad) {
+        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), Set.of());
     }
 
     private static LoadReport reportWithPersonsAndInvalidIdx(int... invalidIdx) {
         AddressBook ab = new AddressBook();
-        ab.addPerson(p("A", "91234567", "a@a.com", "a", "HDB"));
-        ab.addPerson(p("B", "92345678", "b@b.com", "b", "Condo"));
-        ab.addPerson(p("C", "93456789", "c@c.com", "c", "Landed Property"));
+        ab.addPerson(createPerson("A", "91234567", "a@a.com", "a"));
+        ab.addPerson(createPerson("B", "92345678", "b@b.com", "b"));
+        ab.addPerson(createPerson("C", "93456789", "c@c.com", "c"));
         LoadReport.ModelData md = new LoadReport.ModelData(ab);
         java.util.List<LoadReport.InvalidPersonEntry> invs = new java.util.ArrayList<>();
         for (int idx : invalidIdx) {
             invs.add(new LoadReport.InvalidPersonEntry(
-                    idx, "invalid", "", "", "", "", "", java.util.Set.of("name")
+                    idx, "invalid", "", "", "", "", java.util.Set.of("name")
             ));
         }
         return new LoadReport(md, invs);
