@@ -6,7 +6,7 @@
 
 # EstateSearch
 
-EstateSearch is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, EstateSearch can get your contact management tasks done faster than traditional GUI apps.
+EstateSearch is a **desktop app for managing real estate client contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, EstateSearch can get your client management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -26,7 +26,7 @@ EstateSearch is a **desktop app for managing contacts, optimized for use via a  
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/main.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+1. Type a command in the command box and press **Enter** to execute it. e.g. typing **`help`** and pressing **Enter** will open the help window.<br>
    Some example commands you can try:
 
     * `list` : Lists all contacts.
@@ -80,7 +80,7 @@ Format: `help`
 
 Adds a person to EstateSearch.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS l/LISTING [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -88,8 +88,18 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS l/LISTING [t/TAG]…​`
 </box>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 l/Marina Condo`
-* `add n/Betsy Crowe t/client e/betsycrowe@example.com a/Newgate Prison p/1234567 l/ Choa Chu Kang Landed Property t/criminal`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* `add n/Betsy Crowe t/client e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+
+### Adding a property: `addp`
+
+Adds a property to EstateSearch.
+
+Format: `addp n/NAME a/ADDRESS pr/PRICE`
+
+Examples:
+* `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`
+* `addp n/Ocean View HDB a/456, Ocean Ave, 654321 pr/1000000`
 
 ### Listing all persons : `list`
 
@@ -101,7 +111,7 @@ Format: `list`
 
 Edits an existing person in EstateSearch.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
@@ -227,14 +237,15 @@ If there are any entries with invalid values, EstateSearch will ignore those ent
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 l/Tengah HDB t/client t/colleague`
+**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/client t/colleague`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`
 **List**   | `list`
 **Help**   | `help`
 **Export** | `export FILENAME`
-
+**Exit**   | `exit`
+**Add Property** | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`
 **Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
 
