@@ -76,6 +76,7 @@ public class LogicManager implements Logic {
         return name.equals("AddCommand")
                 || name.equals("EditCommand")
                 || name.equals("DeleteCommand")
+                || name.equals("DeletePropertyCommand")
                 || name.equals("ClearCommand")
                 || name.equals("FixInvalidCommand")
                 || name.equals("ImportCommand")
