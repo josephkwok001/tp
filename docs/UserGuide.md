@@ -1,32 +1,42 @@
 ---
-  layout: default.md
-    title: "User Guide"
-    pageNav: 3
+layout: default.md
+title: "User Guide"
+pageNav: 3
 ---
 
-# EstateSearch
+# Welcome to EstateSearch!
 
-EstateSearch is a **desktop app for managing real estate client contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, EstateSearch can get your client management tasks done faster than traditional GUI apps.
-
+We're excited to help you **streamline your real estate client management**! This user guide contains everything you need to know to get started with **EstateSearch**, from adding your first client and property to mastering all of its powerful features. Let's dive in!
 <!-- * Table of Contents -->
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Quick start
+## Getting Started
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W12-4/tp/releases/tag/v1.3).
+<box type="tip" seamless>
 
-1. Copy the file to the folder you want to use as the _home folder_ for your EstateSearch application.
+**Tip**: 
+Finding Your Command-Line Application:
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar estatesearch.jar` command to run the application.<br>
+* On Windows: Open the **Start Menu** and search for **Command Prompt** or **PowerShell**.
+
+* On macOS: Open Spotlight (Cmd + Space) and search for **Terminal**.
+
+</box>
+
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W12-4/tp/releases/tag/v1.3).
+
+3. Copy the file to the folder you want to use as the _home folder_ for your EstateSearch application.
+
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar estatesearch.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/main.png)
 
-1. Type a command in the command box and press **Enter** to execute it. e.g. typing **`help`** and pressing **Enter** will open the help window.<br>
+5. Type a command in the command box and press the **Enter** key to execute it. e.g. typing **`help`** and pressing the **Enter** key will open the help window.<br>
    Some example commands you can try:
 
     * `list` : Lists all contacts.
@@ -39,7 +49,7 @@ EstateSearch is a **desktop app for managing real estate client contacts, optimi
 
     * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -220,7 +230,7 @@ EstateSearch data are saved in the hard disk automatically after any command tha
 
 ### Editing the data file
 
-EstateSearch data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+EstateSearch data are saved automatically as a JSON file located at`[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
 
@@ -228,6 +238,7 @@ EstateSearch data are saved automatically as a JSON file `[JAR file location]/da
 If your changes to the data file makes its format invalid, EstateSearch will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause EstateSearch to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 If there are any entries with invalid values, EstateSearch will ignore those entries when loading the data file, and a popup will inform you about the number of ignored entries and the reasons for their invalidity.
+
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -237,6 +248,11 @@ If there are any entries with invalid values, EstateSearch will ignore those ent
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous EstateSearch home folder.
 
+**Q**: Can i search for partial names like 'John' for 'Johnathan'
+**A**: EstateSearch does support partial name matching but only for full words within the name. For example, searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.
+
+**Q**: Does each person have a fixed index?
+**A**: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the `find` command or when persons are added or deleted.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
