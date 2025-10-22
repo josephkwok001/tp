@@ -134,7 +134,7 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-### Setting an owned property for a person : 'setop'
+### Setting an owned Property for a Person : `setop`
 
 Associates an existing property with the specified person as one of their owned properties.
 
@@ -146,10 +146,25 @@ Format: 'setop i/INDEX_OF_PERSON n/PROPERTY_NAME'
 * Repeating the command with the same property for the same person has no effect (duplicates are ignored).
 
 Examples:
-* 'setop i/1 n/Marina Bay Apt 12F' — adds Marina Bay Apt 12F to the 1st person’s owned properties.
-* list followed by 'setop i/3 n/Choa Chu Kang Landed Property' — associates Choa Chu Kang Landed Property with the 3rd person in the list.
+* 'setop i/1 n/Marina Bay Apt 12F' — adds **Marina Bay Apt 12F** to the 1st person’s owned properties.
+* list followed by 'setop i/3 n/Choa Chu Kang Landed Property' — adds **Choa Chu Kang Landed Property** to the 1st person’s owned properties.
 
-### Locating persons by name: `find`
+### Setting an interested property for a Person : `setip`
+
+Associates an existing property with the specified person as one of their interested properties.
+
+Format: 'setip i/INDEX_OF_PERSON n/PROPERTY_NAME'
+
+* Sets the interested property for the person at the specified 'INDEX'. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​ 
+* 'PROPERTY_NAME' must match the name of a property that already exists in the app.
+* If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F).
+* Repeating the command with the same property for the same person has no effect (duplicates are ignored).
+
+Examples:
+* 'setip i/2 n/Sunshine Condo' — adds **Sunshine Condo** to the 2nd person’s interested properties.
+* list followed by 'setip i/4 n/Ocean View HDB' — adds **Marina Bay Apt 12F** to the 1st person’s owned properties.
+
+### Locating Persons by name: `find`
 
 Finds contacts by either name or tag criteria.
 
@@ -204,9 +219,16 @@ Clears all entries from EstateSearch.
 
 Format: `clear`
 
+<box type="warning" seamless>
+
+**Caution:**
+Clearing the data will delete all person and property entries permanently. There is no undo for this operation.<br>
+Please execute this command only if you are sure you want to delete all data.
+</box>
+
 ### Exporting data : `export`
 
-Exports the current filtered contacts to a CSV file.
+Exports the current filtered contacts to a CSV file
 
 Format: `export FILENAME`
 
@@ -215,8 +237,14 @@ Format: `export FILENAME`
 * The FILENAME must not be empty and cannot contain only whitespace.
 
 Examples:
-* `export clients` creates a file named `clients.csv` containing all filtered contacts
+* `export clients` creates a file named `clients.csv`
 * `export my_contacts` creates a file named `my_contacts.csv`
+
+<box type="tip" seamless>
+
+The generated CSV file can be found at `[JAR file location]/data/[EXPORT_FILENAME].csv`.<br>
+
+</box>
 
 ### Exiting the program : `exit`
 
@@ -246,12 +274,10 @@ If there are any entries with invalid values, EstateSearch will ignore those ent
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous EstateSearch home folder.
-
-**Q**: Can i search for partial names like 'John' for 'Johnathan'
-**A**: EstateSearch does support partial name matching but only for full words within the name. For example, searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.
-
-**Q**: Does each person have a fixed index?
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous EstateSearch home folder.<br>
+**Q**: Can i search for partial names like 'John' for 'Johnathan'<br>
+**A**: EstateSearch does support partial name matching but only for full words within the name. For example, searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.<br>
+**Q**: Does each person have a fixed index?<br>
 **A**: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the `find` command or when persons are added or deleted.
 --------------------------------------------------------------------------------------------------------------------
 
@@ -278,4 +304,5 @@ Action     | Format, Examples
 **Add Property** | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`
 **Delete Property** | `deletep INDEX`<br> e.g., `deletep 3`
 **Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
+**Set Interested Property** | `setip i/INDEX n/PROPERTY_NAME`<br> e.g., `setip i/2 n/Sunshine Condo`
 
