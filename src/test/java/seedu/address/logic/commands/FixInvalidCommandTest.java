@@ -40,6 +40,8 @@ public class FixInvalidCommandTest {
      * =========================== */
     private static class ModelStub implements Model {
         final List<Person> persons = new ArrayList<>();
+        final List<Property> properties = new ArrayList<>();
+
         private ReadOnlyAddressBook lastSetAddressBook;
         ReadOnlyAddressBook getLastSetAddressBook() {
             return lastSetAddressBook;
@@ -119,6 +121,15 @@ public class FixInvalidCommandTest {
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) {}
+
+        @Override
+        public ObservableList<Property> getFilteredPropertyList() {
+            return null;
+        }
+
+        @Override
+        public void updateFilteredPropertyList(Predicate<Property> predicate) {}
+
     }
 
     /* ===========================

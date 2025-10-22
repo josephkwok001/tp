@@ -23,6 +23,8 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Property> filteredProperties;
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -35,6 +37,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredProperties = new FilteredList<>(this.addressBook.getPropertyList());
     }
 
     public ModelManager() {
@@ -106,8 +109,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void deleteProperty(Property target) {
-        addressBook.removeProperty(target);
+    public void deleteProperty(Property property) {
+        addressBook.removeProperty(property);
     }
 
     @Override
@@ -149,6 +152,18 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
     }
+
+    @Override
+    public ObservableList<Property> getFilteredPropertyList() {
+        return filteredProperties;
+    }
+
+    @Override
+    public void updateFilteredPropertyList(Predicate<Property> predicate) {
+        requireNonNull(predicate);
+        filteredProperties.setPredicate(predicate);
+    }
+
 
     @Override
     public boolean equals(Object other) {
