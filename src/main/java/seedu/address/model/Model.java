@@ -71,7 +71,6 @@ public interface Model {
      */
     void deletePerson(Person target);
 
-    void deleteProperty(Property property);
     /**
      * Deletes the given property.
      * The property must exist in the address book.
@@ -84,7 +83,6 @@ public interface Model {
      */
     void addPerson(Person person);
 
-    void addProperty(Property property);
     /**
      * Adds the given property.
      * {@code property} must not already exist in the address book.
