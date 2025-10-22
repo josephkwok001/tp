@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ import seedu.address.storage.Storage;
 public class MainAppInitModelManagerTest {
 
     private static Person p(String n, String ph, String em, String ad) {
-        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), Set.of());
+        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), Set.of(), List.of());
     }
 
     private static class StorageWithReport implements Storage {

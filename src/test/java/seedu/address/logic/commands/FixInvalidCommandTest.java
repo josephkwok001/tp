@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -302,7 +302,8 @@ public class FixInvalidCommandTest {
                 new Phone("91234567"),
                 new Email("a@b.com"),
                 new Address("Blk 1"),
-                new HashSet<>()
+                Set.of(),
+                Set.of()
         );
     }
 
@@ -360,14 +361,16 @@ public class FixInvalidCommandTest {
                 new Phone("91234567"),
                 new Email("a@b.com"),
                 new Address("Blk 1"),
-                new java.util.HashSet<>());
+                Set.of(),
+                Set.of());
 
         Person bob = new Person(
                 new Name("Bob"),
                 new Phone("98765432"),
                 new Email("b@c.com"),
                 new Address("Blk 2"),
-                new java.util.HashSet<>());
+                Set.of(),
+                Set.of());
 
         FixInvalidCommand c1 = new FixInvalidCommand(0, alice, s);
         FixInvalidCommand c2 = new FixInvalidCommand(0, alice, s);

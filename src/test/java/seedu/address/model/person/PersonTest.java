@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.Set;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,19 +14,20 @@ import seedu.address.model.tag.Tag;
 public class PersonTest {
 
     private static Person person(String n, String p, String e, String a, Set<Tag> tags) {
-        return new Person(new Name(n), new Phone(p), new Email(e), new Address(a), tags);
+        return new Person(new Name(n), new Phone(p), new Email(e), new Address(a), tags, List.of());
     }
 
     @Test
     public void constructor_nullName_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
                 new Person(null, new Phone("91234567"), new Email("a@b.com"),
-                        new Address("addr"), Set.of()));
+                        new Address("addr"), Set.of(), List.of()));
     }
 
     @Test
     public void getters_roundTrip() {
-        Person p = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", Set.of(new Tag("x")));
+        Person p = person("Alice Bob", "91234567", "alice@example.com", "1 Main St",
+                Set.of(new Tag("x")));
         assertEquals("Alice Bob", p.getName().fullName);
         assertEquals("91234567", p.getPhone().value);
         assertEquals("alice@example.com", p.getEmail().value);

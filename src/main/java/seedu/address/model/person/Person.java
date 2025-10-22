@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -22,17 +23,18 @@ public class Person {
     private final Name name;
     private final Phone phone;
     private final Email email;
-    private List<Property> ownedProperties;
-    private List<Property> interestedProperties;
 
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private List<Property> ownedProperties;
+    private List<Property> interestedProperties = new ArrayList<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                  List<Property> interestedProperties) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -63,6 +65,14 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Returns an immutable interested properties set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<Property> getInterestedProperties() {
+        return Collections.unmodifiableList(interestedProperties);
     }
 
     /**
@@ -104,7 +114,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, tags, interestedProperties);
     }
 
     @Override
@@ -115,6 +125,7 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("interested", interestedProperties)
                 .toString();
     }
 
