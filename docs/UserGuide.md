@@ -33,10 +33,10 @@ Finding Your Command-Line Application:
 3. Copy the file to the folder you want to use as the _home folder_ for your EstateSearch application.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar estatesearch.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/main.png)
+   A GUI similar to the below should appear in a few seconds.<br>
+   ![Ui](images/main.png) 
 
-5. Type a command in the command box and press the **Enter** key to execute it. e.g. typing **`help`** and pressing the **Enter** key will open the help window.<br>
+5. Type a command in the command box and press the <kbd>ENTER</kbd> key to execute it. e.g. typing **`help`** and pressing the <kbd>ENTER</kbd> key will open the help window.<br>
    Some example commands you can try:
 
     * `list` : Lists all contacts.
@@ -50,6 +50,32 @@ Finding Your Command-Line Application:
     * `exit` : Exits the app.
 
 6. Refer to the [Features](#features) below for details of each command.
+
+<box type="info" seamless>
+The application contains sample contacts. To remove them, type <code>clear</code> and press <kbd>ENTER</kbd>.
+</box>
+
+--------------------------------------------------------------------------------------------------------------------
+
+## EstateSearch Command Summary
+
+Action     | Format, Examples
+-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/client t/colleague`
+**Clear**  | `clear`
+**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Find**   | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`
+**List**   | `list`
+**Help**   | `help`
+**Export** | `export FILENAME`
+**Exit**   | `exit`
+**Add Property** | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`
+**Delete Property** | `deletep INDEX`<br> e.g., `deletep 3`
+**Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
+**Set Interested Property** | `setip i/INDEX n/PROPERTY_NAME`<br> e.g., `setip i/2 n/Sunshine Condo`
+
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -85,6 +111,11 @@ Shows a brief overview of the commands that are available as well as a link to t
 
 Format: `help`
 
+<box type="info" seamless>
+
+**Note:** The help menu will be opened in a separate window. You can close the help window without exiting the application.
+
+</box>
 
 ### Adding a person: `add`
 
@@ -274,9 +305,11 @@ If there are any entries with invalid values, EstateSearch will ignore those ent
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous EstateSearch home folder.<br>
-**Q**: Can i search for partial names like 'John' for 'Johnathan'<br>
-**A**: EstateSearch does support partial name matching but only for full words within the name. For example, searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.<br>
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous EstateSearch home folder.
+
+**Q**: Can I search for partial names like 'John' for 'Johnathan'<br>
+**A**: EstateSearch does support partial name matching but only for full words within the name. For example, searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.
+
 **Q**: Does each person have a fixed index?<br>
 **A**: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the `find` command or when persons are added or deleted.
 --------------------------------------------------------------------------------------------------------------------
@@ -285,24 +318,3 @@ If there are any entries with invalid values, EstateSearch will ignore those ent
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
---------------------------------------------------------------------------------------------------------------------
-
-## Command summary
-
-Action     | Format, Examples
------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/client t/colleague`
-**Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find**   | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`
-**List**   | `list`
-**Help**   | `help`
-**Export** | `export FILENAME`
-**Exit**   | `exit`
-**Add Property** | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`
-**Delete Property** | `deletep INDEX`<br> e.g., `deletep 3`
-**Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
-**Set Interested Property** | `setip i/INDEX n/PROPERTY_NAME`<br> e.g., `setip i/2 n/Sunshine Condo`
-
