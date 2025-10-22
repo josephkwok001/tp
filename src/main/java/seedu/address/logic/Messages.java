@@ -58,9 +58,9 @@ public class Messages {
     public static String formatProperty(Property property) {
         final StringBuilder builder = new StringBuilder();
         builder.append(property.getAddress())
-                .append("; Phone: ")
+                .append("; Price: ")
                 .append(property.getPrice())
-                .append("; Email: ")
+                .append("; Property Name: ")
                 .append(property.getPropertyName());
         return builder.toString();
     }
