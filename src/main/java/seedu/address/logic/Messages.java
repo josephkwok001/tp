@@ -44,8 +44,6 @@ public class Messages {
                 .append(person.getEmail())
                 .append("; Address: ")
                 .append(person.getAddress())
-                .append("; Listing: ")
-                .append(person.getListing())
                 .append("; Tags: ");
         person.getTags().forEach(builder::append);
         return builder.toString();
@@ -56,12 +54,12 @@ public class Messages {
      */
     public static String formatProperty(Property property) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(property.getPropertyName())
-                .append("; Address: ")
-                .append(property.getAddress())
+
+        builder.append(property.getAddress())
                 .append("; Price: ")
-                .append(property.getPrice());
+                .append(property.getPrice())
+                .append("; Name: ")
+                .append(property.getPropertyName());
         return builder.toString();
     }
-
 }

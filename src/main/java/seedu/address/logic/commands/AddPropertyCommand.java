@@ -20,13 +20,14 @@ public class AddPropertyCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a property to the address book. "
             + "Parameters: "
-            + PREFIX_NAME + "NAME "
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_PRICE + "PRICE "
+            + PREFIX_NAME + "NAME "
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "Hillside Villa "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_PRICE + "1000000";
+            + PREFIX_PRICE + "1000000 "
+            + PREFIX_NAME + "Hillside Villa";
+
 
     public static final String MESSAGE_SUCCESS = "New property added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This property already exists in the address book";
