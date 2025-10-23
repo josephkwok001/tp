@@ -31,9 +31,9 @@ public class Person {
 
     // Data fields
     private final Address address;
+    private final Set<Tag> tags;
     private final UniquePropertyList ownedProperties;
-    private final Set<Tag> tags = new HashSet<>();
-    private final List<Property> interestedProperties = new ArrayList<>();
+    private final UniquePropertyList interestedProperties;
 
     /**
      * Constructs a {@code Person} with all fields and initial lists.
@@ -57,26 +57,21 @@ public class Person {
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.tags.addAll(tags);
+        this.tags = Set.copyOf(tags);
 
         this.ownedProperties = new UniquePropertyList();
+        this.interestedProperties = new UniquePropertyList();
+
         if (ownedProps != null && !ownedProps.isEmpty()) {
             this.ownedProperties.setProperties(ownedProps);
         }
         if (interestedProps != null && !interestedProps.isEmpty()) {
-            this.interestedProperties.addAll(interestedProps);
+            this.interestedProperties.setProperties(interestedProps);
         }
     }
 
     /**
      * Constructs a {@code Person} with owned properties and empty interested properties.
-     *
-     * @param name       the person's name
-     * @param phone      the person's phone
-     * @param email      the person's email
-     * @param address    the person's address
-     * @param tags       the set of tags
-     * @param ownedProps initial owned properties
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
                   List<Property> ownedProps) {
@@ -85,12 +80,6 @@ public class Person {
 
     /**
      * Constructs a {@code Person} with empty owned and interested properties.
-     *
-     * @param name    the person's name
-     * @param phone   the person's phone
-     * @param email   the person's email
-     * @param address the person's address
-     * @param tags    the set of tags
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         this(name, phone, email, address, tags, List.of(), List.of());
@@ -148,15 +137,6 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
-    }
-
-    /**
-     * Returns an unmodifiable view of the person's interested properties.
-     *
-     * @return an unmodifiable {@link List} of {@link Property}
-     */
-    public List<Property> getInterestedProperties() {
-        return Collections.unmodifiableList(interestedProperties);
     }
 
     /**
@@ -237,4 +217,23 @@ public class Person {
                 && Email.isValidEmail(email.value)
                 && Address.isValidAddress(address.value);
     }
+
+    // All Interested Property Functions
+
+    /**
+     * Returns an unmodifiable view of the person's interested properties.
+     */
+    public ObservableList<Property> getInterestedProperties() {
+        return interestedProperties.asUnmodifiableObservableList();
+    }
+
+    /**
+     * Adds a property to the person's interested properties list.
+     */
+    public void setInterestedProperties(Property interestedProperty) {
+        interestedProperties.add(interestedProperty);
+    }
+
+
+
 }

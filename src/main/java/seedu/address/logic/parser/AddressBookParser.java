@@ -119,6 +119,9 @@ public class AddressBookParser {
         case AddPropertyCommand.COMMAND_WORD:
             return new AddPropertyCommandParser().parse(arguments);
 
+        case InterestedPropertyCommand.COMMAND_WORD:
+            return new InterestedPropertyCommandParser().parse(arguments);
+
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
