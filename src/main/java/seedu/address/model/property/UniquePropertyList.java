@@ -116,7 +116,6 @@ public class UniquePropertyList implements Iterable<Property> {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof UniquePropertyList)) {
             return false;
         }

@@ -10,19 +10,11 @@ import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * UI component that displays a {@link Person} in the person list.
  */
 public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
-
-    /**
-     * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
-     * As a consequence, UI elements' variable names cannot be set to such keywords
-     * or an exception will be thrown by JavaFX during runtime.
-     *
-     * @see <a href="https://github.com/se-edu/addressbook-level4/issues/336">The issue on AddressBook level 4</a>
-     */
 
     public final Person person;
 
@@ -40,9 +32,16 @@ public class PersonCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private FlowPane ownedProperties;
+    @FXML
+    private FlowPane interestedProperties;
 
     /**
-     * Creates a {@code PersonCode} with the given {@code Person} and index to display.
+     * Creates a {@code PersonCard} to render the given {@code Person} at the specified index.
+     *
+     * @param person the person to display
+     * @param displayedIndex 1-based index shown on the card
      */
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
@@ -55,5 +54,15 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        person.getOwnedProperties().forEach(p -> {
+            Label chip = new Label(p.getPropertyName().toString());
+            chip.getStyleClass().add("owned-property");
+            ownedProperties.getChildren().add(chip);
+        });
+        person.getInterestedProperties().forEach(p -> {
+            Label chip = new Label(p.getPropertyName().toString());
+            chip.getStyleClass().add("interested-property");
+            interestedProperties.getChildren().add(chip);
+        });
     }
 }

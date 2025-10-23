@@ -41,6 +41,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
         resetData(toBeCopied);
+        properties.setProperties(toBeCopied.getPropertyList());
 
     }
 

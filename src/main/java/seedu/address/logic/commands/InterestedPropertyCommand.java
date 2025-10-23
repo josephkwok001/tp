@@ -73,6 +73,7 @@ public class InterestedPropertyCommand extends Command {
         }
 
         targetPerson.setInterestedProperties(toAdd);
+        model.setPerson(targetPerson, targetPerson);
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 Messages.formatProperty(toAdd), Messages.formatPerson(targetPerson)));
     }
