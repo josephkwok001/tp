@@ -30,8 +30,6 @@ public class Person {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
-    private List<Property> ownedProperties;
-    private List<Property> interestedProperties = new ArrayList<>();
 
     /**
      * Every field must be present and not null.
@@ -44,7 +42,6 @@ public class Person {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
-        interestedProperties = new UniquePropertyList();
     }
 
     public Name getName() {
@@ -69,14 +66,6 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
-    }
-
-    /**
-     * Returns an immutable interested properties set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public List<Property> getInterestedProperties() {
-        return Collections.unmodifiableList(interestedProperties);
     }
 
     /**
