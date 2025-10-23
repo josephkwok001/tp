@@ -2,7 +2,6 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.UniquePropertyList;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -28,7 +28,20 @@ public class Person {
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
     private List<Property> ownedProperties;
-    private List<Property> interestedProperties = new ArrayList<>();
+    private UniquePropertyList interestedProperties;
+
+    /**
+     * Every field must be present and not null.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        interestedProperties = new UniquePropertyList();
+    }
 
     /**
      * Every field must be present and not null.
@@ -41,6 +54,8 @@ public class Person {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.interestedProperties = new UniquePropertyList();
+        this.interestedProperties.setProperties(interestedProperties);
     }
 
     public Name getName() {
@@ -65,14 +80,6 @@ public class Person {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
-    }
-
-    /**
-     * Returns an immutable interested properties set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public List<Property> getInterestedProperties() {
-        return Collections.unmodifiableList(interestedProperties);
     }
 
     /**
@@ -138,4 +145,23 @@ public class Person {
                 && Email.isValidEmail(email.value)
                 && Address.isValidAddress(address.value);
     }
+
+    // All Interested Property Functions
+
+    /**
+     * Returns the interested properties of the person.
+     */
+    public List<Property> getInterestedProperties() {
+        return interestedProperties.asUnmodifiableObservableList();
+    }
+
+    /**
+     * Adds a property to the person's interested properties list.
+     */
+    public void setInterestedProperties(Property interestedProperty) {
+        interestedProperties.add(interestedProperty);
+    }
+
+
+
 }

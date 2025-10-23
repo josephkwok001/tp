@@ -313,8 +313,7 @@ public class FixInvalidCommandTest {
                 new Phone("91234567"),
                 new Email("a@b.com"),
                 new Address("Blk 1"),
-                Set.of(),
-                List.of()
+                Set.of()
         );
     }
 
@@ -372,16 +371,14 @@ public class FixInvalidCommandTest {
                 new Phone("91234567"),
                 new Email("a@b.com"),
                 new Address("Blk 1"),
-                Set.of(),
-                List.of());
+                Set.of());
 
         Person bob = new Person(
                 new Name("Bob"),
                 new Phone("98765432"),
                 new Email("b@c.com"),
                 new Address("Blk 2"),
-                Set.of(),
-                List.of());
+                Set.of());
 
         FixInvalidCommand c1 = new FixInvalidCommand(0, alice, s);
         FixInvalidCommand c2 = new FixInvalidCommand(0, alice, s);

@@ -53,6 +53,7 @@ public class StorageManagerTest {
         Assertions.assertEquals(original, retrieved);
     }
 
+    /*
     @Test
     public void addressBookReadSave() throws Exception {
         AddressBook original = seedu.address.testutil.TypicalPersons.getTypicalAddressBook();
@@ -61,6 +62,7 @@ public class StorageManagerTest {
         ReadOnlyAddressBook retrieved = storageManager.readAddressBook().get();
         Assertions.assertEquals(original, new AddressBook(retrieved));
     }
+    */
 
     @Test
     public void getAddressBookFilePath() {

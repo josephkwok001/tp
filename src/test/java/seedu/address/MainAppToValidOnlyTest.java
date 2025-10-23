@@ -3,7 +3,6 @@ package seedu.address;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -22,8 +21,7 @@ import seedu.address.storage.LoadReport;
 public class MainAppToValidOnlyTest {
 
     private static Person createPerson(String n, String ph, String em, String ad) {
-        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad),
-                Set.of(), List.of());
+        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), Set.of());
     }
 
     private static LoadReport reportWithPersonsAndInvalidIdx(int... invalidIdx) {
