@@ -21,12 +21,12 @@ public class LoadReportFromAddressBookTest {
 
     private static Person valid(String n, String p, String e, String a) {
         return new Person(new Name(n), new Phone(p),
-                new Email(e), new Address(a), Set.of(new Tag("x")), Set.of());
+                new Email(e), new Address(a), Set.of(new Tag("x")));
     }
 
     private static class FakeInvalidPerson extends Person {
         FakeInvalidPerson(String n, String p, String e, String a) {
-            super(new Name(n), new Phone(p), new Email(e), new Address(a), Set.of(), Set.of());
+            super(new Name(n), new Phone(p), new Email(e), new Address(a), Set.of());
         }
         @Override
         public boolean isFullyValid() {

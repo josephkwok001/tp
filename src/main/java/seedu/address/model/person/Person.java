@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import com.sun.javafx.UnmodifiableArrayList;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.UniquePropertyList;
@@ -24,12 +25,25 @@ public class Person {
     private final Name name;
     private final Phone phone;
     private final Email email;
-    private List<Property> ownedProperties;
-    private UniquePropertyList interestedProperties;
 
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private List<Property> ownedProperties;
+    private UniquePropertyList interestedProperties;
+
+    /**
+     * Every field must be present and not null.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.tags.addAll(tags);
+        interestedProperties = new UniquePropertyList();
+    }
 
     /**
      * Every field must be present and not null.
@@ -42,6 +56,8 @@ public class Person {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.interestedProperties = new UniquePropertyList();
+        this.interestedProperties.setProperties(interestedProperties);
     }
 
     public Name getName() {
@@ -137,8 +153,8 @@ public class Person {
     /**
      * Returns the interested properties of the person.
      */
-    public UniquePropertyList getInterestedProperties() {
-        return interestedProperties;
+    public List<Property> getInterestedProperties() {
+        return interestedProperties.asUnmodifiableObservableList();
     }
 
     /**

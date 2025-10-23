@@ -6,8 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 
 /**
  * A utility class for test cases.
@@ -51,5 +53,19 @@ public class TestUtil {
      */
     public static Person getPerson(Model model, Index index) {
         return model.getFilteredPersonList().get(index.getZeroBased());
+    }
+
+    /**
+     * Returns an {@code AddressBook} with all the typical persons and properties.
+     */
+    public static AddressBook getTypicalCombinedAddressBook() {
+        AddressBook ab = new AddressBook();
+        for (Person person : TypicalPersons.getTypicalPersons()) {
+            ab.addPerson(person);
+        }
+        for (Property property : TypicalProperties.getTypicalProperties()) {
+            ab.addProperty(property);
+        }
+        return ab;
     }
 }

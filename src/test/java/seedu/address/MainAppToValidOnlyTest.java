@@ -21,8 +21,7 @@ import seedu.address.storage.LoadReport;
 public class MainAppToValidOnlyTest {
 
     private static Person createPerson(String n, String ph, String em, String ad) {
-        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad),
-                Set.of(), Set.of());
+        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), Set.of());
     }
 
     private static LoadReport reportWithPersonsAndInvalidIdx(int... invalidIdx) {
