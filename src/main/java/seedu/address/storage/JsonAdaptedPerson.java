@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -266,5 +267,31 @@ class JsonAdaptedPerson {
             invalids.add("address");
         }
         return invalids;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof JsonAdaptedPerson)) {
+            return false;
+        }
+        JsonAdaptedPerson that = (JsonAdaptedPerson) o;
+        return Objects.equals(name, that.name)
+                && Objects.equals(phone, that.phone)
+                && Objects.equals(email, that.email)
+                && Objects.equals(address, that.address)
+                && Objects.equals(tags, that.tags)
+                && Objects.equals(ownedProperties, that.ownedProperties)
+                && Objects.equals(interestedProperties, that.interestedProperties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                name, phone, email, address,
+                tags, ownedProperties, interestedProperties
+        );
     }
 }
