@@ -80,7 +80,8 @@ public class SetOwnedPropertyCommand extends Command {
                 target.getEmail(),
                 target.getAddress(),
                 target.getTags(),
-                newOwned
+                newOwned,
+                target.getInterestedProperties()
         );
 
         model.setPerson(target, edited);

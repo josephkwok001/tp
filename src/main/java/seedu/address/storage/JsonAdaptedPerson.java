@@ -243,6 +243,14 @@ class JsonAdaptedPerson {
     }
 
     /**
+     * Returns an unmodifiable view of interested property names.
+     */
+    public List<String> getInterestedProperties() {
+        return java.util.Collections.unmodifiableList(interestedProperties);
+    }
+
+
+    /**
      * Returns the set of field keys that are invalid, based on the same validation
      * rules used by toModelType(). Keys are one or more of:
      *   "name", "phone", "email", "address"

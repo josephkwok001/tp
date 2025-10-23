@@ -47,12 +47,45 @@ public class JsonAdaptedPersonTest {
             .collect(Collectors.toList());
 
     /**
-     * Ensures a valid person is reconstructed faithfully.
+     * Ensures a valid person is reconstructed faithfully:
+     * core fields equal to BENSON; property name resolution succeeds.
      */
     @Test
     public void toModelType_validPersonDetails_returnsPerson() throws Exception {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(BENSON);
-        assertEquals(BENSON, person.toModelType());
+        JsonAdaptedPerson adapted = new JsonAdaptedPerson(BENSON);
+
+        AddressBook ab = new AddressBook();
+        for (String n : adapted.getOwnedProperties()) {
+            ab.addProperty(new Property(
+                    new seedu.address.model.property.Address("tmp-owned"),
+                    new Price(1),
+                    new PropertyName(n)));
+        }
+        for (String n : adapted.getInterestedProperties()) {
+            if (ab.getPropertyList().stream().noneMatch(p -> p.getPropertyName().toString().equals(n))) {
+                ab.addProperty(new Property(
+                        new seedu.address.model.property.Address("tmp-interested"),
+                        new Price(1),
+                        new PropertyName(n)));
+            }
+        }
+
+        Person model = adapted.toModelType(ab);
+
+        assertEquals(BENSON.getName(), model.getName());
+        assertEquals(BENSON.getPhone(), model.getPhone());
+        assertEquals(BENSON.getEmail(), model.getEmail());
+        assertEquals(BENSON.getAddress(), model.getAddress());
+
+        java.util.Set<String> ownedNames =
+                model.getOwnedProperties().stream().map(p -> p.getPropertyName().toString())
+                        .collect(java.util.stream.Collectors.toSet());
+        java.util.Set<String> interestedNames =
+                model.getInterestedProperties().stream().map(p -> p.getPropertyName().toString())
+                        .collect(java.util.stream.Collectors.toSet());
+
+        assertEquals(new java.util.HashSet<>(adapted.getOwnedProperties()), ownedNames);
+        assertEquals(new java.util.HashSet<>(adapted.getInterestedProperties()), interestedNames);
     }
 
     /**
@@ -95,7 +128,7 @@ public class JsonAdaptedPersonTest {
     }
 
     /**
-     * Ensures equality and hashCode produce consistent results for equivalent data.
+     * Ensures equality and hashCode behave consistently when resolving against the same AddressBook.
      */
     @Test
     public void equals_andHashCode_behaveCorrectly() throws Exception {
@@ -103,11 +136,25 @@ public class JsonAdaptedPersonTest {
         JsonAdaptedPerson b = new JsonAdaptedPerson(BENSON);
 
         assertTrue(a.equals(a));
-
         assertEquals(a.toRawJsonString(), b.toRawJsonString());
 
-        assertEquals(a.toModelType(), b.toModelType());
+        AddressBook ab = new AddressBook();
+        for (String n : a.getOwnedProperties()) {
+            ab.addProperty(new Property(
+                    new seedu.address.model.property.Address("tmp-owned"),
+                    new Price(1),
+                    new PropertyName(n)));
+        }
+        for (String n : a.getInterestedProperties()) {
+            if (ab.getPropertyList().stream().noneMatch(p -> p.getPropertyName().toString().equals(n))) {
+                ab.addProperty(new Property(
+                        new seedu.address.model.property.Address("tmp-interested"),
+                        new Price(1),
+                        new PropertyName(n)));
+            }
+        }
 
+        assertEquals(a.toModelType(ab), b.toModelType(ab));
         assertEquals(a.toRawJsonString().hashCode(), b.toRawJsonString().hashCode());
     }
 
