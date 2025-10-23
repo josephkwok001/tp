@@ -10,6 +10,7 @@ import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.UniquePropertyList;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -23,7 +24,7 @@ public class Person {
     private final Phone phone;
     private final Email email;
     private List<Property> ownedProperties;
-    private List<Property> interestedProperties;
+    private UniquePropertyList interestedProperties;
 
     // Data fields
     private final Address address;
@@ -39,6 +40,7 @@ public class Person {
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        interestedProperties = new UniquePropertyList();
     }
 
     public Name getName() {
@@ -127,4 +129,23 @@ public class Person {
                 && Email.isValidEmail(email.value)
                 && Address.isValidAddress(address.value);
     }
+
+    // All Interested Property Functions
+
+    /**
+     * Returns the interested properties of the person.
+     */
+    public UniquePropertyList getInterestedProperties() {
+        return interestedProperties;
+    }
+
+    /**
+     * Adds a property to the person's interested properties list.
+     */
+    public void setInterestedProperties(Property interestedProperty) {
+        interestedProperties.add(interestedProperty);
+    }
+
+
+
 }
