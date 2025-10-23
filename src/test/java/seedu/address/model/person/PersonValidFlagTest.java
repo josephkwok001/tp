@@ -2,6 +2,9 @@ package seedu.address.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Set;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.tag.Tag;
@@ -13,7 +16,7 @@ public class PersonValidFlagTest {
 
     private static Person mk(String n, String p, String e, String a, String l) {
         return new Person(new Name(n), new Phone(p), new Email(e), new Address(a),
-                java.util.Set.of(new Tag("t")));
+                Set.of(new Tag("t")), List.of());
     }
 
     @Test
