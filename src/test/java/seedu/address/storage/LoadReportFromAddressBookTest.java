@@ -2,6 +2,7 @@ package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -21,12 +22,12 @@ public class LoadReportFromAddressBookTest {
 
     private static Person valid(String n, String p, String e, String a) {
         return new Person(new Name(n), new Phone(p),
-                new Email(e), new Address(a), Set.of(new Tag("x")), Set.of());
+                new Email(e), new Address(a), Set.of(new Tag("x")), List.of());
     }
 
     private static class FakeInvalidPerson extends Person {
         FakeInvalidPerson(String n, String p, String e, String a) {
-            super(new Name(n), new Phone(p), new Email(e), new Address(a), Set.of(), Set.of());
+            super(new Name(n), new Phone(p), new Email(e), new Address(a), Set.of(), List.of());
         }
         @Override
         public boolean isFullyValid() {

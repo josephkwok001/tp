@@ -314,7 +314,7 @@ public class FixInvalidCommandTest {
                 new Email("a@b.com"),
                 new Address("Blk 1"),
                 Set.of(),
-                Set.of()
+                List.of()
         );
     }
 
@@ -373,7 +373,7 @@ public class FixInvalidCommandTest {
                 new Email("a@b.com"),
                 new Address("Blk 1"),
                 Set.of(),
-                Set.of());
+                List.of());
 
         Person bob = new Person(
                 new Name("Bob"),
@@ -381,7 +381,7 @@ public class FixInvalidCommandTest {
                 new Email("b@c.com"),
                 new Address("Blk 2"),
                 Set.of(),
-                Set.of());
+                List.of());
 
         FixInvalidCommand c1 = new FixInvalidCommand(0, alice, s);
         FixInvalidCommand c2 = new FixInvalidCommand(0, alice, s);
