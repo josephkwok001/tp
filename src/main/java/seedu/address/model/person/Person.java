@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +30,7 @@ public class Person {
     private final Address address;
     private final UniquePropertyList ownedProperties;
     private final Set<Tag> tags = new HashSet<>();
+    private List<Property> interestedProperties = new ArrayList<>();
 
     /**
      * Constructs a {@code Person} with all fields and an initial list of owned properties.
@@ -45,6 +47,8 @@ public class Person {
      *         contains duplicate properties by identity
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags, List<Property> ownedProps) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                  List<Property> interestedProperties) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -130,6 +134,16 @@ public class Person {
      *
      * @param otherPerson the other person to compare
      * @return {@code true} if both refer to the same person by name; {@code false} otherwise
+     * Returns an immutable interested properties set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public List<Property> getInterestedProperties() {
+        return Collections.unmodifiableList(interestedProperties);
+    }
+
+    /**
+     * Returns true if both persons have the same name.
+     * This defines a weaker notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {
@@ -170,6 +184,8 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(name, phone, email, address, tags, ownedProperties);
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(name, phone, email, address, tags, interestedProperties);
     }
 
     /**
@@ -186,6 +202,7 @@ public class Person {
                 .add("address", address)
                 .add("tags", tags)
                 .add("ownedProperties", ownedProperties)
+                .add("interested", interestedProperties)
                 .toString();
     }
 

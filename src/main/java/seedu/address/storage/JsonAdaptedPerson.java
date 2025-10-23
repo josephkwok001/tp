@@ -32,12 +32,14 @@ class JsonAdaptedPerson {
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final List<String> ownedProperties = new ArrayList<>();
+    private final List<Property> interestedProperties = new ArrayList<>();
 
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                              @JsonProperty("email") String email, @JsonProperty("address") String address,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags,
                              @JsonProperty("ownedProperties") List<String> ownedProperties) {
+            @JsonProperty("interestedProperties") List<Property> interestedProperties) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -47,6 +49,8 @@ class JsonAdaptedPerson {
         }
         if (ownedProperties != null) {
             this.ownedProperties.addAll(ownedProperties);
+        if (interestedProperties != null) {
+            this.interestedProperties.addAll(interestedProperties);
         }
     }
 
@@ -61,6 +65,11 @@ class JsonAdaptedPerson {
                         .map(p -> p.getPropertyName().toString())
                         .toList()
         );
+        tags.addAll(source.getTags().stream()
+                .map(JsonAdaptedTag::new)
+                .toList());
+        interestedProperties.addAll(source.getInterestedProperties());
+
     }
 
     public Person toModelType() throws IllegalValueException {
@@ -158,6 +167,9 @@ class JsonAdaptedPerson {
         }
 
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, resolvedOwned);
+
+        final List<Property> modelProperties = new ArrayList<>(interestedProperties);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelProperties);
     }
 
     public String toRawJsonString() {
@@ -186,6 +198,17 @@ class JsonAdaptedPerson {
 
     public java.util.Set<String> invalidFieldKeys() {
         java.util.Set<String> invalids = new java.util.HashSet<>();
+    /**
+     * Returns the set of field keys that are invalid, based on the same validation
+     * rules used by toModelType(). Keys are one or more of:
+     *   "name", "phone", "email", "address"
+     *
+     * This lets the load-report and the fix wizard know exactly which inputs to
+     * require from the user, while pre-filling the valid ones as read-only.
+     */
+    public Set<String> invalidFieldKeys() {
+        Set<String> invalids = new HashSet<>();
+
         if (name == null || !Name.isValidName(name)) {
             invalids.add("name");
         }
