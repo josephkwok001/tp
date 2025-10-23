@@ -163,10 +163,13 @@ public class JsonSerializableAddressBookTest {
         java.util.List<JsonAdaptedTag> tags = java.util.Collections.emptyList();
         java.util.List<String> ownedProps = java.util.Arrays.asList("Unknown One", "Unknown Two");
 
-        JsonAdaptedPerson zed = new JsonAdaptedPerson(name, phone, email, address, tags, ownedProps);
+        JsonAdaptedPerson zed = new JsonAdaptedPerson(
+                name, phone, email, address, tags, ownedProps, java.util.Collections.emptyList()
+        );
 
         JsonSerializableAddressBook data = new JsonSerializableAddressBook(
-                java.util.Arrays.asList(zed), props);
+                java.util.Arrays.asList(zed), props
+        );
 
         LoadReport report = data.toModelTypeWithReport();
 

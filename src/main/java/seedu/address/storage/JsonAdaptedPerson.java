@@ -31,15 +31,22 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    /** Property names for owned properties. */
     private final List<String> ownedProperties = new ArrayList<>();
-    private final List<Property> interestedProperties = new ArrayList<>();
+    /** Property names for interested properties. */
+    private final List<String> interestedProperties = new ArrayList<>();
 
+    /**
+     * Constructs a {@code JsonAdaptedPerson} with the given JSON fields.
+     */
     @JsonCreator
-    public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-                             @JsonProperty("email") String email, @JsonProperty("address") String address,
+    public JsonAdaptedPerson(@JsonProperty("name") String name,
+                             @JsonProperty("phone") String phone,
+                             @JsonProperty("email") String email,
+                             @JsonProperty("address") String address,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags,
-                             @JsonProperty("ownedProperties") List<String> ownedProperties) {
-            @JsonProperty("interestedProperties") List<Property> interestedProperties) {
+                             @JsonProperty("ownedProperties") List<String> ownedProperties,
+                             @JsonProperty("interestedProperties") List<String> interestedProperties) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -49,29 +56,40 @@ class JsonAdaptedPerson {
         }
         if (ownedProperties != null) {
             this.ownedProperties.addAll(ownedProperties);
+        }
         if (interestedProperties != null) {
             this.interestedProperties.addAll(interestedProperties);
         }
     }
 
+    /**
+     * Converts a given {@code Person} into this class for Jackson use.
+     */
     public JsonAdaptedPerson(Person source) {
-        name = source.getName().fullName;
-        phone = source.getPhone().value;
-        email = source.getEmail().value;
-        address = source.getAddress().value;
-        tags.addAll(source.getTags().stream().map(JsonAdaptedTag::new).toList());
+        this.name = source.getName().fullName;
+        this.phone = source.getPhone().value;
+        this.email = source.getEmail().value;
+        this.address = source.getAddress().value;
+
+        this.tags.addAll(source.getTags().stream().map(JsonAdaptedTag::new).toList());
+
+        // Serialize owned property names
         this.ownedProperties.addAll(
                 source.getOwnedProperties().stream()
                         .map(p -> p.getPropertyName().toString())
-                        .toList()
-        );
-        tags.addAll(source.getTags().stream()
-                .map(JsonAdaptedTag::new)
-                .toList());
-        interestedProperties.addAll(source.getInterestedProperties());
+                        .toList());
 
+        // Serialize interested property names
+        this.interestedProperties.addAll(
+                source.getInterestedProperties().stream()
+                        .map(p -> p.getPropertyName().toString())
+                        .toList());
     }
 
+    /**
+     * Converts this adapted person into a model {@code Person} with empty property lists.
+     * Used by legacy paths that don't resolve properties against the address book.
+     */
     public Person toModelType() throws IllegalValueException {
         final List<Tag> personTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tags) {
@@ -111,9 +129,15 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, List.of());
+
+        // No property resolution on this code path.
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, List.of(), List.of());
     }
 
+    /**
+     * Converts this adapted person into a model {@code Person}, resolving property names
+     * against the provided {@code addressBook}.
+     */
     public Person toModelType(ReadOnlyAddressBook addressBook) throws IllegalValueException {
         final List<Tag> personTags = new ArrayList<>();
         for (JsonAdaptedTag tag : tags) {
@@ -154,6 +178,7 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
+        // Resolve owned property names
         final List<Property> resolvedOwned = new ArrayList<>();
         if (addressBook != null && !ownedProperties.isEmpty()) {
             for (String propName : ownedProperties) {
@@ -166,12 +191,27 @@ class JsonAdaptedPerson {
             }
         }
 
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, resolvedOwned);
+        // Resolve interested property names
+        final List<Property> resolvedInterested = new ArrayList<>();
+        if (addressBook != null && !interestedProperties.isEmpty()) {
+            for (String propName : interestedProperties) {
+                Property p = addressBook.getPropertyList().stream()
+                        .filter(pp -> pp.getPropertyName().toString().equals(propName))
+                        .findFirst()
+                        .orElseThrow(() ->
+                                new IllegalValueException(String.format(PROPERTY_NOT_FOUND_MESSAGE_FORMAT, propName)));
+                resolvedInterested.add(p);
+            }
+        }
 
-        final List<Property> modelProperties = new ArrayList<>(interestedProperties);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelProperties);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags,
+                resolvedOwned, resolvedInterested);
     }
 
+    /**
+     * Returns a compact JSON string representing this adapted person, or "{}" if
+     * serialization fails. Intended for diagnostics in load reports.
+     */
     public String toRawJsonString() {
         try {
             return seedu.address.commons.util.JsonUtil.toJsonString(this);
@@ -180,24 +220,28 @@ class JsonAdaptedPerson {
         }
     }
 
+    // --- getters for load report / prefill helpers ---
+
     public String getName() {
         return name;
     }
+
     public String getPhone() {
         return phone;
     }
+
     public String getEmail() {
         return email;
     }
+
     public String getAddress() {
         return address;
     }
-    public java.util.List<String> getOwnedProperties() {
+
+    public List<String> getOwnedProperties() {
         return java.util.Collections.unmodifiableList(ownedProperties);
     }
 
-    public java.util.Set<String> invalidFieldKeys() {
-        java.util.Set<String> invalids = new java.util.HashSet<>();
     /**
      * Returns the set of field keys that are invalid, based on the same validation
      * rules used by toModelType(). Keys are one or more of:

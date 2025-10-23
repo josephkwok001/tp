@@ -72,7 +72,8 @@ public class SetOwnedPropertyCommandTest {
                 alex.getEmail(),
                 alex.getAddress(),
                 alex.getTags(),
-                expectedOwned
+                expectedOwned,
+                List.of()
         );
 
         assertEquals(expected, model.persons.get(0));
@@ -85,7 +86,9 @@ public class SetOwnedPropertyCommandTest {
                 new Phone("87438807"),
                 new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                Set.of()
+                Set.of(),
+                List.of(),
+                List.of()
         );
 
         AddressBook ab = new AddressBook();
@@ -106,7 +109,9 @@ public class SetOwnedPropertyCommandTest {
                 new Phone("87438807"),
                 new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                Set.of()
+                Set.of(),
+                List.of(),
+                List.of()
         );
 
         Property sunny = new Property(
@@ -219,6 +224,15 @@ public class SetOwnedPropertyCommandTest {
         @Override
         public void addProperty(Property property) {
             throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObservableList<Property> getFilteredPropertyList() {
+            return FXCollections.observableArrayList();
+        }
+
+        @Override
+        public void updateFilteredPropertyList(Predicate<Property> predicate) {
         }
     }
 }

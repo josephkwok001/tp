@@ -73,7 +73,6 @@ public class FixInvalidCommandTest {
 
         @Override
         public void setAddressBook(ReadOnlyAddressBook addressBook) {
-            // FixInvalidCommand calls this; capture for potential assertions.
             this.lastSetAddressBook = addressBook;
         }
 
@@ -104,9 +103,7 @@ public class FixInvalidCommandTest {
         }
 
         @Override
-        public void addProperty(Property property) {
-
-        }
+        public void addProperty(Property property) {}
 
         @Override
         public void setPerson(Person target, Person editedPerson) {}
@@ -129,7 +126,6 @@ public class FixInvalidCommandTest {
 
         @Override
         public void updateFilteredPropertyList(Predicate<Property> predicate) {}
-
     }
 
     /* ===========================
@@ -140,7 +136,6 @@ public class FixInvalidCommandTest {
     private static class StorageSuccess implements Storage {
         @Override
         public LoadReport overwriteRawEntryAtIndex(int index, Person corrected) {
-            // Return a report with an empty (fresh) AddressBook and no invalids.
             return new LoadReport(
                     new LoadReport.ModelData(new seedu.address.model.AddressBook()),
                     java.util.Collections.emptyList()
@@ -254,7 +249,6 @@ public class FixInvalidCommandTest {
     private static class StorageThrowingDataLoading implements Storage {
         @Override
         public LoadReport overwriteRawEntryAtIndex(int index, Person corrected) throws DataLoadingException {
-            // In this codebase DataLoadingException wraps a cause; pass an IOException as the cause.
             throw new DataLoadingException(new java.io.IOException("Corrupt file"));
         }
 
@@ -303,10 +297,6 @@ public class FixInvalidCommandTest {
         }
     }
 
-    /* ===========================
-     * Helpers
-     * =========================== */
-
     private static Person alice() {
         return new Person(
                 new Name("Alice"),
@@ -314,13 +304,11 @@ public class FixInvalidCommandTest {
                 new Email("a@b.com"),
                 new Address("Blk 1"),
                 Set.of(),
-                Set.of()
+                List.of(),
+                List.of()
         );
     }
 
-    /* ===========================
-     * Tests
-     * =========================== */
 
     /**
      * Valid overwrite: command executes and returns the expected success message.
@@ -373,7 +361,8 @@ public class FixInvalidCommandTest {
                 new Email("a@b.com"),
                 new Address("Blk 1"),
                 Set.of(),
-                Set.of());
+                List.of(),
+                List.of());
 
         Person bob = new Person(
                 new Name("Bob"),
@@ -381,29 +370,24 @@ public class FixInvalidCommandTest {
                 new Email("b@c.com"),
                 new Address("Blk 2"),
                 Set.of(),
-                Set.of());
+                List.of(),
+                List.of());
 
         FixInvalidCommand c1 = new FixInvalidCommand(0, alice, s);
         FixInvalidCommand c2 = new FixInvalidCommand(0, alice, s);
         FixInvalidCommand diffIndex = new FixInvalidCommand(1, alice, s);
         FixInvalidCommand diffPerson = new FixInvalidCommand(0, bob, s);
 
-        // same object
         assertTrue(c1.equals(c1));
 
-        // same values
         assertTrue(c1.equals(c2));
 
-        // null
         assertFalse(c1.equals(null));
 
-        // different type
         assertFalse(c1.equals("not-a-command"));
 
-        // different index
         assertFalse(c1.equals(diffIndex));
 
-        // different person
         assertFalse(c1.equals(diffPerson));
     }
 
