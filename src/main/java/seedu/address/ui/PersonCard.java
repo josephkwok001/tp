@@ -34,6 +34,8 @@ public class PersonCard extends UiPart<Region> {
     private FlowPane tags;
     @FXML
     private FlowPane ownedProperties;
+    @FXML
+    private FlowPane interestedProperties;
 
     /**
      * Creates a {@code PersonCard} to render the given {@code Person} at the specified index.
@@ -56,6 +58,11 @@ public class PersonCard extends UiPart<Region> {
             Label chip = new Label(p.getPropertyName().toString());
             chip.getStyleClass().add("owned-property");
             ownedProperties.getChildren().add(chip);
+        });
+        person.getInterestedProperties().forEach(p -> {
+            Label chip = new Label(p.getPropertyName().toString());
+            chip.getStyleClass().add("interested-property");
+            interestedProperties.getChildren().add(chip);
         });
     }
 }

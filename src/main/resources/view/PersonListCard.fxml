@@ -21,14 +21,28 @@
       <HBox spacing="5" alignment="CENTER_LEFT">
         <Label fx:id="id" styleClass="cell_big_label">
           <minWidth>
-            <!-- Ensures that the label text is never truncated -->
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
         <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
       </HBox>
+
+      <!-- Tags -->
       <FlowPane fx:id="tags" />
-      <FlowPane fx:id="ownedProperties" hgap="5" vgap="5" prefWrapLength="300.0"/>
+
+      <!-- Owned properties line -->
+      <HBox spacing="6" alignment="CENTER_LEFT">
+        <Label text="Owned:" styleClass="chip-prefix"/>
+        <FlowPane fx:id="ownedProperties" hgap="5" vgap="5" prefWrapLength="300.0"/>
+      </HBox>
+
+      <!-- Interested properties line -->
+      <HBox spacing="6" alignment="CENTER_LEFT">
+        <Label text="Interested:" styleClass="chip-prefix"/>
+        <FlowPane fx:id="interestedProperties" hgap="5" vgap="5" prefWrapLength="300.0"/>
+      </HBox>
+
+      <!-- Person details -->
       <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
       <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
       <Label fx:id="email" styleClass="cell_small_label" text="\$email" />

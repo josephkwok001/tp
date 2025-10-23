@@ -233,7 +233,4 @@ public class Person {
     public void setInterestedProperties(Property interestedProperty) {
         interestedProperties.add(interestedProperty);
     }
-
-
-
 }

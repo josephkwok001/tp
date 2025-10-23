@@ -20,6 +20,7 @@ import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.FixInvalidCommand;
 import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.InterestedPropertyCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListInvalidCommand;
 import seedu.address.logic.commands.SetOwnedPropertyCommand;
