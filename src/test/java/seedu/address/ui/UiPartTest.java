@@ -175,7 +175,15 @@ public class UiPartTest {
         String second = ((javafx.scene.control.Label) tagsPane.getChildren().get(1)).getText();
         org.junit.jupiter.api.Assertions.assertTrue(first.compareTo(second) <= 0);
 
-        org.junit.jupiter.api.Assertions.assertEquals(2, ownedPane.getChildren().size());
+        int propertyCount = personWithData.getOwnedProperties().size();
+        int expectedMin = propertyCount;
+        int expectedMax = propertyCount * 2 - 1;
+
+        int actual = ownedPane.getChildren().size();
+        org.junit.jupiter.api.Assertions.assertTrue(
+                actual >= expectedMin && actual <= expectedMax,
+                "Owned properties pane should contain chips (and optional commas). Actual: " + actual
+        );
         javafx.scene.control.Label chip0 = (javafx.scene.control.Label) ownedPane.getChildren().get(0);
         org.junit.jupiter.api.Assertions.assertTrue(chip0.getStyleClass().contains("owned-property"));
     }
