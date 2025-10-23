@@ -1,20 +1,19 @@
 package seedu.address.logic.commands;
 
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TestUtil.getTypicalCombinedAddressBook;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
-import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PropertyBuilder;
-
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TestUtil.getTypicalCombinedAddressBook;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code AddCommand}.
@@ -52,11 +51,19 @@ public class InterestedPropertyCommandTest {
 
     @Test
     public void execute_invalidPerson_throwsCommandException() {
-        Property validProperty = model.getFilteredPropertyList().get(1);
+        Property validProperty = model.getFilteredPropertyList().get(2);
         Index invalidIndex = Index.fromOneBased(model.getFilteredPropertyList().size() + 1);
 
         assertCommandFailure(new InterestedPropertyCommand(validProperty.getPropertyName(), invalidIndex), model,
                 String.format(InterestedPropertyCommand.MESSAGE_PERSON_NOT_FOUND));
     }
 
+    @Test
+    public void execute_duplicateProperty_throwsCommandException() {
+        Property validProperty = model.getFilteredPropertyList().get(1);
+        Index index = Index.fromZeroBased(1);
+
+        assertCommandFailure(new InterestedPropertyCommand(validProperty.getPropertyName(), index), model,
+                InterestedPropertyCommand.MESSAGE_DUPLICATE_LINK);
+    }
 }
