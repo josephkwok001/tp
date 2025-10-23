@@ -231,4 +231,18 @@ public class Person {
     public void setInterestedProperties(Property interestedProperty) {
         interestedProperties.add(interestedProperty);
     }
+
+    /**
+     * Removes a property from the person's owned properties.
+     */
+    public void removeOwnedProperty(Property propertyToRemove) {
+        ownedProperties.remove(propertyToRemove);
+    }
+
+    /**
+     * Removes a property from the person's interested properties.
+     */
+    public void removeInterestedProperty(Property propertyToRemove) {
+        interestedProperties.remove(propertyToRemove);
+    }
 }

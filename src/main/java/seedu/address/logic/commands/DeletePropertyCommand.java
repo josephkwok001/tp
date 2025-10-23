@@ -8,6 +8,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
 
 /**
@@ -44,6 +45,26 @@ public class DeletePropertyCommand extends Command {
         }
 
         Property propertyToDelete = lastShownList.get(targetIndex.getZeroBased());
+
+        List<Person> allPersons = model.getAddressBook().getPersonList();
+        for (Person person : allPersons) {
+            boolean changed = false;
+
+            if (person.getOwnedProperties().contains(propertyToDelete)) {
+                person.removeOwnedProperty(propertyToDelete);
+                changed = true;
+            }
+
+            if (person.getInterestedProperties().contains(propertyToDelete)) {
+                person.removeInterestedProperty(propertyToDelete);
+                changed = true;
+            }
+
+            if (changed) {
+                model.setPerson(person, person);
+            }
+        }
+
         model.deleteProperty(propertyToDelete);
 
         return new CommandResult(String.format(MESSAGE_DELETE_PROPERTY_SUCCESS,
