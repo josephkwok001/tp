@@ -64,7 +64,7 @@ public class TypicalProperties {
     /**
      * Returns an {@code EstateSearch} with all the typical properties.
      */
-    public static AddressBook getTypicalAddressBook() {
+    public static AddressBook getTypicalPropertiesAddressBook() {
         AddressBook ab = new AddressBook();
         for (Property property : getTypicalProperties()) {
             ab.addProperty(property);

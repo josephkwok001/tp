@@ -2,7 +2,6 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -223,7 +222,7 @@ public class Person {
     /**
      * Returns an unmodifiable view of the person's interested properties.
      */
-    public ObservableList<Property> getInterestedProperties() {
+    public List<Property> getInterestedProperties() {
         return interestedProperties.asUnmodifiableObservableList();
     }
 

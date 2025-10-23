@@ -1,5 +1,9 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -9,8 +13,6 @@ import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.*;
 
 /**
  * Links a property to a Person that is interested
@@ -19,7 +21,8 @@ public class InterestedPropertyCommand extends Command {
 
     public static final String COMMAND_WORD = "setip";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Links a Property as an interested property to a Person."
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Links a Property as an interested property to a Person."
             + "Parameters: "
             + PREFIX_INDEX + "PERSON INDEX "
             + PREFIX_NAME + "NAME OF PROPERTY \n"
@@ -63,6 +66,10 @@ public class InterestedPropertyCommand extends Command {
             targetPerson = model.getFilteredPersonList().get(targetPersonIndex.getZeroBased());
         } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_PERSON_NOT_FOUND);
+        }
+
+        if (targetPerson.getInterestedProperties().contains(toAdd)) {
+            throw new CommandException(MESSAGE_DUPLICATE_LINK);
         }
 
         targetPerson.setInterestedProperties(toAdd);

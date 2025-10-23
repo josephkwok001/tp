@@ -309,6 +309,9 @@ public class FixInvalidCommandTest {
         );
     }
 
+    /* ===========================
+     * Tests
+     * =========================== */
 
     /**
      * Valid overwrite: command executes and returns the expected success message.

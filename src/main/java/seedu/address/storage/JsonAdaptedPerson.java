@@ -88,8 +88,9 @@ class JsonAdaptedPerson {
     }
 
     /**
-     * Converts this adapted person into a model {@code Person} with empty property lists.
-     * Used by legacy paths that don't resolve properties against the address book.
+     * Converts this Jackson-friendly adapted person object into the model's {@code Person} object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
         final List<Tag> personTags = new ArrayList<>();
@@ -131,7 +132,6 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
-        // No property resolution on this code path.
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, List.of(), List.of());
     }
 
@@ -221,8 +221,7 @@ class JsonAdaptedPerson {
         }
     }
 
-    // --- getters for load report / prefill helpers ---
-
+    // --- Add these getters so the loader can prefill the dialog with originals ---
     public String getName() {
         return name;
     }
