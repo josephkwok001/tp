@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -23,7 +25,6 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.OwnedProperties;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.property.Price;
@@ -42,8 +43,7 @@ public class SetOwnedPropertyCommandTest {
                 new Phone("87438807"),
                 new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                Set.of(new Tag("friends")),
-                new OwnedProperties(java.util.Collections.emptyList())
+                Set.of(new Tag("friends"))
         );
 
         Property cityLoft = new Property(
@@ -64,7 +64,8 @@ public class SetOwnedPropertyCommandTest {
                 String.format(SetOwnedPropertyCommand.MESSAGE_SUCCESS, "Alex Yeoh", "City Loft"),
                 result.getFeedbackToUser());
 
-        OwnedProperties expectedOwned = alex.getOwnedProperties().withAdded(cityLoft);
+        List<Property> expectedOwned = new ArrayList<>();
+        expectedOwned.add(cityLoft);
         Person expected = new Person(
                 alex.getName(),
                 alex.getPhone(),
@@ -84,8 +85,7 @@ public class SetOwnedPropertyCommandTest {
                 new Phone("87438807"),
                 new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                Set.of(),
-                new OwnedProperties(java.util.Collections.emptyList())
+                Set.of()
         );
 
         AddressBook ab = new AddressBook();
@@ -106,8 +106,7 @@ public class SetOwnedPropertyCommandTest {
                 new Phone("87438807"),
                 new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
-                Set.of(),
-                new OwnedProperties(java.util.Collections.emptyList())
+                Set.of()
         );
 
         Property sunny = new Property(
@@ -221,6 +220,5 @@ public class SetOwnedPropertyCommandTest {
         public void addProperty(Property property) {
             throw new UnsupportedOperationException();
         }
-
     }
 }
