@@ -11,16 +11,29 @@ Class "<<interface>>\nUserPrefsStorage" as UserPrefsStorage
 Class JsonUserPrefsStorage
 }
 
-Class "<<interface>>\nStorage" as Storage
+Class "<<interface>>\nStorage" as Storage {
+  + readAddressBookWithReport(): LoadReport
+  .. other members ..
+}
 Class StorageManager
 
 package "AddressBook Storage" #F4F6F6{
-Class "<<interface>>\nAddressBookStorage" as AddressBookStorage
+Class "<<interface>>\nAddressBookStorage" as AddressBookStorage {
+  + readAddressBookWithReport(): LoadReport
+  .. other members ..
+}
 Class JsonAddressBookStorage
 Class JsonSerializableAddressBook
 Class JsonAdaptedPerson
 Class JsonAdaptedTag
 }
+
+Class LoadReport {
+  + getModelData(): ModelData
+  + getInvalids(): List<InvalidPersonEntry>
+}
+Class ModelData
+Class InvalidPersonEntry
 
 }
 
@@ -40,4 +53,9 @@ JsonAddressBookStorage ..> JsonSerializableAddressBook
 JsonSerializableAddressBook --> "*" JsonAdaptedPerson
 JsonAdaptedPerson --> "*" JsonAdaptedTag
 
+AddressBookStorage --> LoadReport : «returns»
+JsonAddressBookStorage --> LoadReport : «returns»
+LoadReport o-- ModelData
+LoadReport o-- InvalidPersonEntry
 @enduml
+
