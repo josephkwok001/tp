@@ -72,6 +72,11 @@ public interface Model {
     void deletePerson(Person target);
 
     /**
+     * Removes all references to the given property from all persons (both owned and interested properties).
+     */
+    void removePropertyFromAllPersons(Property propertyToDelete);
+
+    /**
      * Deletes the given property.
      * The property must exist in the address book.
      */

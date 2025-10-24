@@ -234,5 +234,9 @@ public class SetOwnedPropertyCommandTest {
         @Override
         public void updateFilteredPropertyList(Predicate<Property> predicate) {
         }
+
+        @Override
+        public void removePropertyFromAllPersons(Property propertyToDelete) {
+        }
     }
 }

@@ -44,6 +44,9 @@ public class DeletePropertyCommand extends Command {
         }
 
         Property propertyToDelete = lastShownList.get(targetIndex.getZeroBased());
+
+        model.removePropertyFromAllPersons(propertyToDelete);
+
         model.deleteProperty(propertyToDelete);
 
         return new CommandResult(String.format(MESSAGE_DELETE_PROPERTY_SUCCESS,
