@@ -22,6 +22,13 @@ Class Tag
 Class InterestedProperties
 Class OwnedProperties
 
+' Property-related classes added to the model package
+Class UniquePropertyList
+Class Property
+Class PropertyAddress
+Class PropertyName
+Class Price
+
 Class I #FFFFFF
 }
 
@@ -38,7 +45,11 @@ ModelManager -right-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniquePersonList
+AddressBook *--> "1" UniquePropertyList
+
 UniquePersonList --> "~* all" Person
+UniquePropertyList --> "~* all" Property
+
 Person *--> Name
 Person *--> Phone
 Person *--> Email
@@ -46,6 +57,11 @@ Person *--> Address
 Person *--> "*" Tag
 Person *--> "*" InterestedProperties
 Person *--> "*" OwnedProperties
+
+' Property composition
+Property *--> PropertyName
+Property *--> Price
+Property *--> PropertyAddress
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
@@ -55,4 +71,5 @@ Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
 
 ModelManager --> "~* filtered" Person
+ModelManager --> "~* filtered" Property
 @enduml

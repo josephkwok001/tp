@@ -190,6 +190,11 @@ public class AddPropertyCommandTest {
         public void updateFilteredPropertyList(Predicate<Property> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void removePropertyFromAllPersons(Property propertyToDelete) {
+        }
+
     }
 
     /**
