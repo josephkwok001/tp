@@ -42,8 +42,12 @@ public class MainWindowTest {
             Platform.startup(() -> { });
         } catch (IllegalStateException ex) {
             ok = true;
+            System.err.println("JavaFX not available: " + ex.getMessage());
+
         } catch (UnsupportedOperationException ex) {
             ok = false;
+            System.err.println("Failed to initialize JavaFX: " + ex.getMessage());
+            ex.printStackTrace();
         }
         fxReady = ok;
     }
@@ -114,6 +118,9 @@ public class MainWindowTest {
                 CommandResult result = executeCommandViaReflection("test command");
                 assertNotNull(result);
             } catch (Exception e) {
+                System.err.println("Exception during command execution: " + e.getMessage());
+                throw new RuntimeException("Command execution failed", e);
+
             }
 
             StackPane personPlaceholder = getPrivateField(mainWindow, "personListPanelPlaceholder");
@@ -137,6 +144,8 @@ public class MainWindowTest {
                 CommandResult result = executeCommandViaReflection("test command");
                 assertNotNull(result);
             } catch (Exception e) {
+                System.err.println("Exception during command execution: " + e.getMessage());
+                throw new RuntimeException("Command execution failed", e);
             }
 
             StackPane personPlaceholder = getPrivateField(mainWindow, "personListPanelPlaceholder");
@@ -160,6 +169,9 @@ public class MainWindowTest {
                 CommandResult result = executeCommandViaReflection("test command");
                 assertNotNull(result);
             } catch (Exception e) {
+                System.err.println("Exception during command execution: " + e.getMessage());
+                throw new RuntimeException("Command execution failed", e);
+
             }
 
             StackPane personPlaceholder = getPrivateField(mainWindow, "personListPanelPlaceholder");
@@ -213,7 +225,6 @@ public class MainWindowTest {
         runOnFx(() -> {
             mainWindow.handleHelp();
 
-            // Help window should be showing
             HelpWindow helpWindow = getPrivateField(mainWindow, "helpWindow");
             assertNotNull(helpWindow);
         });
