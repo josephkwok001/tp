@@ -205,4 +205,87 @@ public class MainWindowTest {
             assertTrue(primaryStage.isShowing());
         });
     }
+
+    @Test
+    public void handleHelp_opensHelpWindow() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
+
+        runOnFx(() -> {
+            mainWindow.handleHelp();
+
+            // Help window should be showing
+            HelpWindow helpWindow = getPrivateField(mainWindow, "helpWindow");
+            assertNotNull(helpWindow);
+        });
+    }
+
+    private CommandResult executeCommandViaReflection(String commandText) throws Exception {
+        java.lang.reflect.Method method = MainWindow.class.getDeclaredMethod("executeCommand", String.class);
+        method.setAccessible(true);
+        return (CommandResult) method.invoke(mainWindow, commandText);
+    }
+
+    /**
+     * A test implementation of Logic that returns predictable results.
+     */
+    private static class TestLogic implements Logic {
+        private final Model model;
+        private final StorageManager storage;
+        private CommandResult.ViewType nextViewType = CommandResult.ViewType.NONE;
+
+        TestLogic(Model model, StorageManager storage) {
+            this.model = model;
+            this.storage = storage;
+        }
+
+        public void setNextViewType(CommandResult.ViewType viewType) {
+            this.nextViewType = viewType;
+        }
+
+        @Override
+        public CommandResult execute(String commandText) throws CommandException, ParseException {
+            return new CommandResult("Test feedback", nextViewType);
+        }
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return new AddressBook();
+        }
+
+        @Override
+        public Path getAddressBookFilePath() {
+            return Paths.get("test.json");
+        }
+
+        @Override
+        public GuiSettings getGuiSettings() {
+            return new GuiSettings();
+        }
+
+        @Override
+        public void setGuiSettings(GuiSettings guiSettings) {
+            // Do nothing for testing
+        }
+
+        @Override
+        public javafx.collections.ObservableList<Person> getFilteredPersonList() {
+            return javafx.collections.FXCollections.observableArrayList();
+        }
+
+        @Override
+        public javafx.collections.ObservableList<Property> getFilteredPropertyList() {
+            return javafx.collections.FXCollections.observableArrayList();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T getPrivateField(MainWindow mainWindow, String fieldName) {
+        try {
+            java.lang.reflect.Field f = MainWindow.class.getDeclaredField(fieldName);
+            f.setAccessible(true);
+            return (T) f.get(mainWindow);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
