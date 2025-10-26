@@ -34,8 +34,6 @@ public class PropertyListPanelTest {
 
     @Test
     public void constructor_doesNotThrowException() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-
         ObservableList<Property> propertyList = FXCollections.observableArrayList();
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
         assertNotNull(panel);
@@ -44,8 +42,6 @@ public class PropertyListPanelTest {
 
     @Test
     public void propertyListViewCell_withValidProperty_createsPropertyCard() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-
         ObservableList<Property> propertyList = FXCollections.observableArrayList();
         Property testProperty = new PropertyBuilder()
                 .withName("Test Property")
@@ -64,8 +60,6 @@ public class PropertyListPanelTest {
 
     @Test
     public void propertyListViewCell_withNullProperty_setsGraphicToNull() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-
         ObservableList<Property> propertyList = FXCollections.observableArrayList();
         propertyList.add(null);
 
@@ -77,8 +71,6 @@ public class PropertyListPanelTest {
 
     @Test
     public void propertyListViewCell_withEmptyList_handlesGracefully() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-
         ObservableList<Property> propertyList = FXCollections.observableArrayList();
 
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
@@ -89,8 +81,6 @@ public class PropertyListPanelTest {
 
     @Test
     public void propertyListViewCell_withMultipleProperties_displaysAll() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-
         ObservableList<Property> propertyList = FXCollections.observableArrayList();
         propertyList.add(TypicalProperties.PROPERTY_A);
         propertyList.add(TypicalProperties.PROPERTY_B);
@@ -104,8 +94,6 @@ public class PropertyListPanelTest {
 
     @Test
     public void propertyListViewCell_setCellFactory_initializedCorrectly() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-
         ObservableList<Property> propertyList = FXCollections.observableArrayList();
         propertyList.add(TypicalProperties.PROPERTY_A);
 
