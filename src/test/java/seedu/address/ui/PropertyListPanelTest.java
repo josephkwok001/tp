@@ -34,12 +34,13 @@ public class PropertyListPanelTest {
     @Test
     public void constructor_bindsPropertyList_successfully() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         ObservableList<Property> propertyList = FXCollections.observableArrayList();
         propertyList.add(TypicalProperties.PROPERTY_A);
         propertyList.add(TypicalProperties.PROPERTY_B);
+
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
-        
+
         assertNotNull(panel);
         assertNotNull(panel.getRoot());
     }
@@ -47,7 +48,7 @@ public class PropertyListPanelTest {
     @Test
     public void listView_displaysMultipleProperties_correctly() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         ObservableList<Property> propertyList = FXCollections.observableArrayList(
             TypicalProperties.PROPERTY_A,
             TypicalProperties.PROPERTY_B,
@@ -55,7 +56,7 @@ public class PropertyListPanelTest {
         );
 
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
-        
+
         ListView<Property> listView = getPrivateField(panel, "propertyListView");
         assertNotNull(listView);
         assertEquals(3, listView.getItems().size());
@@ -67,11 +68,11 @@ public class PropertyListPanelTest {
     @Test
     public void listView_withEmptyList_displaysEmpty() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         ObservableList<Property> propertyList = FXCollections.observableArrayList();
 
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
-        
+
         ListView<Property> listView = getPrivateField(panel, "propertyListView");
         assertNotNull(listView);
         assertEquals(0, listView.getItems().size());
@@ -80,7 +81,7 @@ public class PropertyListPanelTest {
     @Test
     public void listView_withSingleProperty_displaysCorrectly() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         Property property = new PropertyBuilder()
                 .withName("Single Property")
                 .withAddress("123 Test St")
@@ -90,7 +91,7 @@ public class PropertyListPanelTest {
         ObservableList<Property> propertyList = FXCollections.observableArrayList(property);
 
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
-        
+
         ListView<Property> listView = getPrivateField(panel, "propertyListView");
         assertNotNull(listView);
         assertEquals(1, listView.getItems().size());
@@ -100,27 +101,27 @@ public class PropertyListPanelTest {
     @Test
     public void listView_updates_whenListChanges() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         ObservableList<Property> propertyList = FXCollections.observableArrayList(
             TypicalProperties.PROPERTY_A
         );
 
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
-        
+
         ListView<Property> listView = getPrivateField(panel, "propertyListView");
         assertEquals(1, listView.getItems().size());
-        
+
         // Add more properties
         propertyList.add(TypicalProperties.PROPERTY_B);
         propertyList.add(TypicalProperties.PROPERTY_C);
-        
+
         assertEquals(3, listView.getItems().size());
     }
 
     @Test
     public void listViewCellRenderer_rendersPropertyCards() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         Property property = new PropertyBuilder()
                 .withName("Test Property")
                 .withAddress("456 Main Ave")
@@ -130,10 +131,10 @@ public class PropertyListPanelTest {
         ObservableList<Property> propertyList = FXCollections.observableArrayList(property);
 
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
-        
+
         ListView<Property> listView = getPrivateField(panel, "propertyListView");
         listView.getSelectionModel().select(0);
-        
+
         // The cell factory should be set to PropertyListViewCell
         assertNotNull(listView.getCellFactory());
     }
@@ -141,13 +142,13 @@ public class PropertyListPanelTest {
     @Test
     public void constructor_initializesCellFactory() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         ObservableList<Property> propertyList = FXCollections.observableArrayList(
             TypicalProperties.PROPERTY_A
         );
 
         PropertyListPanel panel = runOnFxAndGet(() -> new PropertyListPanel(propertyList));
-        
+
         ListView<Property> listView = getPrivateField(panel, "propertyListView");
         assertNotNull(listView.getCellFactory());
     }

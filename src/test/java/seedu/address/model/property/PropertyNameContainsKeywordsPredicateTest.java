@@ -19,16 +19,16 @@ public class PropertyNameContainsKeywordsPredicateTest {
         List<String> firstPredicateKeywordList = Collections.singletonList("first");
         List<String> secondPredicateKeywordList = Arrays.asList("first", "second");
 
-        PropertyNameContainsKeywordsPredicate firstPredicate = 
+        PropertyNameContainsKeywordsPredicate firstPredicate =
             new PropertyNameContainsKeywordsPredicate(firstPredicateKeywordList);
-        PropertyNameContainsKeywordsPredicate secondPredicate = 
+        PropertyNameContainsKeywordsPredicate secondPredicate =
             new PropertyNameContainsKeywordsPredicate(secondPredicateKeywordList);
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        PropertyNameContainsKeywordsPredicate firstPredicateCopy = 
+        PropertyNameContainsKeywordsPredicate firstPredicateCopy =
             new PropertyNameContainsKeywordsPredicate(firstPredicateKeywordList);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
@@ -44,7 +44,7 @@ public class PropertyNameContainsKeywordsPredicateTest {
 
     @Test
     public void test_propertyNameContainsKeywords_returnsTrue() {
-        PropertyNameContainsKeywordsPredicate predicate = 
+        PropertyNameContainsKeywordsPredicate predicate =
             new PropertyNameContainsKeywordsPredicate(Collections.singletonList("Pinnacle"));
         assertTrue(predicate.test(new PropertyBuilder().withName("The Pinnacle at Duxton").build()));
 
@@ -57,7 +57,7 @@ public class PropertyNameContainsKeywordsPredicateTest {
 
     @Test
     public void test_propertyNameDoesNotContainKeywords_returnsFalse() {
-        PropertyNameContainsKeywordsPredicate predicate = 
+        PropertyNameContainsKeywordsPredicate predicate =
             new PropertyNameContainsKeywordsPredicate(Collections.emptyList());
         assertFalse(predicate.test(new PropertyBuilder().withName("The Pinnacle at Duxton").build()));
 
@@ -74,7 +74,7 @@ public class PropertyNameContainsKeywordsPredicateTest {
 
     @Test
     public void test_partialWordMatch_returnsFalse() {
-        PropertyNameContainsKeywordsPredicate predicate = 
+        PropertyNameContainsKeywordsPredicate predicate =
             new PropertyNameContainsKeywordsPredicate(Collections.singletonList("Pinnac"));
         assertFalse(predicate.test(new PropertyBuilder().withName("The Pinnacle at Duxton").build()));
     }
@@ -82,10 +82,10 @@ public class PropertyNameContainsKeywordsPredicateTest {
     @Test
     public void toStringMethod() {
         List<String> keywords = List.of("keyword1", "keyword2");
-        PropertyNameContainsKeywordsPredicate predicate = 
+        PropertyNameContainsKeywordsPredicate predicate =
             new PropertyNameContainsKeywordsPredicate(keywords);
 
-        String expected = PropertyNameContainsKeywordsPredicate.class.getCanonicalName() 
+        String expected = PropertyNameContainsKeywordsPredicate.class.getCanonicalName()
             + "{keywords=" + keywords + "}";
         assertEquals(expected, predicate.toString());
     }

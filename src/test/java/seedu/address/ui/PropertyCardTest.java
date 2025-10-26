@@ -32,7 +32,7 @@ public class PropertyCardTest {
     @Test
     public void propertyCard_rendersAllFields_correctly() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         Property property = new PropertyBuilder()
                 .withName("The Pinnacle")
                 .withAddress("123 Example St")
@@ -40,7 +40,7 @@ public class PropertyCardTest {
                 .build();
 
         PropertyCard card = runOnFxAndGet(() -> new PropertyCard(property, 1));
-        
+
         Label idLabel = getPrivateField(card, "id");
         Label nameLabel = getPrivateField(card, "propertyName");
         Label addressLabel = getPrivateField(card, "address");
@@ -57,7 +57,7 @@ public class PropertyCardTest {
     @Test
     public void propertyCard_withHighIndex_displaysCorrectId() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         Property property = new PropertyBuilder()
                 .withName("Test Property")
                 .withAddress("456 Main Rd")
@@ -65,7 +65,7 @@ public class PropertyCardTest {
                 .build();
 
         PropertyCard card = runOnFxAndGet(() -> new PropertyCard(property, 42));
-        
+
         Label idLabel = getPrivateField(card, "id");
         assertEquals("42. ", idLabel.getText());
     }
@@ -73,7 +73,7 @@ public class PropertyCardTest {
     @Test
     public void propertyCard_withComplexPropertyName_rendersCorrectly() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         Property property = new PropertyBuilder()
                 .withName("The Pinnacle at Duxton")
                 .withAddress("1 Cantonment Road, #48-10")
@@ -81,7 +81,7 @@ public class PropertyCardTest {
                 .build();
 
         PropertyCard card = runOnFxAndGet(() -> new PropertyCard(property, 1));
-        
+
         Label nameLabel = getPrivateField(card, "propertyName");
         Label addressLabel = getPrivateField(card, "address");
         Label priceLabel = getPrivateField(card, "price");
@@ -94,7 +94,7 @@ public class PropertyCardTest {
     @Test
     public void propertyCard_withVeryHighPrice_rendersCorrectly() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         Property property = new PropertyBuilder()
                 .withName("Luxury Villa")
                 .withAddress("999 Sentosa Cove")
@@ -102,7 +102,7 @@ public class PropertyCardTest {
                 .build();
 
         PropertyCard card = runOnFxAndGet(() -> new PropertyCard(property, 1));
-        
+
         Label priceLabel = getPrivateField(card, "price");
         assertEquals("Price: $15000000", priceLabel.getText());
     }
@@ -110,7 +110,7 @@ public class PropertyCardTest {
     @Test
     public void propertyCard_getsCorrectProperty() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         Property property = new PropertyBuilder()
                 .withName("Test Property")
                 .withAddress("123 Test St")
@@ -118,7 +118,7 @@ public class PropertyCardTest {
                 .build();
 
         PropertyCard card = runOnFxAndGet(() -> new PropertyCard(property, 1));
-        
+
         assertEquals(property, card.property);
     }
 

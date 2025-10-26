@@ -49,21 +49,21 @@ public class MainWindowTest {
     @BeforeEach
     public void setUp() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         runOnFx(() -> {
-            JsonAddressBookStorage addressBookStorage = 
+            JsonAddressBookStorage addressBookStorage =
                 new JsonAddressBookStorage(Paths.get("dummy"));
             JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(Paths.get("dummy"));
             StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
-            
+
             Model model = new ModelManager();
             logic = new TestLogic(model, storage);
-            
+
             mainWindow = new MainWindow(new Stage(), logic);
             mainWindow.fillInnerParts();
         });
     }
-    
+
     private static void runOnFx(Runnable runnable) throws Exception {
         java.util.concurrent.FutureTask<Void> task = new java.util.concurrent.FutureTask<>(runnable, null);
         Platform.runLater(task);
@@ -73,7 +73,7 @@ public class MainWindowTest {
     @Test
     public void constructor_initializesComponents() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         runOnFx(() -> {
             assertNotNull(mainWindow);
             assertNotNull(mainWindow.getRoot());
@@ -84,7 +84,7 @@ public class MainWindowTest {
     @Test
     public void getPersonListPanel_returnsNotNull() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         runOnFx(() -> {
             PersonListPanel panel = mainWindow.getPersonListPanel();
             assertNotNull(panel);
@@ -95,7 +95,7 @@ public class MainWindowTest {
     @Test
     public void getPropertyListPanel_returnsNotNull() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         runOnFx(() -> {
             PropertyListPanel panel = mainWindow.getPropertyListPanel();
             assertNotNull(panel);
@@ -106,11 +106,11 @@ public class MainWindowTest {
     @Test
     public void show_displaysWindow() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         runOnFx(() -> {
             Stage primaryStage = mainWindow.getPrimaryStage();
             mainWindow.show();
-            
+
             assertTrue(primaryStage.isShowing());
         });
     }
@@ -118,10 +118,10 @@ public class MainWindowTest {
     @Test
     public void handleHelp_opensHelpWindow() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-        
+
         runOnFx(() -> {
             mainWindow.handleHelp();
-            
+
             // Help window should be showing
             HelpWindow helpWindow = getPrivateField(mainWindow, "helpWindow");
             assertNotNull(helpWindow);
@@ -162,6 +162,7 @@ public class MainWindowTest {
 
         @Override
         public void setGuiSettings(GuiSettings guiSettings) {
+            // Do nothing for testing
         }
 
         @Override
