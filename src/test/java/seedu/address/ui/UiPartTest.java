@@ -275,7 +275,6 @@ public class UiPartTest {
             runOnFxAndGet(() -> {
                 javafx.stage.Stage stage = new javafx.stage.Stage();
                 seedu.address.ui.MainWindow window = new seedu.address.ui.MainWindow(stage, mockLogic);
-                window.fillInnerParts();
                 java.lang.reflect.Method method = seedu.address.ui.MainWindow.class.getDeclaredMethod("fillInnerParts");
                 method.setAccessible(true);
                 method.invoke(window);

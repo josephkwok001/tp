@@ -21,7 +21,6 @@ import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
-import seedu.address.model.property.PropertyNameContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -158,9 +157,10 @@ public class CommandTestUtil {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredPropertyList().size());
 
         Property property = model.getFilteredPropertyList().get(targetIndex.getZeroBased());
-        // Use a unique identifier - the first word of the name
         final String firstWord = property.getPropertyName().toString().split("\\s+")[0];
-        model.updateFilteredPropertyList(new PropertyNameContainsKeywordsPredicate(Arrays.asList(firstWord)));
+
+        model.updateFilteredPropertyList(p ->
+                p.getPropertyName().toString().toLowerCase().contains(firstWord.toLowerCase()));
 
         assertTrue(model.getFilteredPropertyList().size() <= model.getAddressBook().getPropertyList().size());
     }
