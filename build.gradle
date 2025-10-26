@@ -6,6 +6,8 @@ plugins {
     id 'jacoco'
 }
 
+import java.time.Duration
+
 mainClassName = 'seedu.address.Main'
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -24,6 +26,15 @@ test {
     useJUnitPlatform()
 
     finalizedBy jacocoTestReport
+    
+    // Configure JavaFX for headless testing in CI environments
+    systemProperty 'javafx.animation.fullspeed', 'true'
+    systemProperty 'javafx.animation.pulse', '60'
+    systemProperty 'javafx.headless', 'true'
+    systemProperty 'java.awt.headless', 'true'
+    
+    // Set timeout to prevent hanging
+    timeout = Duration.ofMinutes(5)
 }
 
 task coverage(type: JacocoReport) {
