@@ -381,7 +381,7 @@ public class UiPartTest {
      */
     private static class TestMainWindowLogic implements seedu.address.logic.Logic {
         private seedu.address.logic.commands.CommandResult.ViewType nextViewType =
-            seedu.address.logic.commands.CommandResult.ViewType.NONE;
+                seedu.address.logic.commands.CommandResult.ViewType.NONE;
 
         public void setNextViewType(seedu.address.logic.commands.CommandResult.ViewType viewType) {
             this.nextViewType = viewType;
@@ -390,7 +390,7 @@ public class UiPartTest {
         @Override
         public seedu.address.logic.commands.CommandResult execute(String commandText)
                 throws seedu.address.logic.commands.exceptions.CommandException,
-                       seedu.address.logic.parser.exceptions.ParseException {
+                seedu.address.logic.parser.exceptions.ParseException {
             return new seedu.address.logic.commands.CommandResult("Test feedback", nextViewType);
         }
 
