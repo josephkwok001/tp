@@ -32,6 +32,7 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
+    private PropertyListPanel propertyListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -43,6 +44,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane personListPanelPlaceholder;
+
+    @FXML
+    private StackPane propertyListPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -113,6 +117,15 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        propertyListPanel = new PropertyListPanel(logic.getFilteredPropertyList());
+        propertyListPanelPlaceholder.getChildren().add(propertyListPanel.getRoot());
+
+        // Initially show persons view
+        personListPanelPlaceholder.setVisible(true);
+        personListPanelPlaceholder.setManaged(true);
+        propertyListPanelPlaceholder.setVisible(false);
+        propertyListPanelPlaceholder.setManaged(false);
+
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
@@ -167,6 +180,10 @@ public class MainWindow extends UiPart<Stage> {
         return personListPanel;
     }
 
+    public PropertyListPanel getPropertyListPanel() {
+        return propertyListPanel;
+    }
+
     /**
      * Executes the command and returns the result.
      *
@@ -184,6 +201,25 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+            // Handle view switching
+            switch (commandResult.getViewType()) {
+            case PERSONS:
+                personListPanelPlaceholder.setVisible(true);
+                personListPanelPlaceholder.setManaged(true);
+                propertyListPanelPlaceholder.setVisible(false);
+                propertyListPanelPlaceholder.setManaged(false);
+                break;
+            case PROPERTIES:
+                personListPanelPlaceholder.setVisible(false);
+                personListPanelPlaceholder.setManaged(false);
+                propertyListPanelPlaceholder.setVisible(true);
+                propertyListPanelPlaceholder.setManaged(true);
+                break;
+            default:
+                // NONE - don't change view
+                break;
             }
 
             return commandResult;
