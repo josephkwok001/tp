@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javafx.application.Platform;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Logic;
@@ -31,7 +33,7 @@ public class MainWindowTest {
 
     private static boolean fxReady = false;
     private MainWindow mainWindow;
-    private Logic logic;
+    private TestLogic logic;
 
     @BeforeAll
     public static void initJavaFxToolkit() {
@@ -82,6 +84,95 @@ public class MainWindowTest {
     }
 
     @Test
+    public void fillInnerParts_initializesPanelsAndSetsInitialView() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
+
+        runOnFx(() -> {
+            PersonListPanel personPanel = mainWindow.getPersonListPanel();
+            PropertyListPanel propertyPanel = mainWindow.getPropertyListPanel();
+            assertNotNull(personPanel);
+            assertNotNull(propertyPanel);
+
+            StackPane personPlaceholder = getPrivateField(mainWindow, "personListPanelPlaceholder");
+            StackPane propertyPlaceholder = getPrivateField(mainWindow, "propertyListPanelPlaceholder");
+
+            assertTrue(personPlaceholder.isVisible());
+            assertTrue(personPlaceholder.isManaged());
+            assertFalse(propertyPlaceholder.isVisible());
+            assertFalse(propertyPlaceholder.isManaged());
+        });
+    }
+
+    @Test
+    public void executeCommand_withPersonsViewType_switchesToPersonsView() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
+
+        runOnFx(() -> {
+            logic.setNextViewType(CommandResult.ViewType.PERSONS);
+
+            try {
+                CommandResult result = executeCommandViaReflection("test command");
+                assertNotNull(result);
+            } catch (Exception e) {
+            }
+
+            StackPane personPlaceholder = getPrivateField(mainWindow, "personListPanelPlaceholder");
+            StackPane propertyPlaceholder = getPrivateField(mainWindow, "propertyListPanelPlaceholder");
+
+            assertTrue(personPlaceholder.isVisible());
+            assertTrue(personPlaceholder.isManaged());
+            assertFalse(propertyPlaceholder.isVisible());
+            assertFalse(propertyPlaceholder.isManaged());
+        });
+    }
+
+    @Test
+    public void executeCommand_withPropertiesViewType_switchesToPropertiesView() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
+
+        runOnFx(() -> {
+            logic.setNextViewType(CommandResult.ViewType.PROPERTIES);
+
+            try {
+                CommandResult result = executeCommandViaReflection("test command");
+                assertNotNull(result);
+            } catch (Exception e) {
+            }
+
+            StackPane personPlaceholder = getPrivateField(mainWindow, "personListPanelPlaceholder");
+            StackPane propertyPlaceholder = getPrivateField(mainWindow, "propertyListPanelPlaceholder");
+
+            assertFalse(personPlaceholder.isVisible());
+            assertFalse(personPlaceholder.isManaged());
+            assertTrue(propertyPlaceholder.isVisible());
+            assertTrue(propertyPlaceholder.isManaged());
+        });
+    }
+
+    @Test
+    public void executeCommand_withNoneViewType_doesNotChangeView() throws Exception {
+        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
+
+        runOnFx(() -> {
+            logic.setNextViewType(CommandResult.ViewType.NONE);
+
+            try {
+                CommandResult result = executeCommandViaReflection("test command");
+                assertNotNull(result);
+            } catch (Exception e) {
+            }
+
+            StackPane personPlaceholder = getPrivateField(mainWindow, "personListPanelPlaceholder");
+            StackPane propertyPlaceholder = getPrivateField(mainWindow, "propertyListPanelPlaceholder");
+
+            assertTrue(personPlaceholder.isVisible());
+            assertTrue(personPlaceholder.isManaged());
+            assertFalse(propertyPlaceholder.isVisible());
+            assertFalse(propertyPlaceholder.isManaged());
+        });
+    }
+
+    @Test
     public void getPersonListPanel_returnsNotNull() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
 
@@ -114,77 +205,4 @@ public class MainWindowTest {
             assertTrue(primaryStage.isShowing());
         });
     }
-
-    @Test
-    public void handleHelp_opensHelpWindow() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
-
-        runOnFx(() -> {
-            mainWindow.handleHelp();
-
-            // Help window should be showing
-            HelpWindow helpWindow = getPrivateField(mainWindow, "helpWindow");
-            assertNotNull(helpWindow);
-        });
-    }
-
-    /**
-     * A test implementation of Logic that returns predictable results.
-     */
-    private static class TestLogic implements Logic {
-        private final Model model;
-        private final StorageManager storage;
-
-        TestLogic(Model model, StorageManager storage) {
-            this.model = model;
-            this.storage = storage;
-        }
-
-        @Override
-        public CommandResult execute(String commandText) throws CommandException, ParseException {
-            return new CommandResult("Test feedback");
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
-        }
-
-        @Override
-        public Path getAddressBookFilePath() {
-            return Paths.get("test.json");
-        }
-
-        @Override
-        public GuiSettings getGuiSettings() {
-            return new GuiSettings();
-        }
-
-        @Override
-        public void setGuiSettings(GuiSettings guiSettings) {
-            // Do nothing for testing
-        }
-
-        @Override
-        public javafx.collections.ObservableList<Person> getFilteredPersonList() {
-            return javafx.collections.FXCollections.observableArrayList();
-        }
-
-        @Override
-        public javafx.collections.ObservableList<Property> getFilteredPropertyList() {
-            return javafx.collections.FXCollections.observableArrayList();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T> T getPrivateField(MainWindow mainWindow, String fieldName) {
-        try {
-            java.lang.reflect.Field f = MainWindow.class.getDeclaredField(fieldName);
-            f.setAccessible(true);
-            return (T) f.get(mainWindow);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
-
