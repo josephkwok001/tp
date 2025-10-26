@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-
 import static seedu.address.logic.commands.CommandTestUtil.showPropertyAtIndex;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PROPERTY;
