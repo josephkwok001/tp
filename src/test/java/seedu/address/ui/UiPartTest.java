@@ -251,10 +251,6 @@ public class UiPartTest {
      * Tests MainWindow executeCommand() with PERSONS view type.
      * Covers lines 207-213 (PERSONS case) in MainWindow.java
      */
-    /**
-     * Tests MainWindow fillInnerParts() method.
-     * Covers lines 116-137 in MainWindow.java
-     */
     @Test
     public void mainWindow_fillInnerParts_initializesAllComponents() throws Exception {
         org.junit.jupiter.api.Assumptions.assumeTrue(fxReady && isJavaFxAvailable());
