@@ -54,15 +54,25 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        person.getOwnedProperties().forEach(p -> {
+        for (int i = 0; i < person.getOwnedProperties().size(); i++) {
+            var p = person.getOwnedProperties().get(i);
             Label chip = new Label(p.getPropertyName().toString());
             chip.getStyleClass().add("owned-property");
             ownedProperties.getChildren().add(chip);
-        });
-        person.getInterestedProperties().forEach(p -> {
+
+            if (i < person.getOwnedProperties().size() - 1) {
+                ownedProperties.getChildren().add(new Label(", "));
+            }
+        }
+        for (int i = 0; i < person.getInterestedProperties().size(); i++) {
+            var p = person.getInterestedProperties().get(i);
             Label chip = new Label(p.getPropertyName().toString());
             chip.getStyleClass().add("interested-property");
             interestedProperties.getChildren().add(chip);
-        });
+
+            if (i < person.getInterestedProperties().size() - 1) {
+                interestedProperties.getChildren().add(new Label(", "));
+            }
+        }
     }
 }
