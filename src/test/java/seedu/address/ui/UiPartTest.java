@@ -253,8 +253,6 @@ public class UiPartTest {
      */
     @Test
     public void mainWindow_fillInnerParts_initializesAllComponents() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady && isJavaFxAvailable());
-
         TestMainWindowLogic mockLogic = new TestMainWindowLogic();
 
         seedu.address.ui.MainWindow mainWindow = runOnFxAndGet(() -> {
@@ -268,6 +266,8 @@ public class UiPartTest {
                 return null;
             }
         });
+
+        org.junit.jupiter.api.Assertions.assertNotNull(mainWindow);
     }
 
     /**
