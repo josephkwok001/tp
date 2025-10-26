@@ -37,8 +37,8 @@ public class PropertyCard extends UiPart<Region> {
         this.property = property;
         id.setText(displayedIndex + ". ");
         propertyName.setText(property.getPropertyName().toString());
-        address.setText(property.getAddress().toString());
-        price.setText("$" + property.getPrice().toString());
+        address.setText("Address: " + property.getAddress().toString());
+        price.setText("Price: $" + property.getPrice().toString());
     }
 }
 
