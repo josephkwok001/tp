@@ -133,7 +133,9 @@ public class ModelManager implements Model {
 
     @Override
     public void setProperty(Property target, Property editedProperty) {
+        requireAllNonNull(target, editedProperty);
 
+        addressBook.setProperty(target, editedProperty);
     }
 
     //=========== Filtered Person List Accessors =============================================================
