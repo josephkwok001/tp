@@ -59,13 +59,16 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
 
-        for (String text : renderPropertyTexts(person.getOwnedProperties())) {
-            Label chip = new Label(text);
+        List<String> ownedTexts = renderPropertyTexts(person.getOwnedProperties());
+        for (int i = 0; i < ownedTexts.size(); i++) {
+            Label chip = new Label(ownedTexts.get(i));
             chip.getStyleClass().add("owned-property");
             ownedProperties.getChildren().add(chip);
         }
-        for (String text : renderPropertyTexts(person.getInterestedProperties())) {
-            Label chip = new Label(text);
+
+        List<String> interestedTexts = renderPropertyTexts(person.getInterestedProperties());
+        for (int i = 0; i < interestedTexts.size(); i++) {
+            Label chip = new Label(interestedTexts.get(i));
             chip.getStyleClass().add("interested-property");
             interestedProperties.getChildren().add(chip);
         }
@@ -73,14 +76,13 @@ public class PersonCard extends UiPart<Region> {
 
     /**
      * Returns the display texts for properties joined by ", " where only non-last items carry the suffix.
-     * Extracted as pure logic to enable headless unit testing and improve coverage.
      */
     static List<String> renderPropertyTexts(List<Property> properties) {
         List<String> out = new ArrayList<>();
         for (int i = 0; i < properties.size(); i++) {
-            Property p = properties.get(i);
+            String name = properties.get(i).getPropertyName().toString();
             String suffix = (i < properties.size() - 1) ? ", " : "";
-            out.add(p.getPropertyName().toString() + suffix);
+            out.add(name + suffix);
         }
         return out;
     }
