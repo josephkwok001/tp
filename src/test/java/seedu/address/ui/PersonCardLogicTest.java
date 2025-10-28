@@ -13,16 +13,21 @@ import seedu.address.model.property.PropertyName;
 
 /**
  * Headless tests for {@link PersonCard#renderPropertyTexts(java.util.List)}.
- * These tests do not require JavaFX and guarantee coverage on PersonCard.java lines changed.
  */
 public class PersonCardLogicTest {
 
+    /**
+     * Returns empty when there are no properties.
+     */
     @Test
     public void renderPropertyTexts_empty_returnsEmptyList() {
         List<String> texts = PersonCard.renderPropertyTexts(List.of());
         assertEquals(List.of(), texts);
     }
 
+    /**
+     * Does not append comma and space for a single item.
+     */
     @Test
     public void renderPropertyTexts_single_noTrailingComma() {
         Property p = new Property(new Address("A"), new Price(1), new PropertyName("Alpha"));
@@ -30,8 +35,11 @@ public class PersonCardLogicTest {
         assertEquals(List.of("Alpha"), texts);
     }
 
+    /**
+     * Appends ", " only to non-last items.
+     */
     @Test
-    public void renderPropertyTexts_multiple_commaAndSpaceBetweenItemsOnly() {
+    public void renderPropertyTexts_multiple_commasOnlyBetweenItems() {
         Property a = new Property(new Address("A"), new Price(1), new PropertyName("Alpha"));
         Property b = new Property(new Address("B"), new Price(2), new PropertyName("Beta"));
         Property c = new Property(new Address("C"), new Price(3), new PropertyName("Gamma"));
