@@ -1,19 +1,19 @@
 package seedu.address.logic.parser.person;
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
-import seedu.address.logic.commands.person.DeleteOwnedPropertyCommand;
-import seedu.address.logic.parser.ParserUtil;
-import seedu.address.model.property.PropertyName;
-
-import org.junit.jupiter.api.Test;
-
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
+import seedu.address.logic.commands.person.DeleteOwnedPropertyCommand;
+import seedu.address.logic.parser.ParserUtil;
+import seedu.address.model.property.PropertyName;
 
 public class DeleteOwnedPropertyCommandParserTest {
 
