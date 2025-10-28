@@ -1,10 +1,14 @@
-package seedu.address.logic.parser;
+package seedu.address.logic.parser.person;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.person.DeleteCommand;
+import seedu.address.logic.parser.ArgumentMultimap;
+import seedu.address.logic.parser.ArgumentTokenizer;
+import seedu.address.logic.parser.Parser;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Email;
 

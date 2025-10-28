@@ -1,11 +1,12 @@
-package seedu.address.logic.parser;
+package seedu.address.logic.parser.person;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.SetOwnedPropertyCommand;
+import seedu.address.logic.commands.person.SetOwnedPropertyCommand;
+import seedu.address.logic.parser.*;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Name;
 

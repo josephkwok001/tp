@@ -8,22 +8,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.commands.person.AddCommand;
+import seedu.address.logic.commands.person.*;
 import seedu.address.logic.commands.property.AddPropertyCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.person.DeleteCommand;
 import seedu.address.logic.commands.property.DeletePropertyCommand;
-import seedu.address.logic.commands.person.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
-import seedu.address.logic.commands.person.FindCommand;
 import seedu.address.logic.commands.FixInvalidCommand;
 import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.commands.person.InterestedPropertyCommand;
-import seedu.address.logic.commands.person.ListCommand;
 import seedu.address.logic.commands.ListInvalidCommand;
-import seedu.address.logic.commands.person.SetOwnedPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.person.*;
 import seedu.address.logic.parser.property.AddPropertyCommandParser;
@@ -33,21 +27,21 @@ import seedu.address.storage.Storage;
 /**
  * Parses user input.
  */
-public class AddressBookParser {
+public class EstateSearchParser {
 
     /**
      * Used for initial separation of command word and args.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
-    private static final Logger logger = LogsCenter.getLogger(AddressBookParser.class);
+    private static final Logger logger = LogsCenter.getLogger(EstateSearchParser.class);
 
     private final Storage storage;
 
-    public AddressBookParser(Storage storage) {
+    public EstateSearchParser(Storage storage) {
         this.storage = storage;
     }
 
-    public AddressBookParser() {
+    public EstateSearchParser() {
         this(null);
     }
 
@@ -125,6 +119,9 @@ public class AddressBookParser {
 
         case InterestedPropertyCommand.COMMAND_WORD:
             return new InterestedPropertyCommandParser().parse(arguments);
+
+        case DeleteInterestedPropertyCommand.COMMAND_WORD:
+            return new DeleteInterestedPropertyCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

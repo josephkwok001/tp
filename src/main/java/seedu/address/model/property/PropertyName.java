@@ -64,4 +64,8 @@ public class PropertyName {
         return fullName.hashCode();
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
 }
