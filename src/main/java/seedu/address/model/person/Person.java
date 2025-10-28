@@ -242,7 +242,7 @@ public class Person {
         ownedProperties.remove(property);
         updatedOwnedProperties.remove(property);
         return new Person(this.getName(), this.getPhone(), this.getEmail(), this.getAddress(),
-                this.getTags(), this.getOwnedProperties(), updatedOwnedProperties);
+                this.getTags(), updatedOwnedProperties, this.getInterestedProperties());
     }
 
 

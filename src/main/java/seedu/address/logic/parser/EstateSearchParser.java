@@ -18,6 +18,7 @@ import seedu.address.logic.commands.ListInvalidCommand;
 import seedu.address.logic.commands.person.AddCommand;
 import seedu.address.logic.commands.person.DeleteCommand;
 import seedu.address.logic.commands.person.DeleteInterestedPropertyCommand;
+import seedu.address.logic.commands.person.DeleteOwnedPropertyCommand;
 import seedu.address.logic.commands.person.EditCommand;
 import seedu.address.logic.commands.person.FindCommand;
 import seedu.address.logic.commands.person.InterestedPropertyCommand;
@@ -29,6 +30,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.person.AddCommandParser;
 import seedu.address.logic.parser.person.DeleteCommandParser;
 import seedu.address.logic.parser.person.DeleteInterestedPropertyCommandParser;
+import seedu.address.logic.parser.person.DeleteOwnedPropertyCommandParser;
 import seedu.address.logic.parser.person.EditCommandParser;
 import seedu.address.logic.parser.person.FindCommandParser;
 import seedu.address.logic.parser.person.InterestedPropertyCommandParser;
@@ -135,6 +137,9 @@ public class EstateSearchParser {
 
         case DeleteInterestedPropertyCommand.COMMAND_WORD:
             return new DeleteInterestedPropertyCommandParser().parse(arguments);
+
+        case DeleteOwnedPropertyCommand.COMMAND_WORD:
+            return new DeleteOwnedPropertyCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

@@ -19,14 +19,14 @@ import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
 
 /**
- * Deletes a property from the specified person's list of interested properties.
+ * Deletes a property from the specified person's list of owned properties.
  */
-public class DeleteInterestedPropertyCommand extends Command {
+public class DeleteOwnedPropertyCommand extends Command {
 
-    public static final String COMMAND_WORD = "deleteip";
+    public static final String COMMAND_WORD = "deleteop";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes an interested property from the specified person.\n"
+            + ": Deletes an owned property from the specified person.\n"
             + "Parameters: "
             + PREFIX_INDEX + "INDEX "
             + PREFIX_NAME + "PROPERTY NAME \n"
@@ -34,15 +34,15 @@ public class DeleteInterestedPropertyCommand extends Command {
             + PREFIX_INDEX + "1 "
             + PREFIX_NAME + "Sunshine Villa";
 
-    private static final String MESSAGE_SUCCESS = "Deleted interested property: %1$s from person: %2$s";
+    private static final String MESSAGE_SUCCESS = "Deleted owned property: %1$s from person: %2$s";
 
     private final PropertyName targetPropertyName;
     private final Index targetPersonIndex;
 
     /**
-     * Creates a DeleteInterestedPropertyCommand to delete {@code Property} from the specified {@code Person}
+     * Creates a DeleteOwnedPropertyCommand to delete {@code Property} from the specified {@code Person}
      */
-    public DeleteInterestedPropertyCommand(PropertyName propertyName, Index personIndex) {
+    public DeleteOwnedPropertyCommand(PropertyName propertyName, Index personIndex) {
         requireNonNull(propertyName);
         requireNonNull(personIndex);
         this.targetPropertyName = propertyName;
@@ -68,11 +68,11 @@ public class DeleteInterestedPropertyCommand extends Command {
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND,
                         targetPropertyName.getFullName())));
 
-        if (!targetPerson.getInterestedProperties().contains(toDelete)) {
-            throw new CommandException("This person is not interested in this property");
+        if (!targetPerson.getOwnedProperties().contains(toDelete)) {
+            throw new CommandException("This person does not own this property");
         }
 
-        Person updatedPerson = targetPerson.removeInterestedProperty(toDelete);
+        Person updatedPerson = targetPerson.removeOwnedProperty(toDelete);
         model.setPerson(targetPerson, updatedPerson);
 
         return new CommandResult(String.format(
@@ -93,11 +93,11 @@ public class DeleteInterestedPropertyCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof DeleteInterestedPropertyCommand)) {
+        if (!(other instanceof DeleteOwnedPropertyCommand)) {
             return false;
         }
 
-        DeleteInterestedPropertyCommand otherDeleteCommand = (DeleteInterestedPropertyCommand) other;
+        DeleteOwnedPropertyCommand otherDeleteCommand = (DeleteOwnedPropertyCommand) other;
         return targetPropertyName.equals(otherDeleteCommand.targetPropertyName)
                 && targetPersonIndex.equals(otherDeleteCommand.targetPersonIndex);
     }

@@ -86,7 +86,8 @@ public class LogicManager implements Logic {
                 || name.equals("SetOwnedPropertyCommand")
                 || name.equals("InterestedPropertyCommand")
                 || name.equals("AddPropertyCommand")
-                || name.equals("DeleteInterestedPropertyCommand");
+                || name.equals("DeleteInterestedPropertyCommand")
+                || name.equals("DeleteOwnedPropertyCommand");
     }
 
     @Override
