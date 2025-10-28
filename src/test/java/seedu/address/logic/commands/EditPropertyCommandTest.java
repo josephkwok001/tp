@@ -62,4 +62,44 @@ public class EditPropertyCommandTest {
             throw new RuntimeException(e);
         }
     }
+
+    @Test
+    public void toString_allFields_matchesFormat() {
+        Index idx = Index.fromOneBased(1);
+        EditPropertyCommand.EditPropertyDescriptor descriptor = new EditPropertyCommand.EditPropertyDescriptor();
+        descriptor.setPropertyName(new PropertyName("TestName"));
+        descriptor.setAddress(new Address("Test Address"));
+        descriptor.setPrice(new Price(500000));
+
+        EditPropertyCommand command = new EditPropertyCommand(idx, descriptor);
+
+        // Full command toString format
+        String expected = "seedu.address.logic.commands.EditPropertyCommand"
+                + "{index=seedu.address.commons.core.index.Index{zeroBasedIndex=0}, "
+                + "editPropertyDescriptor=seedu.address.logic.commands.EditPropertyCommand"
+                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500000}}";
+
+        assertEquals(expected, command.toString());
+
+        // Descriptor toString format
+        String expectedDescriptor = "seedu.address.logic.commands.EditPropertyCommand"
+                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500000}";
+
+        assertEquals(expectedDescriptor, descriptor.toString());
+    }
+
+    @Test
+    public void editPropertyDescriptor_toString_returnsCorrectFormat() {
+        EditPropertyCommand.EditPropertyDescriptor descriptor = new EditPropertyCommand.EditPropertyDescriptor();
+        descriptor.setPropertyName(new PropertyName("TestName"));
+        descriptor.setAddress(new Address("Test Address"));
+        descriptor.setPrice(new Price(500000));
+
+        String actual = descriptor.toString();
+        String expected = "seedu.address.logic.commands.EditPropertyCommand"
+                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500000}";
+
+        assertEquals(expected, actual);
+    }
+
 }
