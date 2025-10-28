@@ -59,9 +59,6 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
 
-        ownedProperties.setHgap(0);
-        interestedProperties.setHgap(0);
-
         for (String text : renderPropertyTexts(person.getOwnedProperties())) {
             Label chip = new Label(text);
             chip.getStyleClass().add("owned-property");
