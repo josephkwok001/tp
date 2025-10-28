@@ -74,7 +74,7 @@ public class InterestedPropertyCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_LINK);
         }
 
-        targetPerson.setInterestedProperties(toAdd);
+        targetPerson.setInterestedProperty(toAdd);
         model.setPerson(targetPerson, targetPerson);
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 Messages.formatProperty(toAdd), Messages.formatPerson(targetPerson)));

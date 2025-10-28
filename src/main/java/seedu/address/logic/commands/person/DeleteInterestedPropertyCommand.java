@@ -26,7 +26,8 @@ public class DeleteInterestedPropertyCommand extends Command {
     public static final String COMMAND_WORD = "deleteip";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes an interested property from the specified person.\n"
+            + ": Deletes a specified property from the selected person's "
+            + "list of interested properties.\n"
             + "Parameters: "
             + PREFIX_INDEX + "INDEX "
             + PREFIX_NAME + "PROPERTY NAME \n"
@@ -34,7 +35,7 @@ public class DeleteInterestedPropertyCommand extends Command {
             + PREFIX_INDEX + "1 "
             + PREFIX_NAME + "Sunshine Villa";
 
-    private static final String MESSAGE_SUCCESS = "Deleted interested property: %1$s from person: %2$s";
+    private static final String MESSAGE_SUCCESS = "Deleted property: %1$s from %2$s's list of interested properties.";
 
     private final PropertyName targetPropertyName;
     private final Index targetPersonIndex;
@@ -69,7 +70,8 @@ public class DeleteInterestedPropertyCommand extends Command {
                         targetPropertyName.getFullName())));
 
         if (!targetPerson.getInterestedProperties().contains(toDelete)) {
-            throw new CommandException("This person is not interested in this property");
+            throw new CommandException(String.format("The property %1$s is not in %2$s's list of interested "
+                    + "properties.", toDelete.getPropertyName().toString(), targetPerson.getName().toString()));
         }
 
         Person updatedPerson = targetPerson.removeInterestedProperty(toDelete);

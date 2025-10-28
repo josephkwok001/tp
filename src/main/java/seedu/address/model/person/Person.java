@@ -229,7 +229,7 @@ public class Person {
     /**
      * Adds a property to the person's interested properties list.
      */
-    public void setInterestedProperties(Property interestedProperty) {
+    public void setInterestedProperty(Property interestedProperty) {
         interestedProperties.add(interestedProperty);
     }
 
@@ -258,4 +258,7 @@ public class Person {
                 this.getTags(), this.getOwnedProperties(), updatedInterestedProperties);
     }
 
+    public void setOwnedProperty(Property ownedProperty) {
+        ownedProperties.add(ownedProperty);
+    }
 }

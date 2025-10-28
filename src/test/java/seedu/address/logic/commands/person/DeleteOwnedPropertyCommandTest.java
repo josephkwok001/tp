@@ -1,12 +1,5 @@
 package seedu.address.logic.commands.person;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-
-import org.junit.jupiter.api.Test;
-
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -18,7 +11,14 @@ import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
 
-public class DeleteInterestedPropertyCommandTest {
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+
+public class DeleteOwnedPropertyCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
@@ -28,18 +28,18 @@ public class DeleteInterestedPropertyCommandTest {
         Property testProperty = new Property(new Address("123 Main St"), new Price(500000),
                 new PropertyName("Dream Home"));
 
-        person.setInterestedProperty(testProperty);
+        person.setOwnedProperty(testProperty);
         model.addProperty(testProperty);
         System.out.println(person.getInterestedProperties());
 
-        DeleteInterestedPropertyCommand command = new DeleteInterestedPropertyCommand(
+        DeleteOwnedPropertyCommand command = new DeleteOwnedPropertyCommand(
                 new PropertyName(testProperty.getPropertyName().fullName), INDEX_FIRST_PERSON);
 
         CommandResult result = command.execute(model);
 
         System.out.println(result.getFeedbackToUser());
 
-        String expectedMessage = String.format(DeleteInterestedPropertyCommand.getSuccessMessage(),
+        String expectedMessage = String.format(DeleteOwnedPropertyCommand.getSuccessMessage(),
                 testProperty.getPropertyName(), person.getName().fullName);
 
         assertEquals(expectedMessage, result.getFeedbackToUser());
@@ -47,7 +47,7 @@ public class DeleteInterestedPropertyCommandTest {
 
     @Test
     public void execute_invalidPersonIndex_throwsCommandException() {
-        DeleteInterestedPropertyCommand command = new DeleteInterestedPropertyCommand(
+        DeleteOwnedPropertyCommand command = new DeleteOwnedPropertyCommand(
                 new PropertyName("Nonexistent Property"), INDEX_FIRST_PERSON);
 
         assertThrows(CommandException.class, () -> command.execute(model));
@@ -55,19 +55,18 @@ public class DeleteInterestedPropertyCommandTest {
 
     @Test
     public void execute_propertyNotFound_throwsCommandException() {
-        DeleteInterestedPropertyCommand command = new DeleteInterestedPropertyCommand(
+        DeleteOwnedPropertyCommand command = new DeleteOwnedPropertyCommand(
                 new PropertyName("Nonexistent Property"), INDEX_FIRST_PERSON);
 
         assertThrows(CommandException.class, () -> command.execute(model));
     }
 
     @Test
-    public void execute_propertyNotInInterestedList_throwsCommandException() {
-        Person person = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+    public void execute_propertyNotInOwnedList_throwsCommandException() {
         Property property = new Property(new Address("random address"),
                 new Price(1000000), new PropertyName("Nonexistent Property"));
 
-        DeleteInterestedPropertyCommand command = new DeleteInterestedPropertyCommand(
+        DeleteOwnedPropertyCommand command = new DeleteOwnedPropertyCommand(
                 property.getPropertyName(), INDEX_FIRST_PERSON);
 
         assertThrows(CommandException.class, () -> command.execute(model));
