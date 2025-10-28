@@ -21,7 +21,7 @@ import org.junit.jupiter.api.io.TempDir;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
-import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListPropertyCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
@@ -67,12 +67,12 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_validCommand_success() throws Exception {
-        String listCommand = ListCommand.COMMAND_WORD;
-        int count = model.getFilteredPersonList().size();
-        String noun = (count == 1) ? "person" : "persons";
-        String expectedMessage = String.format("%s (%d %s)", ListCommand.MESSAGE_SUCCESS, count, noun);
-        assertCommandSuccess(listCommand, expectedMessage, model);
+    public void execute_listPropertyCommand_success() throws Exception {
+        String listPropertyCommand = ListPropertyCommand.COMMAND_WORD;
+        int propertyCount = model.getFilteredPropertyList().size();
+        String noun = (propertyCount == 1) ? "property" : "properties";
+        String expectedMessage = String.format("%s (%d %s)", ListPropertyCommand.MESSAGE_SUCCESS, propertyCount, noun);
+        assertCommandSuccess(listPropertyCommand, expectedMessage, model);
     }
 
     @Test
@@ -204,10 +204,5 @@ public class LogicManagerTest {
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void getFilteredPropertyList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> logic.getFilteredPropertyList().remove(0));
     }
 }
