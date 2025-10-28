@@ -2,7 +2,6 @@ package seedu.address.logic.commands.person;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -66,7 +65,8 @@ public class DeleteInterestedPropertyCommandTest {
 
     @Test
     public void execute_propertyNotInInterestedList_throwsCommandException() {
-        Property propertyNotInList = new Property(new Address("1 Property Drive"), new Price(300000), new PropertyName("new property"));
+        Property propertyNotInList = new Property(new Address("1 Property Drive"),
+                new Price(300000), new PropertyName("new property"));
         model.addProperty(propertyNotInList);
         Index validIndex = Index.fromOneBased(1);
 

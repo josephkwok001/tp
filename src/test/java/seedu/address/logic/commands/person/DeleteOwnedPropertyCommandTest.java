@@ -65,7 +65,8 @@ public class DeleteOwnedPropertyCommandTest {
 
     @Test
     public void execute_propertyNotInOwnedList_throwsCommandException() {
-        Property propertyNotInList = new Property(new Address("1 Property Drive"), new Price(300000), new PropertyName("new property"));
+        Property propertyNotInList = new Property(new Address("1 Property Drive"), new Price(300000),
+                new PropertyName("new property"));
         model.addProperty(propertyNotInList);
         Index validIndex = Index.fromOneBased(1);
 
