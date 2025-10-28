@@ -1,11 +1,11 @@
-package seedu.address.logic.parser;
+package seedu.address.logic.parser.person;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.person.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 public class ListCommandParserTest {

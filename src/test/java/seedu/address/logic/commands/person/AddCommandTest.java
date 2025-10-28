@@ -1,11 +1,11 @@
-package seedu.address.logic.commands;
+package seedu.address.logic.commands.person;
 
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalProperties.PROPERTY_A;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.Messages;
+import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
@@ -24,67 +25,65 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
-import seedu.address.testutil.PropertyBuilder;
+import seedu.address.testutil.PersonBuilder;
 
-public class AddPropertyCommandTest {
+public class AddCommandTest {
 
     @Test
-    public void constructor_nullProperty_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new AddPropertyCommand(null));
+    public void constructor_nullPerson_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new AddCommand(null));
     }
 
     @Test
-    public void execute_propertyAcceptedByModel_addSuccessful() throws Exception {
-        AddPropertyCommandTest.ModelStubAcceptingPropertyAdded modelStub = new AddPropertyCommandTest
-                .ModelStubAcceptingPropertyAdded();
-        Property validProperty = new PropertyBuilder().build();
+    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new PersonBuilder().build();
 
-        CommandResult commandResult = new AddPropertyCommand(validProperty).execute(modelStub);
+        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(AddPropertyCommand.MESSAGE_SUCCESS, Messages.formatProperty(validProperty)),
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.formatPerson(validPerson)),
                 commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validProperty), modelStub.propertiesAdded);
+        assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
-        Property validProperty = new PropertyBuilder().build();
-        AddPropertyCommand addPropertyCommand = new AddPropertyCommand(validProperty);
-        AddPropertyCommandTest.ModelStub modelStub = new AddPropertyCommandTest.ModelStubWithProperty(validProperty);
+        Person validPerson = new PersonBuilder().build();
+        AddCommand addCommand = new AddCommand(validPerson);
+        ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
-        assertThrows(CommandException.class, AddPropertyCommand.MESSAGE_DUPLICATE_PERSON, () -> addPropertyCommand
-                .execute(modelStub));
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
     }
 
     @Test
     public void equals() {
-        Property duxton = new PropertyBuilder().withName("The Pinnacle at Duxton").build();
-        Property dawson = new PropertyBuilder().withName("SkyVille at Dawson").build();
-        AddPropertyCommand addDuxtonCommand = new AddPropertyCommand(duxton);
-        AddPropertyCommand addDawsonCommand = new AddPropertyCommand(dawson);
+        Person alice = new PersonBuilder().withName("Alice").build();
+        Person bob = new PersonBuilder().withName("Bob").build();
+        AddCommand addAliceCommand = new AddCommand(alice);
+        AddCommand addBobCommand = new AddCommand(bob);
 
         // same object -> returns true
-        assertTrue(addDuxtonCommand.equals(addDuxtonCommand));
+        assertTrue(addAliceCommand.equals(addAliceCommand));
 
         // same values -> returns true
-        AddPropertyCommand addDuxtonCommandCopy = new AddPropertyCommand(duxton);
-        assertTrue(addDuxtonCommand.equals(addDuxtonCommandCopy));
+        AddCommand addAliceCommandCopy = new AddCommand(alice);
+        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(addDuxtonCommandCopy.equals(1));
+        assertFalse(addAliceCommand.equals(1));
 
         // null -> returns false
-        assertFalse(addDawsonCommand.equals(null));
+        assertFalse(addAliceCommand.equals(null));
 
         // different person -> returns false
-        assertFalse(addDuxtonCommand.equals(addDawsonCommand));
+        assertFalse(addAliceCommand.equals(addBobCommand));
     }
 
     @Test
     public void toStringMethod() {
-        AddPropertyCommand addPropertyCommand = new AddPropertyCommand(PROPERTY_A);
-        String expected = AddPropertyCommand.class.getCanonicalName() + "{toAddProperty=" + PROPERTY_A + "}";
-        assertEquals(expected, addPropertyCommand.toString());
+        AddCommand addCommand = new AddCommand(ALICE);
+        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
+        assertEquals(expected, addCommand.toString());
     }
 
     /**
@@ -127,8 +126,8 @@ public class AddPropertyCommandTest {
         }
 
         @Override
-        public void addProperty(Property property) {
-
+        public void addProperty(Property person) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -158,7 +157,7 @@ public class AddPropertyCommandTest {
 
         @Override
         public void deleteProperty(Property target) {
-
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
@@ -194,43 +193,42 @@ public class AddPropertyCommandTest {
         @Override
         public void removePropertyFromAllPersons(Property propertyToDelete) {
         }
-
     }
 
     /**
      * A Model stub that contains a single person.
      */
-    private class ModelStubWithProperty extends AddPropertyCommandTest.ModelStub {
-        private final Property property;
+    private class ModelStubWithPerson extends ModelStub {
+        private final Person person;
 
-        ModelStubWithProperty(Property property) {
-            requireNonNull(property);
-            this.property = property;
+        ModelStubWithPerson(Person person) {
+            requireNonNull(person);
+            this.person = person;
         }
 
         @Override
-        public boolean hasProperty(Property property) {
-            requireNonNull(property);
-            return this.property.isSameProperty(property);
+        public boolean hasPerson(Person person) {
+            requireNonNull(person);
+            return this.person.isSamePerson(person);
         }
     }
 
     /**
-     * A Model stub that always accept the property being added.
+     * A Model stub that always accept the person being added.
      */
-    private class ModelStubAcceptingPropertyAdded extends AddPropertyCommandTest.ModelStub {
-        final ArrayList<Property> propertiesAdded = new ArrayList<>();
+    private class ModelStubAcceptingPersonAdded extends ModelStub {
+        final ArrayList<Person> personsAdded = new ArrayList<>();
 
         @Override
-        public boolean hasProperty(Property property) {
-            requireNonNull(property);
-            return propertiesAdded.stream().anyMatch(property::isSameProperty);
+        public boolean hasPerson(Person person) {
+            requireNonNull(person);
+            return personsAdded.stream().anyMatch(person::isSamePerson);
         }
 
         @Override
-        public void addProperty(Property property) {
-            requireNonNull(property);
-            propertiesAdded.add(property);
+        public void addPerson(Person person) {
+            requireNonNull(person);
+            personsAdded.add(person);
         }
 
         @Override
@@ -238,4 +236,5 @@ public class AddPropertyCommandTest {
             return new AddressBook();
         }
     }
+
 }

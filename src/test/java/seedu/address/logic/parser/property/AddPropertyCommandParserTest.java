@@ -1,4 +1,4 @@
-package seedu.address.logic.parser;
+package seedu.address.logic.parser.property;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_PROPERTY_1;
@@ -18,7 +18,7 @@ import static seedu.address.testutil.TypicalProperties.PROPERTY_1;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.AddPropertyCommand;
+import seedu.address.logic.commands.property.AddPropertyCommand;
 import seedu.address.model.property.Address;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;

@@ -1,4 +1,4 @@
-package seedu.address.logic.parser;
+package seedu.address.logic.parser.person;
 
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
-import seedu.address.logic.commands.SetOwnedPropertyCommand;
+import seedu.address.logic.commands.person.SetOwnedPropertyCommand;
+import seedu.address.logic.parser.CliSyntax;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.Name;
 
 public class SetOwnedPropertyCommandParserTest {

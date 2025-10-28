@@ -8,23 +8,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.AddPropertyCommand;
+import seedu.address.logic.commands.person.AddCommand;
+import seedu.address.logic.commands.property.AddPropertyCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.DeletePropertyCommand;
-import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.person.DeleteCommand;
+import seedu.address.logic.commands.property.DeletePropertyCommand;
+import seedu.address.logic.commands.person.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
-import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.person.FindCommand;
 import seedu.address.logic.commands.FixInvalidCommand;
 import seedu.address.logic.commands.HelpCommand;
-import seedu.address.logic.commands.InterestedPropertyCommand;
-import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.person.InterestedPropertyCommand;
+import seedu.address.logic.commands.person.ListCommand;
 import seedu.address.logic.commands.ListInvalidCommand;
-import seedu.address.logic.commands.SetOwnedPropertyCommand;
+import seedu.address.logic.commands.person.SetOwnedPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.person.*;
+import seedu.address.logic.parser.property.AddPropertyCommandParser;
+import seedu.address.logic.parser.property.DeletePropertyCommandParser;
 import seedu.address.storage.Storage;
 
 /**
