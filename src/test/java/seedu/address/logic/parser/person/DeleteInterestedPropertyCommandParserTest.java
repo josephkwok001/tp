@@ -1,4 +1,4 @@
-package seedu.address.logic.parser.property;
+package seedu.address.logic.parser.person;
 
 public class DeleteInterestedPropertyCommandParserTest {
 
