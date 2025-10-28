@@ -51,28 +51,28 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
+
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        ownedProperties.setHgap(0);
+        interestedProperties.setHgap(0);
+
         for (int i = 0; i < person.getOwnedProperties().size(); i++) {
             var p = person.getOwnedProperties().get(i);
-            Label chip = new Label(p.getPropertyName().toString());
+            String suffix = (i < person.getOwnedProperties().size() - 1) ? ", " : "";
+            Label chip = new Label(p.getPropertyName().toString() + suffix);
             chip.getStyleClass().add("owned-property");
             ownedProperties.getChildren().add(chip);
-
-            if (i < person.getOwnedProperties().size() - 1) {
-                ownedProperties.getChildren().add(new Label(", "));
-            }
         }
+
         for (int i = 0; i < person.getInterestedProperties().size(); i++) {
             var p = person.getInterestedProperties().get(i);
-            Label chip = new Label(p.getPropertyName().toString());
+            String suffix = (i < person.getInterestedProperties().size() - 1) ? ", " : "";
+            Label chip = new Label(p.getPropertyName().toString() + suffix);
             chip.getStyleClass().add("interested-property");
             interestedProperties.getChildren().add(chip);
-
-            if (i < person.getInterestedProperties().size() - 1) {
-                interestedProperties.getChildren().add(new Label(", "));
-            }
         }
     }
 }
