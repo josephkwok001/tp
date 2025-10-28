@@ -1,6 +1,15 @@
 package seedu.address.logic.commands.person;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.logic.Messages.MESSAGE_PROPERTY_NOT_FOUND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+
+import java.util.List;
+
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -8,14 +17,6 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
-
-import java.util.List;
-
-import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
-import static seedu.address.logic.Messages.MESSAGE_PROPERTY_NOT_FOUND;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 /**
  * Deletes a property from the specificed person's list of interested properties.
@@ -33,13 +34,16 @@ public class DeleteInterestedPropertyCommand extends Command {
             + PREFIX_INDEX + "1 "
             + PREFIX_NAME + "Sunshine Villa";
 
-    public static String MESSAGE_SUCCESS = "Deleted interested property: %1$s from person: %2$s";
+    private static final String MESSAGE_SUCCESS = "Deleted interested property: %1$s from person: %2$s";
 
     private final PropertyName targetPropertyName;
     private final Index targetPersonIndex;
 
     private Property toDelete;
 
+    /**
+     * Creates a DeleteInterestedPropertyCommand to delete {@code Property} from the specified {@code Person}
+     */
     public DeleteInterestedPropertyCommand(PropertyName propertyName, Index personIndex) {
         requireNonNull(propertyName);
         requireNonNull(personIndex);
@@ -60,9 +64,11 @@ public class DeleteInterestedPropertyCommand extends Command {
         Person targetPerson = model.getFilteredPersonList().get(targetPersonIndex.getZeroBased());
 
         toDelete = model.getAddressBook().getPropertyList().stream()
-                .filter(property -> property.getPropertyName().fullName.equals(targetPropertyName.getFullName()))
+                .filter(property -> property.getPropertyName()
+                        .fullName.equals(targetPropertyName.getFullName()))
                 .findFirst()
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND, targetPropertyName.getFullName())));
+                .orElseThrow(() -> new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND,
+                        targetPropertyName.getFullName())));
 
         if (!targetPerson.getInterestedProperties().contains(toDelete)) {
             throw new CommandException("This person is not interested in this property");
@@ -73,5 +79,36 @@ public class DeleteInterestedPropertyCommand extends Command {
 
         return new CommandResult(String.format(
                 MESSAGE_SUCCESS, toDelete.getPropertyName().toString(), targetPerson.getName()));
+    }
+
+    /**
+     * Returns the success message of this command.
+     */
+    public static String getSuccessMessage() {
+        return MESSAGE_SUCCESS;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof DeleteInterestedPropertyCommand)) {
+            return false;
+        }
+
+        DeleteInterestedPropertyCommand otherAddCommand = (DeleteInterestedPropertyCommand) other;
+        return targetPropertyName.equals(otherAddCommand.targetPropertyName)
+                && targetPersonIndex.equals(otherAddCommand.targetPersonIndex);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("targetPropertyName", targetPropertyName)
+                .add("targetPersonIndex", targetPersonIndex)
+                .toString();
     }
 }

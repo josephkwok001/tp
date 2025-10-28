@@ -25,15 +25,22 @@ public class DeleteInterestedPropertyCommandTest {
     @Test
     public void execute_validInputs_success() throws Exception {
         Person person = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Property property = person.getInterestedProperties().get(0); // Assume the person has at least one property
+        Property testProperty = new Property(new Address("123 Main St"), new Price(500000),
+                new PropertyName("Dream Home"));
+
+        person.setInterestedProperties(testProperty);
+        model.addProperty(testProperty);
+        System.out.println(person.getInterestedProperties());
 
         DeleteInterestedPropertyCommand command = new DeleteInterestedPropertyCommand(
-                new PropertyName(property.getPropertyName().fullName), INDEX_FIRST_PERSON);
+                new PropertyName(testProperty.getPropertyName().fullName), INDEX_FIRST_PERSON);
 
         CommandResult result = command.execute(model);
 
-        String expectedMessage = String.format(DeleteInterestedPropertyCommand.MESSAGE_SUCCESS,
-                property.getPropertyName(), person.getName().fullName);
+        System.out.println(result.getFeedbackToUser());
+
+        String expectedMessage = String.format(DeleteInterestedPropertyCommand.getSuccessMessage(),
+                testProperty.getPropertyName(), person.getName().fullName);
 
         assertEquals(expectedMessage, result.getFeedbackToUser());
     }
@@ -57,8 +64,8 @@ public class DeleteInterestedPropertyCommandTest {
     @Test
     public void execute_propertyNotInInterestedList_throwsCommandException() {
         Person person = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        Property property = new Property(new Address("random address")
-                , new Price(1000000), new PropertyName("Nonexistent Property"));
+        Property property = new Property(new Address("random address"),
+                new Price(1000000), new PropertyName("Nonexistent Property"));
 
         DeleteInterestedPropertyCommand command = new DeleteInterestedPropertyCommand(
                 property.getPropertyName(), INDEX_FIRST_PERSON);

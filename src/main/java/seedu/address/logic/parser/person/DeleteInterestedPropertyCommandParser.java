@@ -1,16 +1,24 @@
 package seedu.address.logic.parser.person;
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.person.DeleteInterestedPropertyCommand;
-import seedu.address.logic.parser.*;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.property.PropertyName;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.stream.Stream;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.*;
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.person.DeleteInterestedPropertyCommand;
+import seedu.address.logic.parser.ArgumentMultimap;
+import seedu.address.logic.parser.ArgumentTokenizer;
+import seedu.address.logic.parser.Parser;
+import seedu.address.logic.parser.ParserUtil;
+import seedu.address.logic.parser.Prefix;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.property.PropertyName;
 
+/**
+ * Parses input arguments and creates a new DeleteInterestedPropertyCommand object
+ */
 public class DeleteInterestedPropertyCommandParser implements Parser<DeleteInterestedPropertyCommand> {
 
     /**
@@ -27,7 +35,8 @@ public class DeleteInterestedPropertyCommandParser implements Parser<DeleteInter
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_INDEX)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteInterestedPropertyCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeleteInterestedPropertyCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_INDEX);

@@ -5,7 +5,23 @@
     "email": "hans@example.com",
     "address": "4th street",
     "tags": [ ],
-    "ownedProperties": [ ],
-    "interestedProperties": [ ]
+    "ownedProperties": [ "Suburban House" ],
+    "interestedProperties": [ "City Loft", "Hilltop Mansion" ]
+  } ],
+  "properties": [ {
+    "propertyName": "Suburban House",
+    "address": "123 Sunny St, Sunnytown",
+    "price": 500000,
+    "tags": [ "luxury", "sea-view" ]
+  }, {
+    "propertyName": "City Loft",
+    "address": "456 Ocean Ave, Beachtown",
+    "price": 350000,
+    "tags": [ "condo", "ocean-view" ]
+  }, {
+    "propertyName": "Hilltop Mansion",
+    "address": "789 Mountain Rd, Hilltown",
+    "price": 1200000,
+    "tags": [ "luxury", "mountain-view" ]
   } ]
 }
