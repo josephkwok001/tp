@@ -126,6 +126,10 @@ public class FixInvalidCommandTest {
 
         @Override
         public void updateFilteredPropertyList(Predicate<Property> predicate) {}
+
+        @Override
+        public void removePropertyFromAllPersons(Property propertyToDelete) {
+        }
     }
 
     /* ===========================

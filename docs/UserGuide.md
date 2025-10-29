@@ -75,6 +75,7 @@ Action     | Format, Examples
 **Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
 **Set Interested Property** | `setip i/INDEX n/PROPERTY_NAME`<br> e.g., `setip i/2 n/Sunshine Condo`
 **Edit Property**   | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/ 123 Testing Rd`
+**Find Property**   | `findp n/PROPERTY` <br> e.g., `find n/Sunshine Condo`
 
 
 
@@ -231,6 +232,26 @@ Examples:
 * `find n/John` returns `john` and `John Doe`
 * `find t/buyer` returns clients who have the tag `buyer` <br>
   ![result for 'find t/buyer'](images/find.png)
+
+
+### Locating Properties by property name: `findp`
+
+Finds listings by property name.
+
+Format: `findp n/PROPERTY NAME`
+
+* The search is case-insensitive. e.g `Sunshine` will match `sunshine`
+* The order of the keywords does not matter. e.g. `Sunshine Lodge` will match `Lodge Sunshine`
+* Only the property name is searched.
+* Only full words will be matched e.g. `Sunshine` will not match `Sunshines`
+* Properties matching at least one keyword will be returned (i.e. `OR` search).
+  e.g. `Sunshine Lodge` will return `Sunshine Home`, `Lodge Farm`
+*
+* `findp n/Sunshine` returns all properties whose property names contain `sunshine` (case-insensitive)
+
+Examples:
+* `findp n/Sunshine` returns `sunshine` and `Sunshine Lodge`
+
 
 ### Deleting a person : `delete`
 
