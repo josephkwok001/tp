@@ -75,6 +75,7 @@ public class LogicManager implements Logic {
         String name = command.getClass().getSimpleName();
         return name.equals("AddCommand")
                 || name.equals("EditCommand")
+                || name.equals("EditPropertyCommand")
                 || name.equals("DeleteCommand")
                 || name.equals("DeletePropertyCommand")
                 || name.equals("ClearCommand")

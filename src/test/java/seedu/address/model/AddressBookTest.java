@@ -20,7 +20,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.property.Address;
+import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyName;
+import seedu.address.model.property.exceptions.DuplicatePropertyException;
+import seedu.address.model.property.exceptions.PropertyNotFoundException;
 import seedu.address.testutil.PersonBuilder;
 
 
@@ -114,6 +119,48 @@ public class AddressBookTest {
     public void addPerson_duplicate_throwsDuplicatePersonException() {
         addressBook.addPerson(ALICE);
         assertThrows(DuplicatePersonException.class, () -> addressBook.addPerson(new PersonBuilder(ALICE).build()));
+    }
+
+    @Test
+    public void setProperty_nullEditedProperty_throwsNullPointerException() {
+        AddressBook ab = new AddressBook();
+        Property target = new Property(new Address("A"), new Price(100), new PropertyName("N"));
+        // editedProperty null -> requireNonNull should throw
+        assertThrows(NullPointerException.class, () -> ab.setProperty(target, null));
+    }
+
+    @Test
+    public void setProperty_success_replacesProperty() {
+        AddressBook ab = new AddressBook();
+        Property original = new Property(new Address("A1"), new Price(100), new PropertyName("NameA"));
+        ab.addProperty(original);
+
+        Property edited = new Property(new Address("A2"), new Price(200), new PropertyName("NameAEdited"));
+        ab.setProperty(original, edited);
+
+        assertEquals(1, ab.getPropertyList().size());
+        assertEquals(edited, ab.getPropertyList().get(0));
+    }
+
+    @Test
+    public void setProperty_targetNotFound_throwsPropertyNotFoundException() {
+        AddressBook ab = new AddressBook();
+        Property target = new Property(new Address("A"), new Price(100), new PropertyName("N"));
+        Property edited = new Property(new Address("B"), new Price(200), new PropertyName("N2"));
+        assertThrows(PropertyNotFoundException.class, () -> ab.setProperty(target, edited));
+    }
+
+    @Test
+    public void setProperty_replacingWithDuplicate_throwsDuplicatePropertyException() {
+        AddressBook ab = new AddressBook();
+        Property p1 = new Property(new Address("A1"), new Price(100), new PropertyName("NameA"));
+        Property p2 = new Property(new Address("A2"), new Price(200), new PropertyName("NameB"));
+        ab.addProperty(p1);
+        ab.addProperty(p2);
+
+        // attempt to edit p1 so its identity matches p2 (e.g. same name), expecting duplicate exception
+        Property edited = new Property(new Address("A3"), new Price(300), new PropertyName("NameB"));
+        assertThrows(DuplicatePropertyException.class, () -> ab.setProperty(p1, edited));
     }
 
     /**

@@ -16,6 +16,10 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.property.Address;
+import seedu.address.model.property.Price;
+import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyName;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
@@ -91,6 +95,29 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void hasProperty_nullProperty_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasProperty(null));
+    }
+
+    @Test
+    public void hasProperty_propertyNotInAddressBook_returnsFalse() {
+        Property p = new Property(new Address("1 Example St"), new Price(1000), new PropertyName("P"));
+        assertFalse(modelManager.hasProperty(p));
+    }
+
+    @Test
+    public void hasProperty_propertyInAddressBook_returnsTrue() {
+        Property p = new Property(new Address("1 Example St"), new Price(1000), new PropertyName("P"));
+        modelManager.addProperty(p);
+        assertTrue(modelManager.hasProperty(p));
+    }
+
+    @Test
+    public void updateFilteredPersonList_nullPredicate_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.updateFilteredPersonList(null));
     }
 
     @Test
