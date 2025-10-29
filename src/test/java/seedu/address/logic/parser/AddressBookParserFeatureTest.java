@@ -18,46 +18,46 @@ public class AddressBookParserFeatureTest {
 
     @Test
     void parse_export_keptFromMaster() throws Exception {
-        AddressBookParser p = new AddressBookParser();
+        EstateSearchParser p = new EstateSearchParser();
         assertTrue(p.parseCommand("export out/data.json") instanceof ExportCommand);
     }
 
     @Test
     void parse_fixInvalid_guarded() {
-        AddressBookParser p = new AddressBookParser(null);
+        EstateSearchParser p = new EstateSearchParser(null);
         assertThrows(ParseException.class, () ->
                 p.parseCommand("fix-invalid i/1 n/Alice p/999 e/a@b.com a/addr l/HDB"));
     }
 
     @Test
     void parse_listInvalid_guarded() {
-        AddressBookParser p = new AddressBookParser(null);
+        EstateSearchParser p = new EstateSearchParser(null);
         assertThrows(ParseException.class, () -> p.parseCommand("list-invalid"));
     }
 
     @Test
     void parse_fixInvalid_okWithStorage() throws Exception {
         Storage fake = new StorageStubReportOnly();
-        AddressBookParser p = new AddressBookParser(fake);
+        EstateSearchParser p = new EstateSearchParser(fake);
         assertTrue(p.parseCommand("fix-invalid i/1 n/Alice p/999 e/a@b.com a/addr l/HDB") instanceof FixInvalidCommand);
     }
 
     @Test
     void parse_listInvalid_okWithStorage() throws Exception {
         Storage fake = new StorageStubReportOnly();
-        AddressBookParser p = new AddressBookParser(fake);
+        EstateSearchParser p = new EstateSearchParser(fake);
         assertTrue(p.parseCommand("list-invalid") instanceof ListInvalidCommand);
     }
 
     @Test
     void parseFixInvalid_requiresStorage_guarded() {
-        AddressBookParser p = new AddressBookParser();
+        EstateSearchParser p = new EstateSearchParser();
         assertThrows(ParseException.class, () -> p.parseCommand("fix-invalid i/1"));
     }
 
     @Test
     void parseListInvalid_requiresStorage_guarded() {
-        AddressBookParser p = new AddressBookParser();
+        EstateSearchParser p = new EstateSearchParser();
         assertThrows(ParseException.class, () -> p.parseCommand("list-invalid"));
     }
 }

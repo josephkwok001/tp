@@ -5,8 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.ListPropertyCommand;
+import seedu.address.logic.commands.property.ListPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.property.ListPropertyCommandParser;
 
 /** Parses input arguments and creates a new ListPropertyCommand object. */
 public class ListPropertyCommandParserTest {

@@ -2,6 +2,7 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -228,21 +229,36 @@ public class Person {
     /**
      * Adds a property to the person's interested properties list.
      */
-    public void setInterestedProperties(Property interestedProperty) {
+    public void setInterestedProperty(Property interestedProperty) {
         interestedProperties.add(interestedProperty);
     }
 
     /**
      * Removes a property from the person's owned properties.
+     * @return a new {@code Person} instance with the updated owned properties list
      */
-    public void removeOwnedProperty(Property propertyToRemove) {
-        ownedProperties.remove(propertyToRemove);
+    public Person removeOwnedProperty(Property property) {
+        List<Property> updatedOwnedProperties = new ArrayList<>(this.getOwnedProperties());
+        ownedProperties.remove(property);
+        updatedOwnedProperties.remove(property);
+        return new Person(this.getName(), this.getPhone(), this.getEmail(), this.getAddress(),
+                this.getTags(), updatedOwnedProperties, this.getInterestedProperties());
     }
+
 
     /**
      * Removes a property from the person's interested properties.
+     * @return a new Person instance with the updated interested properties list
      */
-    public void removeInterestedProperty(Property propertyToRemove) {
-        interestedProperties.remove(propertyToRemove);
+    public Person removeInterestedProperty(Property property) {
+        List<Property> updatedInterestedProperties = new ArrayList<>(this.getInterestedProperties());
+        interestedProperties.remove(property);
+        updatedInterestedProperties.remove(property);
+        return new Person(this.getName(), this.getPhone(), this.getEmail(), this.getAddress(),
+                this.getTags(), this.getOwnedProperties(), updatedInterestedProperties);
+    }
+
+    public void setOwnedProperty(Property ownedProperty) {
+        ownedProperties.add(ownedProperty);
     }
 }

@@ -5,9 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.EditPropertyCommand;
-import seedu.address.logic.commands.EditPropertyCommand.EditPropertyDescriptor;
+import seedu.address.logic.commands.property.EditPropertyCommand;
+import seedu.address.logic.commands.property.EditPropertyCommand.EditPropertyDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.property.EditPropertyCommandParser;
 import seedu.address.model.property.Address;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.PropertyName;

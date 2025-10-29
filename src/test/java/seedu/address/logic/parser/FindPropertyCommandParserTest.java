@@ -7,8 +7,9 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.FindPropertyCommand;
+import seedu.address.logic.commands.property.FindPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.property.FindPropertyCommandParser;
 import seedu.address.model.property.PropertyNameContainsKeywordsPredicate;
 
 public class FindPropertyCommandParserTest {

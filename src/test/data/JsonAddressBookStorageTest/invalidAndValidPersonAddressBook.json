@@ -4,42 +4,101 @@
     "phone" : "94351253",
     "email" : "alice@example.com",
     "address" : "123, Jurong West Ave 6, #08-111",
-    "tags" : [ "friends" ]
+    "tags" : [ "friends" ],
+    "ownedProperties" : [ "Sunshine Villa", "Oceanview Condo" ],
+    "interestedProperties" : [ "Downtown Apartment", "Suburban House" ]
   }, {
     "name" : "Benson Meier",
     "phone" : "98765432",
     "email" : "johnd@example.com",
     "address" : "311, Clementi Ave 2, #02-25",
-    "tags" : [ "owesMoney", "friends" ]
+    "tags" : [ "owesMoney", "friends" ],
+    "ownedProperties" : [ "Greenwood Estate" ],
+    "interestedProperties" : [ "Lakeside Bungalow", "Mountain Cabin", "City Loft" ]
   }, {
     "name" : "Carl Kurz",
     "phone" : "95352563",
     "email" : "heinz@example.com",
     "address" : "wall street",
-    "tags" : [ ]
+    "tags" : [ ],
+    "ownedProperties" : [ "City Loft", "Suburban House" ],
+    "interestedProperties" : [ "Sunshine Villa", "Oceanview Condo" ]
   }, {
     "name" : "Daniel Meier",
     "phone" : "87652533",
     "email" : "cornelia@example.com",
     "address" : "10th street",
-    "tags" : [ "friends" ]
+    "tags" : [ "friends" ],
+    "ownedProperties" : [ "Downtown Apartment" ],
+    "interestedProperties" : [ "Hilltop Mansion", "Greenwood Estate" ]
   }, {
     "name" : "Elle Meyer",
     "phone" : "9482224",
     "email" : "werner@example.com",
     "address" : "michegan ave",
-    "tags" : [ ]
+    "tags" : [ ],
+    "ownedProperties" : [ "Suburban House" ],
+    "interestedProperties" : [ "Sunshine Villa", "Lakeside Bungalow" ]
   }, {
     "name" : "Fiona Kunz",
     "phone" : "9482427",
     "email" : "lydia@example.com",
     "address" : "little tokyo",
-    "tags" : [ ]
+    "tags" : [ ],
+    "ownedProperties" : [ "Lakeside Bungalow", "Downtown Apartment" ],
+    "interestedProperties" : [ "Mountain Cabin", "Oceanview Condo" ]
   }, {
     "name" : "George Best",
     "phone" : "9482442",
     "email" : "anna@example.com",
     "address" : "4th street",
-    "tags" : [ ]
-  }]
+    "tags" : [ ],
+    "ownedProperties" : [ "Mountain Cabin" ],
+    "interestedProperties" : [ "Downtown Apartment", "Suburban House" ]
+  }],
+  "properties" : [ {
+    "propertyName": "Sunshine Villa",
+    "address": "1 Sunshine Avenue, #10-01",
+    "price": 1500000
+  },
+    {
+      "propertyName": "Oceanview Condo",
+      "address": "2 Ocean Drive, #05-12",
+      "price": 2100000
+    },
+    {
+      "propertyName": "Downtown Apartment",
+      "address": "10 Shenton Way, #22-08",
+      "price": 1800000
+    },
+    {
+      "propertyName": "Suburban House",
+      "address": "5 Maple Lane",
+      "price": 3200000
+    },
+    {
+      "propertyName": "Greenwood Estate",
+      "address": "8 Greenwood Close",
+      "price": 4500000
+    },
+    {
+      "propertyName": "Lakeside Bungalow",
+      "address": "12 Reservoir View",
+      "price": 5800000
+    },
+    {
+      "propertyName": "Mountain Cabin",
+      "address": "15 Hillcrest Road",
+      "price": 950000
+    },
+    {
+      "propertyName": "City Loft",
+      "address": "20 Cecil Street, #30-05",
+      "price": 2300000
+    },
+    {
+      "propertyName": "Hilltop Mansion",
+      "address": "1 Queen Astrid Park",
+      "price": 12000000
+    } ]
 }

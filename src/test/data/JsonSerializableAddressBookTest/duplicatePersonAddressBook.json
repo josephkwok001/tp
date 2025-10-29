@@ -4,11 +4,41 @@
     "phone": "94351253",
     "email": "alice@example.com",
     "address": "123, Jurong West Ave 6, #08-111",
-    "tags": [ "friends" ]
+    "tags": [ "friends" ],
+    "ownedProperties" : [ "Cinnamon Heights" ],
+    "interestedProperties" : [ "Acacia Park" ]
   }, {
     "name": "Alice Pauline",
     "phone": "94351253",
     "email": "pauline@example.com",
-    "address": "4th street"
-  } ]
+    "address": "4th street",
+    "tags": [ "colleagues" ],
+    "ownedProperties" : [ "UTown Residences" ],
+    "interestedProperties" : [ "Shearson Hall" ]
+  } ],
+  "properties": [
+    {
+      "propertyName": "Cinnamon Heights",
+      "address": "10 Cinnamon St, Sweetville",
+      "price": 750000,
+      "tags": [ "modern", "city-view" ]
+    },
+    {
+      "propertyName": "Acacia Park",
+      "address": "20 Acacia Rd, Greenfield",
+      "price": 600000,
+      "tags": [ "park-view", "family-friendly" ]
+    },
+    {
+      "propertyName": "UTown Residences",
+      "address": "30 University Ave, College Town",
+      "price": 850000,
+      "tags": [ "student-living", "convenient" ]
+    },
+    {
+      "propertyName": "Shearson Hall",
+      "address": "40 Shearson St, Historic District",
+      "price": 950000,
+      "tags": [ "historic", "luxury" ]
+    } ]
 }

@@ -12,7 +12,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 public class AddressBookParserUnknownTest {
     @Test
     void parse_unknown_throws() {
-        AddressBookParser p = new AddressBookParser();
+        EstateSearchParser p = new EstateSearchParser();
         assertThrows(ParseException.class, () -> p.parseCommand("not-a-cmd"));
     }
 }

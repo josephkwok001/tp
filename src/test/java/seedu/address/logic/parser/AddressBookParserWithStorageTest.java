@@ -85,13 +85,13 @@ class AddressBookParserWithStorageTest {
 
     @Test
     void listInvalid_withStorage_routes() throws Exception {
-        AddressBookParser parser = new AddressBookParser(new StorageStub());
+        EstateSearchParser parser = new EstateSearchParser(new StorageStub());
         assertTrue(parser.parseCommand("list-invalid") instanceof ListInvalidCommand);
     }
 
     @Test
     void listInvalid_withoutStorage_throws() {
-        AddressBookParser parser = new AddressBookParser();
+        EstateSearchParser parser = new EstateSearchParser();
         assertThrows(ParseException.class, () -> parser.parseCommand("list-invalid"));
     }
 }

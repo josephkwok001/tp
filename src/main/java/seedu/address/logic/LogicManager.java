@@ -11,7 +11,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.AddressBookParser;
+import seedu.address.logic.parser.EstateSearchParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -34,7 +34,7 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
-    private final AddressBookParser addressBookParser;
+    private final EstateSearchParser addressBookParser;
 
     /**
      * Creates a {@code LogicManager}.
@@ -45,7 +45,7 @@ public class LogicManager implements Logic {
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        this.addressBookParser = new AddressBookParser(storage);
+        this.addressBookParser = new EstateSearchParser(storage);
     }
 
     @Override
@@ -87,7 +87,9 @@ public class LogicManager implements Logic {
                 || name.equals("UntagCommand")
                 || name.equals("SetOwnedPropertyCommand")
                 || name.equals("InterestedPropertyCommand")
-                || name.equals("AddPropertyCommand");
+                || name.equals("AddPropertyCommand")
+                || name.equals("DeleteInterestedPropertyCommand")
+                || name.equals("DeleteOwnedPropertyCommand");
     }
 
     @Override
