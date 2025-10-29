@@ -3,12 +3,15 @@ package seedu.address.ui;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,6 +27,8 @@ import seedu.address.model.property.Address;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
+import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.TypicalPersons;
 
 /**
  * Tests for {@link UiPart} and {@link PersonCard}.
@@ -302,7 +307,7 @@ public class UiPartTest {
         }
 
 
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
+        assumeTrue(fxReady);
         seedu.address.model.person.Person base = seedu.address.testutil.TypicalPersons.ALICE;
         seedu.address.model.person.Person personWithTags = new seedu.address.testutil.PersonBuilder(base)
                 .withTags("friends", "owesMoney")
@@ -362,7 +367,7 @@ public class UiPartTest {
             return;
         }
 
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady);
+        assumeTrue(fxReady);
         seedu.address.model.person.Person base =
                 new seedu.address.testutil.PersonBuilder(seedu.address.testutil.TypicalPersons.ALICE)
                         .withTags()
@@ -401,13 +406,22 @@ public class UiPartTest {
         return (T) f.get(card);
     }
 
+    private static boolean isJavaFxAvailable() {
+        try {
+            Class.forName("javafx.application.Platform");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
     /**
      * Tests MainWindow fillInnerParts() method.
      * Covers lines 116-137 in MainWindow.java
      */
     @Test
     public void mainWindow_fillInnerParts_initializesPanels() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady && isJavaFxAvailable());
+        assumeTrue(fxReady && isJavaFxAvailable());
 
         TestMainWindowLogic mockLogic = new TestMainWindowLogic();
 
@@ -431,7 +445,7 @@ public class UiPartTest {
      */
     @Test
     public void mainWindow_executeCommand_personsViewType() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady && isJavaFxAvailable());
+        assumeTrue(fxReady && isJavaFxAvailable());
 
         TestMainWindowLogic mockLogic = new TestMainWindowLogic();
         mockLogic.setNextViewType(seedu.address.logic.commands.CommandResult.ViewType.PERSONS);
@@ -461,7 +475,7 @@ public class UiPartTest {
      */
     @Test
     public void mainWindow_executeCommand_propertiesViewType() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady && isJavaFxAvailable());
+        assumeTrue(fxReady && isJavaFxAvailable());
 
         TestMainWindowLogic mockLogic = new TestMainWindowLogic();
         mockLogic.setNextViewType(seedu.address.logic.commands.CommandResult.ViewType.PROPERTIES);
@@ -492,7 +506,7 @@ public class UiPartTest {
      */
     @Test
     public void mainWindow_executeCommand_noneViewType() throws Exception {
-        org.junit.jupiter.api.Assumptions.assumeTrue(fxReady && isJavaFxAvailable());
+        assumeTrue(fxReady && isJavaFxAvailable());
 
         TestMainWindowLogic mockLogic = new TestMainWindowLogic();
         mockLogic.setNextViewType(seedu.address.logic.commands.CommandResult.ViewType.NONE);
