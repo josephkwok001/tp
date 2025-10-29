@@ -74,6 +74,8 @@ Action     | Format, Examples
 **Delete Property** | `deletep INDEX`<br> e.g., `deletep 3`
 **Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
 **Set Interested Property** | `setip i/INDEX n/PROPERTY_NAME`<br> e.g., `setip i/2 n/Sunshine Condo`
+**Edit Property**   | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/ 123 Testing Rd`
+**Find Property**   | `findp n/PROPERTY` <br> e.g., `find n/Sunshine Condo`
 
 
 
@@ -148,6 +150,20 @@ Shows a list of all persons in EstateSearch.
 
 Format: `list`
 
+### Editing a property : `editp`
+
+Edits an existing property in EstateSearch.
+
+Format: `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…`
+
+* Edits the property at the specified `INDEX`. The index refers to the index number shown in the displayed property list. The index **must be a positive integer** 1, 2, 3, …​
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+
+Examples:
+*  `editp 2 n/Sunshine Condo pr/120000 a/ 123 Testing Rd` Edits the property name, price and address to be `Sunshine Condo`, `120000` and `123 Testing Rd` respectively
+*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+
 ### Editing a person : `edit`
 
 Edits an existing person in EstateSearch.
@@ -216,6 +232,26 @@ Examples:
 * `find n/John` returns `john` and `John Doe`
 * `find t/buyer` returns clients who have the tag `buyer` <br>
   ![result for 'find t/buyer'](images/find.png)
+
+
+### Locating Properties by property name: `findp`
+
+Finds listings by property name.
+
+Format: `findp n/PROPERTY NAME`
+
+* The search is case-insensitive. e.g `Sunshine` will match `sunshine`
+* The order of the keywords does not matter. e.g. `Sunshine Lodge` will match `Lodge Sunshine`
+* Only the property name is searched.
+* Only full words will be matched e.g. `Sunshine` will not match `Sunshines`
+* Properties matching at least one keyword will be returned (i.e. `OR` search).
+  e.g. `Sunshine Lodge` will return `Sunshine Home`, `Lodge Farm`
+*
+* `findp n/Sunshine` returns all properties whose property names contain `sunshine` (case-insensitive)
+
+Examples:
+* `findp n/Sunshine` returns `sunshine` and `Sunshine Lodge`
+
 
 ### Deleting a person : `delete`
 

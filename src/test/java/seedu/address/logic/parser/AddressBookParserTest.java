@@ -22,9 +22,14 @@ import seedu.address.logic.commands.person.EditCommand;
 import seedu.address.logic.commands.person.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.person.FindCommand;
 import seedu.address.logic.commands.person.ListCommand;
+import seedu.address.logic.commands.property.DeletePropertyCommand;
+import seedu.address.logic.commands.property.EditPropertyCommand;
+import seedu.address.logic.commands.property.FindPropertyCommand;
+import seedu.address.logic.commands.property.ListPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.PropertyNameContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -68,13 +73,20 @@ public class AddressBookParserTest {
         assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD + " 3") instanceof ExitCommand);
     }
 
-
     @Test
     public void parseCommand_find() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " n/" + String.join(" ", keywords));
         assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_findp() throws Exception {
+        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        FindPropertyCommand command = (FindPropertyCommand) parser.parseCommand(
+                FindPropertyCommand.COMMAND_WORD + " n/" + String.join(" ", keywords));
+        assertEquals(new FindPropertyCommand(new PropertyNameContainsKeywordsPredicate(keywords)), command);
     }
 
     @Test
@@ -98,6 +110,11 @@ public class AddressBookParserTest {
     }
 
     @Test
+    public void parseCommand_listProperty() throws Exception {
+        assertTrue(parser.parseCommand(ListPropertyCommand.COMMAND_WORD) instanceof ListPropertyCommand);
+    }
+
+    @Test
     public void parseCommand_unrecognisedInput_throwsParseException() {
         assertThrows(ParseException.class, String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE), ()
             -> parser.parseCommand(""));
@@ -108,5 +125,17 @@ public class AddressBookParserTest {
         assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
     }
 
+    @Test
+    public void parseCommand_editProperty_returnsEditPropertyCommand() throws Exception {
+        // Example edit property: editp 1 n/NewName a/New Address p/150000
+        String input = EditPropertyCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased()
+                + " n/NewName a/New Address p/150000";
+        assertTrue(parser.parseCommand(input) instanceof EditPropertyCommand);
+    }
 
+    @Test
+    public void parseCommand_deleteProperty_returnsDeletePropertyCommand() throws Exception {
+        String input = DeletePropertyCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased();
+        assertTrue(parser.parseCommand(input) instanceof DeletePropertyCommand);
+    }
 }

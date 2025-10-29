@@ -16,6 +16,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 import seedu.address.storage.Storage;
 
 /**
@@ -75,6 +76,7 @@ public class LogicManager implements Logic {
         String name = command.getClass().getSimpleName();
         return name.equals("AddCommand")
                 || name.equals("EditCommand")
+                || name.equals("EditPropertyCommand")
                 || name.equals("DeleteCommand")
                 || name.equals("DeletePropertyCommand")
                 || name.equals("ClearCommand")
@@ -98,6 +100,11 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Person> getFilteredPersonList() {
         return model.getFilteredPersonList();
+    }
+
+    @Override
+    public ObservableList<Property> getFilteredPropertyList() {
+        return model.getFilteredPropertyList();
     }
 
     @Override

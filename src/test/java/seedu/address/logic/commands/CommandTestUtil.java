@@ -21,6 +21,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -147,5 +148,21 @@ public class CommandTestUtil {
         model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredPersonList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the property at the given {@code targetIndex} in the
+     * {@code model}'s address book.
+     */
+    public static void showPropertyAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredPropertyList().size());
+
+        Property property = model.getFilteredPropertyList().get(targetIndex.getZeroBased());
+        final String firstWord = property.getPropertyName().toString().split("\\s+")[0];
+
+        model.updateFilteredPropertyList(p ->
+                p.getPropertyName().toString().toLowerCase().contains(firstWord.toLowerCase()));
+
+        assertTrue(model.getFilteredPropertyList().size() <= model.getAddressBook().getPropertyList().size());
     }
 }

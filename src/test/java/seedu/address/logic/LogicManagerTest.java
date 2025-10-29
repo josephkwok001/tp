@@ -23,6 +23,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.commands.person.AddCommand;
 import seedu.address.logic.commands.person.ListCommand;
+import seedu.address.logic.commands.property.ListPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -73,6 +74,14 @@ public class LogicManagerTest {
         String noun = (count == 1) ? "person" : "persons";
         String expectedMessage = String.format("%s (%d %s)", ListCommand.MESSAGE_SUCCESS, count, noun);
         assertCommandSuccess(listCommand, expectedMessage, model);
+    }
+    @Test
+    public void execute_listPropertyCommand_success() throws Exception {
+        String listPropertyCommand = ListPropertyCommand.COMMAND_WORD;
+        int propertyCount = model.getFilteredPropertyList().size();
+        String noun = (propertyCount == 1) ? "property" : "properties";
+        String expectedMessage = String.format("%s (%d %s)", ListPropertyCommand.MESSAGE_SUCCESS, propertyCount, noun);
+        assertCommandSuccess(listPropertyCommand, expectedMessage, model);
     }
 
     @Test
