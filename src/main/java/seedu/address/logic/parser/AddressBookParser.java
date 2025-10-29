@@ -25,6 +25,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.InterestedPropertyCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListInvalidCommand;
+import seedu.address.logic.commands.ListPropertyCommand;
 import seedu.address.logic.commands.SetOwnedPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.storage.Storage;
@@ -95,6 +96,9 @@ public class AddressBookParser {
 
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
+
+        case ListPropertyCommand.COMMAND_WORD:
+            return new ListPropertyCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
