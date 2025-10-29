@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -14,7 +13,7 @@
     <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="150" />
     </columnConstraints>
-    <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
+    <VBox alignment="CENTER_LEFT" minHeight="80" GridPane.columnIndex="0">
       <padding>
         <Insets top="5" right="5" bottom="5" left="15" />
       </padding>
@@ -24,28 +23,13 @@
             <Region fx:constant="USE_PREF_SIZE" />
           </minWidth>
         </Label>
-        <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
+        <Label fx:id="propertyName" text="\$propertyName" styleClass="cell_big_label" />
       </HBox>
 
-      <!-- Tags -->
-      <FlowPane fx:id="tags" />
-
-      <!-- Owned properties line -->
-      <HBox spacing="6" alignment="CENTER_LEFT">
-        <Label text="Owned:" styleClass="chip-prefix"/>
-        <FlowPane fx:id="ownedProperties" hgap="0" vgap="5" prefWrapLength="300.0"/>
-      </HBox>
-
-      <!-- Interested properties line -->
-      <HBox spacing="6" alignment="CENTER_LEFT">
-        <Label text="Interested:" styleClass="chip-prefix"/>
-        <FlowPane fx:id="interestedProperties" hgap="0" vgap="5" prefWrapLength="300.0"/>
-      </HBox>
-
-      <!-- Person details -->
-      <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
+      <!-- Property details -->
       <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
-      <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
+      <Label fx:id="price" styleClass="cell_small_label" text="\$price" />
     </VBox>
   </GridPane>
 </HBox>
+

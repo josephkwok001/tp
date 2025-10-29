@@ -26,6 +26,9 @@ import seedu.address.logic.commands.person.ListCommand;
 import seedu.address.logic.commands.person.SetOwnedPropertyCommand;
 import seedu.address.logic.commands.property.AddPropertyCommand;
 import seedu.address.logic.commands.property.DeletePropertyCommand;
+import seedu.address.logic.commands.property.EditPropertyCommand;
+import seedu.address.logic.commands.property.FindPropertyCommand;
+import seedu.address.logic.commands.property.ListPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.person.AddCommandParser;
 import seedu.address.logic.parser.person.DeleteCommandParser;
@@ -37,6 +40,9 @@ import seedu.address.logic.parser.person.InterestedPropertyCommandParser;
 import seedu.address.logic.parser.person.SetOwnedPropertyCommandParser;
 import seedu.address.logic.parser.property.AddPropertyCommandParser;
 import seedu.address.logic.parser.property.DeletePropertyCommandParser;
+import seedu.address.logic.parser.property.EditPropertyCommandParser;
+import seedu.address.logic.parser.property.FindPropertyCommandParser;
+import seedu.address.logic.parser.property.ListPropertyCommandParser;
 import seedu.address.storage.Storage;
 
 /**
@@ -85,6 +91,8 @@ public class EstateSearchParser {
 
         case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
+        case EditPropertyCommand.COMMAND_WORD:
+            return new EditPropertyCommandParser().parse(arguments);
 
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
@@ -98,8 +106,14 @@ public class EstateSearchParser {
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
 
+        case FindPropertyCommand.COMMAND_WORD:
+            return new FindPropertyCommandParser().parse(arguments);
+
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
+
+        case ListPropertyCommand.COMMAND_WORD:
+            return new ListPropertyCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();

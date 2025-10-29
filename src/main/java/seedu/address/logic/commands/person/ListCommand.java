@@ -5,6 +5,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.CommandResult.ViewType;
 import seedu.address.model.Model;
 
 /**
@@ -24,7 +25,7 @@ public class ListCommand extends Command {
 
         int count = model.getFilteredPersonList().size();
         String msg = String.format("%s (%d %s)", MESSAGE_SUCCESS, count, count == 1 ? "person" : "persons");
-        return new CommandResult(msg);
+        return new CommandResult(msg, ViewType.PERSONS);
     }
 
     @Override

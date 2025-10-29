@@ -1,6 +1,8 @@
 package seedu.address.ui;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -8,6 +10,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 
 /**
  * UI component that displays a {@link Person} in the person list.
@@ -51,28 +54,36 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
+
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        for (int i = 0; i < person.getOwnedProperties().size(); i++) {
-            var p = person.getOwnedProperties().get(i);
-            Label chip = new Label(p.getPropertyName().toString());
+
+        List<String> ownedTexts = renderPropertyTexts(person.getOwnedProperties());
+        for (int i = 0; i < ownedTexts.size(); i++) {
+            Label chip = new Label(ownedTexts.get(i));
             chip.getStyleClass().add("owned-property");
             ownedProperties.getChildren().add(chip);
-
-            if (i < person.getOwnedProperties().size() - 1) {
-                ownedProperties.getChildren().add(new Label(", "));
-            }
         }
-        for (int i = 0; i < person.getInterestedProperties().size(); i++) {
-            var p = person.getInterestedProperties().get(i);
-            Label chip = new Label(p.getPropertyName().toString());
+
+        List<String> interestedTexts = renderPropertyTexts(person.getInterestedProperties());
+        for (int i = 0; i < interestedTexts.size(); i++) {
+            Label chip = new Label(interestedTexts.get(i));
             chip.getStyleClass().add("interested-property");
             interestedProperties.getChildren().add(chip);
-
-            if (i < person.getInterestedProperties().size() - 1) {
-                interestedProperties.getChildren().add(new Label(", "));
-            }
         }
+    }
+
+    /**
+     * Returns the display texts for properties joined by ", " where only non-last items carry the suffix.
+     */
+    static List<String> renderPropertyTexts(List<Property> properties) {
+        List<String> out = new ArrayList<>();
+        for (int i = 0; i < properties.size(); i++) {
+            String name = properties.get(i).getPropertyName().toString();
+            String suffix = (i < properties.size() - 1) ? ", " : "";
+            out.add(name + suffix);
+        }
+        return out;
     }
 }
