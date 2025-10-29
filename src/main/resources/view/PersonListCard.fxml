@@ -33,13 +33,13 @@
       <!-- Owned properties line -->
       <HBox spacing="6" alignment="CENTER_LEFT">
         <Label text="Owned:" styleClass="chip-prefix"/>
-        <FlowPane fx:id="ownedProperties" hgap="5" vgap="5" prefWrapLength="300.0"/>
+        <FlowPane fx:id="ownedProperties" hgap="0" vgap="5" prefWrapLength="300.0"/>
       </HBox>
 
       <!-- Interested properties line -->
       <HBox spacing="6" alignment="CENTER_LEFT">
         <Label text="Interested:" styleClass="chip-prefix"/>
-        <FlowPane fx:id="interestedProperties" hgap="5" vgap="5" prefWrapLength="300.0"/>
+        <FlowPane fx:id="interestedProperties" hgap="0" vgap="5" prefWrapLength="300.0"/>
       </HBox>
 
       <!-- Person details -->
