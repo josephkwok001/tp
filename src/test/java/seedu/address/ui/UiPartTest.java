@@ -29,6 +29,7 @@ import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TypicalPersons;
+import seedu.address.ui.person.PersonCard;
 
 /**
  * Tests for {@link UiPart} and {@link PersonCard}.

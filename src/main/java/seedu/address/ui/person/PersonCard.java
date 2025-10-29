@@ -1,4 +1,4 @@
-package seedu.address.ui;
+package seedu.address.ui.person;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
+import seedu.address.ui.UiPart;
 
 /**
  * UI component that displays a {@link Person} in the person list.
@@ -62,14 +63,14 @@ public class PersonCard extends UiPart<Region> {
         List<String> ownedTexts = renderPropertyTexts(person.getOwnedProperties());
         for (int i = 0; i < ownedTexts.size(); i++) {
             Label chip = new Label(ownedTexts.get(i));
-            chip.getStyleClass().add("owned-property");
+            chip.getStyleClass().add("cell_small_label");
             ownedProperties.getChildren().add(chip);
         }
 
         List<String> interestedTexts = renderPropertyTexts(person.getInterestedProperties());
         for (int i = 0; i < interestedTexts.size(); i++) {
             Label chip = new Label(interestedTexts.get(i));
-            chip.getStyleClass().add("interested-property");
+            chip.getStyleClass().add("cell_small_label");
             interestedProperties.getChildren().add(chip);
         }
     }

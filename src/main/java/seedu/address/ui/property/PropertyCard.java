@@ -1,10 +1,11 @@
-package seedu.address.ui;
+package seedu.address.ui.property;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.property.Property;
+import seedu.address.ui.UiPart;
 
 /**
  * UI component that displays a {@link Property} in the property list.
