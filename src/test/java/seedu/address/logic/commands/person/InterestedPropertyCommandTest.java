@@ -240,4 +240,32 @@ public class InterestedPropertyCommandTest {
                 expectedConflict
         );
     }
+
+    /**
+     * Ensures equals(), hashCode(), and toString() are covered.
+     */
+    @Test
+    public void equals_hashcode_toString() {
+        Index idx1 = Index.fromZeroBased(0);
+        Index idx2 = Index.fromZeroBased(1);
+        Property property1 = model.getFilteredPropertyList().get(0);
+        Property property2 = model.getFilteredPropertyList().get(1);
+
+        InterestedPropertyCommand cmd1a = new InterestedPropertyCommand(property1.getPropertyName(), idx1);
+        InterestedPropertyCommand cmd1b = new InterestedPropertyCommand(property1.getPropertyName(), idx1);
+        InterestedPropertyCommand cmd2 = new InterestedPropertyCommand(property2.getPropertyName(), idx2);
+
+        assertTrue(cmd1a.equals(cmd1a));
+
+        assertTrue(cmd1a.equals(cmd1b));
+        assertEquals(cmd1a.hashCode(), cmd1b.hashCode());
+
+        assertTrue(!cmd1a.equals(cmd2));
+
+        assertTrue(!cmd1a.equals("not a command"));
+
+        String ts = cmd1a.toString();
+        assertTrue(ts.contains("propertyName"));
+        assertTrue(ts.contains("personIndex"));
+    }
 }
