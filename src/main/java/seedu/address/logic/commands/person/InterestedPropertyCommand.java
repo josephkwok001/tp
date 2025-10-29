@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -15,30 +14,32 @@ import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
 
-
 /**
- * Links a property to a Person that is interested
+ * Links a property to a Person as an interested property.
+ * Usage: {@code setip i/INDEX n/NAME_OF_PROPERTY}
  */
 public class InterestedPropertyCommand extends Command {
 
     public static final String COMMAND_WORD = "setip";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Links a Property as an interested property to a Person."
+            + ": Sets an interested property for the specified person.\n"
             + "Parameters: "
             + PREFIX_INDEX + "PERSON INDEX "
-            + PREFIX_NAME + "NAME OF PROPERTY \n"
+            + PREFIX_NAME + "NAME OF PROPERTY\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_INDEX + "1 "
-            + PREFIX_NAME + "Hillside Villa ";
+            + PREFIX_NAME + "Hillside Villa";
 
-    public static final String MESSAGE_SUCCESS = "Property %1$s linked to %2$s as an interested property";
+    public static final String MESSAGE_SUCCESS = "Set interested property for %s: %s";
     public static final String MESSAGE_DUPLICATE_LINK =
-            "This person is already marked as interested in this property";
+            "This person is already marked as interested in this property: %s";
     public static final String MESSAGE_PROPERTY_NOT_FOUND =
-            "Property not found in the property list";
+            "Property not found: %s";
     public static final String MESSAGE_PERSON_NOT_FOUND =
             "Person not found in the person list";
+    public static final String MESSAGE_OWNERSHIP_CONFLICT =
+            "This person already owns the property: %s";
 
     private final PropertyName targetPropertyName;
     private final Index targetPersonIndex;
@@ -47,7 +48,10 @@ public class InterestedPropertyCommand extends Command {
     private Person targetPerson;
 
     /**
-     * Creates an InterestedPropertyCommand to add {@code Property} to the specified {@code Person}
+     * Constructs a {@code InterestedPropertyCommand}.
+     *
+     * @param propertyName name of the property to link as interested; must be non-null
+     * @param personIndex index of the person in the last shown list; must be non-null
      */
     public InterestedPropertyCommand(PropertyName propertyName, Index personIndex) {
         requireNonNull(propertyName);
@@ -63,21 +67,26 @@ public class InterestedPropertyCommand extends Command {
         toAdd = model.getAddressBook().getPropertyList().stream()
                 .filter(property -> property.getPropertyName().fullName.equals(targetPropertyName.fullName))
                 .findFirst()
-                .orElseThrow(() -> new CommandException(MESSAGE_PROPERTY_NOT_FOUND));
+                .orElseThrow(() -> new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND,
+                        targetPropertyName.fullName)));
         try {
             targetPerson = model.getFilteredPersonList().get(targetPersonIndex.getZeroBased());
         } catch (IndexOutOfBoundsException e) {
             throw new CommandException(MESSAGE_PERSON_NOT_FOUND);
         }
 
-        if (targetPerson.getInterestedProperties().contains(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_LINK);
+        if (targetPerson.getOwnedProperties().stream().anyMatch(toAdd::isSameProperty)) {
+            throw new CommandException(String.format(MESSAGE_OWNERSHIP_CONFLICT, targetPropertyName.fullName));
+        }
+
+        if (targetPerson.getInterestedProperties().stream().anyMatch(toAdd::isSameProperty)) {
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_LINK, targetPropertyName.fullName));
         }
 
         targetPerson.setInterestedProperty(toAdd);
         model.setPerson(targetPerson, targetPerson);
         return new CommandResult(String.format(MESSAGE_SUCCESS,
-                Messages.formatProperty(toAdd), Messages.formatPerson(targetPerson)));
+                targetPerson.getName().fullName, toAdd.getPropertyName().toString()));
     }
 
     @Override
@@ -85,20 +94,24 @@ public class InterestedPropertyCommand extends Command {
         if (other == this) {
             return true;
         }
-
-        // instanceof handles nulls
-        if (!(other instanceof InterestedPropertyCommand otherAddCommand)) {
+        if (!(other instanceof InterestedPropertyCommand)) {
             return false;
         }
+        InterestedPropertyCommand o = (InterestedPropertyCommand) other;
+        return targetPropertyName.equals(o.targetPropertyName)
+                && targetPersonIndex.equals(o.targetPersonIndex);
+    }
 
-        return toAdd.equals(otherAddCommand.toAdd);
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(targetPropertyName, targetPersonIndex);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("toAdd", toAdd)
-                .add("targetPerson", targetPerson)
+                .add("propertyName", targetPropertyName)
+                .add("personIndex", targetPersonIndex)
                 .toString();
     }
 }

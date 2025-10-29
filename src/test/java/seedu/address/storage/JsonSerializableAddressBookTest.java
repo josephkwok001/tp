@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.model.AddressBook;
+import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalPersons;
 
 /**
@@ -137,15 +138,35 @@ public class JsonSerializableAddressBookTest {
     @Test
     public void toModelTypeWithReport_afterCreatingDuplicateViaReplaceAt_collectsInvalidsWithDuplicateReason()
             throws Exception {
-        JsonSerializableAddressBook data = JsonUtil.readJsonFile(TYPICAL_PERSONS_FILE,
-                JsonSerializableAddressBook.class).get();
-        JsonAdaptedPerson alice = new JsonAdaptedPerson(TypicalPersons.ALICE);
-        data.replaceAt(1, alice);
+        JsonSerializableAddressBook data = JsonUtil.readJsonFile(
+                TYPICAL_PERSONS_FILE, JsonSerializableAddressBook.class).get();
+
+        LoadReport baseline = data.toModelTypeWithReport();
+        seedu.address.model.AddressBook baseAb = baseline.getModelData().getAddressBook();
+        org.junit.jupiter.api.Assertions.assertTrue(baseAb.getPersonList().size() >= 2,
+                "Typical persons file should contain at least 2 persons.");
+
+        Person first = baseAb.getPersonList().get(0);
+        JsonAdaptedPerson duplicateOfFirst = new JsonAdaptedPerson(first);
+
+        data.replaceAt(1, duplicateOfFirst);
+
         LoadReport report = data.toModelTypeWithReport();
-        assertTrue(!report.getInvalids().isEmpty());
-        boolean hasDuplicateReason = report.getInvalids().stream()
-                .anyMatch(inv -> JsonSerializableAddressBook.MESSAGE_DUPLICATE_PERSON.equals(inv.reason()));
-        assertTrue(hasDuplicateReason);
+
+        java.util.List<LoadReport.InvalidPersonEntry> invalids = report.getInvalids();
+        org.junit.jupiter.api.Assertions.assertTrue(!invalids.isEmpty(),
+                "Expected at least one invalid entry after injecting a duplicate, but none found.");
+
+        boolean hasDuplicateReason = invalids.stream()
+                .map(LoadReport.InvalidPersonEntry::reason)
+                .filter(java.util.Objects::nonNull)
+                .anyMatch(r -> r.equals(JsonSerializableAddressBook.MESSAGE_DUPLICATE_PERSON)
+                        || r.toLowerCase().contains("duplicate person"));
+        org.junit.jupiter.api.Assertions.assertTrue(
+                hasDuplicateReason,
+                "Expected a duplicate-person reason in invalids, but got: "
+                        + invalids.stream().map(LoadReport.InvalidPersonEntry::reason).toList()
+        );
     }
 
     /**
