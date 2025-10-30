@@ -18,7 +18,8 @@ public class Messages {
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
     public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
     public static final String MESSAGE_PROPERTY_LISTED_OVERVIEW = "%1$d properties listed!";
-    public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX = "The property index provided is invalid";
+    public static final String MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX = "The person index provided is invalid";
+    public static final String MESSAGE_INVALID_OUT_OF_RANGE_INDEX = "The index provided is out of range";
     public static final String MESSAGE_PROPERTY_NOT_FOUND = "The property %1$s could not be found.";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
@@ -57,11 +58,11 @@ public class Messages {
      */
     public static String formatProperty(Property property) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(property.getAddress())
+        builder.append(property.getPropertyName())
                 .append("; Price: ")
                 .append(property.getPrice())
-                .append("; Property Name: ")
-                .append(property.getPropertyName());
+                .append("; Address: ")
+                .append(property.getAddress());
         return builder.toString();
     }
 }
