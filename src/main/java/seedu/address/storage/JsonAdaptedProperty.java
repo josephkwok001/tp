@@ -93,6 +93,20 @@ class JsonAdaptedProperty {
         }
     }
 
+    public java.util.Set<String> invalidFieldKeys() {
+        java.util.Set<String> keys = new java.util.HashSet<>();
+        if (propertyName == null || propertyName.trim().isEmpty() || !PropertyName.isValidName(propertyName)) {
+            keys.add("propertyName");
+        }
+        if (address == null || address.trim().isEmpty() || !Address.isValidAddress(address)) {
+            keys.add("address");
+        }
+        if (price == null || !Price.isValidPrice(price)) {
+            keys.add("price");
+        }
+        return keys;
+    }
+
     // --- Add these getters so the loader can prefill the dialog with originals ---
     public String getName() {
         return propertyName;

@@ -155,67 +155,100 @@ public class MainApp extends Application {
         return filtered;
     }
 
+    /**
+     * Builds a human-readable summary for invalid entries detected in the loaded data.
+     * <p>
+     * The summary contains overall statistics followed by per-index details.
+     * For each person index, this method prints either:
+     * <ul>
+     *   <li>the collected reasons when there is no base-field error (e.g.,
+     *   duplicates or only properties issues), or</li>
+     *   <li>only the invalid field section when base fields (name, phone, email, address)
+     *   are invalid, to avoid duplication.</li>
+     * </ul>
+     *
+     * @param report the {@code LoadReport} containing model data and invalid person entries
+     * @return a formatted summary string to display in the UI
+     */
     private String buildInvalidSummary(seedu.address.storage.LoadReport report) {
-        java.util.Map<Integer, java.util.List<seedu.address.storage.LoadReport.InvalidPersonEntry>> byIdx =
-                report.getInvalids().stream().collect(
-                        java.util.stream.Collectors.groupingBy(
-                                seedu.address.storage.LoadReport.InvalidPersonEntry::index,
-                                java.util.TreeMap::new,
-                                java.util.stream.Collectors.toList()
-                        )
-                );
+        var byIdx = report.getInvalids().stream().collect(
+                java.util.stream.Collectors.groupingBy(
+                        seedu.address.storage.LoadReport.InvalidPersonEntry::index,
+                        java.util.TreeMap::new,
+                        java.util.stream.Collectors.toList()
+                )
+        );
+
         int invalidPersonCount = byIdx.size();
         int invalidRecordCount = report.getInvalids().size();
         int validCount = report.getModelData().getAddressBook().getPersonList().size();
         int total = validCount + invalidPersonCount;
-        int kept = validCount;
 
         StringBuilder sb = new StringBuilder();
         sb.append("Some entries in your data file are invalid and will be ignored.\n\n")
                 .append(String.format("Total persons: %d\n", total))
                 .append(String.format("Invalid persons (ignored): %d\n", invalidPersonCount))
-                .append(String.format("Valid persons (loaded): %d\n", kept))
+                .append(String.format("Valid persons (loaded): %d\n", validCount))
                 .append(String.format("Invalid records: %d\n\n", invalidRecordCount))
                 .append("Details by person index:\n\n");
 
-        java.util.List<String> allFields = java.util.Arrays.asList("name", "phone", "email", "address");
+        java.util.List<String> allFields =
+                java.util.Arrays.asList("name", "phone", "email", "address", "properties");
 
         for (var e : byIdx.entrySet()) {
             int idx = e.getKey();
+            var entries = e.getValue();
+
+            sb.append(String.format("• Person #%d\n", idx + 1));
+
+            java.util.Set<String> reasons = new java.util.LinkedHashSet<>();
+            for (var inv : entries) {
+                reasons.add(inv.reason());
+            }
+
             java.util.Set<String> badFields = new java.util.LinkedHashSet<>();
-            for (var inv : e.getValue()) {
-                for (String f : allFields) {
+            for (String f : allFields) {
+                for (var inv : entries) {
                     if (inv.fieldInvalid(f)) {
                         badFields.add(f);
+                        break;
                     }
                 }
             }
 
-            sb.append(String.format("• Person #%d\n", idx + 1));
-            if (badFields.isEmpty()) {
-                sb.append("\n");
-                continue;
+            boolean hasBaseFieldIssue = badFields.stream()
+                    .anyMatch(f -> f.equals("name") || f.equals("phone") || f.equals("email") || f.equals("address"));
+
+            if (!hasBaseFieldIssue) {
+                for (String r : reasons) {
+                    sb.append("  - Reason: ").append(r).append("\n");
+                }
             }
 
-            sb.append("  - Invalid fields: ").append(String.join(", ", badFields)).append("\n");
-            for (String f : badFields) {
-                String msg;
-                if (f.equals("name")) {
-                    msg = seedu.address.model.person.Name.MESSAGE_CONSTRAINTS;
-                } else if (f.equals("phone")) {
-                    msg = seedu.address.model.person.Phone.MESSAGE_CONSTRAINTS;
-                } else if (f.equals("email")) {
-                    msg = seedu.address.model.person.Email.SHORT_MESSAGE_CONSTRAINTS;
-                } else if (f.equals("address")) {
-                    msg = seedu.address.model.person.Address.MESSAGE_CONSTRAINTS;
-                } else {
-                    msg = "Invalid value.";
+            if (!badFields.isEmpty()) {
+                sb.append("  - Invalid fields: ").append(String.join(", ", badFields)).append("\n");
+
+                for (String f : badFields) {
+                    String msg;
+                    if (f.equals("name")) {
+                        msg = seedu.address.model.person.Name.MESSAGE_CONSTRAINTS;
+                    } else if (f.equals("phone")) {
+                        msg = seedu.address.model.person.Phone.MESSAGE_CONSTRAINTS;
+                    } else if (f.equals("email")) {
+                        msg = seedu.address.model.person.Email.SHORT_MESSAGE_CONSTRAINTS;
+                    } else if (f.equals("address")) {
+                        msg = seedu.address.model.person.Address.MESSAGE_CONSTRAINTS;
+                    } else {
+                        msg = "Property names in 'owned' or 'interested' must refer to existing properties.";
+                    }
+                    String prettyMsg = msg.replaceAll("(?m)^", "        ");
+                    sb.append("    - ").append(f).append(":\n").append(prettyMsg).append("\n");
                 }
-                String prettyMsg = msg.replaceAll("(?m)^", "        ");
-                sb.append("    - ").append(f).append(":\n").append(prettyMsg).append("\n");
             }
+
             sb.append("\n");
         }
+
         return sb.toString();
     }
 
