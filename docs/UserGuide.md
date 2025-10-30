@@ -527,7 +527,8 @@ same <code>PROPERTY NAME</code><br>
     <tr><th colspan="3">Client-Property Relationship</th></tr>
     <tr><th rowspan="2">Set Interested Property, Set Owned Property</th><td>Index</td><td>Refer to Client > Add > Index</td></tr>
     <tr><td>Property Name</td><td>Refer to Property > Add > Property Name</td></tr>
-    <tr><th rowspan="1">Delete Interested Property, Delete Owned Property</th><td>Index</td><td>Refer to Client > Add > Index</td></tr>
+    <tr><th rowspan="2">Delete Interested Property, Delete Owned Property</th><td>Index</td><td>Refer to Client > Add > Index</td></tr>
+    <tr><td>Property Name</td><td>Refer to Property > Add > Property Name</td></tr>
     <tr>
 </table>
 --------------------------------------------------------------------------------------------------------------------
