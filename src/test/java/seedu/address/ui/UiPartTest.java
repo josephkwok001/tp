@@ -282,6 +282,69 @@ public class UiPartTest {
     }
 
     /**
+     * Builds a person with tags and owned properties, renders {@link PersonCard},
+     * and verifies basic text fields, tag ordering, chip counts and texts for owned properties,
+     * plus the displayed index.
+     */
+    @Test
+    public void personCard_rendersAllFields_andOwnedProperties() throws Exception {
+        if (!isJavaFxAvailable()) {
+            System.out.println("Skipping UI test - JavaFX not available");
+            return;
+        }
+
+
+        assumeTrue(fxReady);
+        seedu.address.model.person.Person base = seedu.address.testutil.TypicalPersons.ALICE;
+        seedu.address.model.person.Person personWithTags = new seedu.address.testutil.PersonBuilder(base)
+                .withTags("friends", "owesMoney")
+                .build();
+
+        Property prop1 = new Property(new Address("A"), new Price(1), new PropertyName("A"));
+        Property prop2 = new Property(new Address("B"), new Price(2), new PropertyName("B"));
+
+        Person personWithData = new Person(
+                personWithTags.getName(),
+                personWithTags.getPhone(),
+                personWithTags.getEmail(),
+                personWithTags.getAddress(),
+                personWithTags.getTags(),
+                List.of(prop1, prop2)
+        );
+
+        PersonCard card = runOnFxAndGet(() -> new PersonCard(personWithData, 3));
+
+        Label nameLabel = getPrivateField(card, "name");
+        Label phoneLabel = getPrivateField(card, "phone");
+        Label addressLabel = getPrivateField(card, "address");
+        Label emailLabel = getPrivateField(card, "email");
+        FlowPane tagsPane = getPrivateField(card, "tags");
+        FlowPane ownedPane = getPrivateField(card, "ownedProperties");
+
+        assertEquals(personWithData.getName().fullName, nameLabel.getText());
+        assertEquals(personWithData.getPhone().value, phoneLabel.getText());
+        assertEquals(personWithData.getAddress().value, addressLabel.getText());
+        assertEquals(personWithData.getEmail().value, emailLabel.getText());
+
+        assertTrue(tagsPane.getChildren().size() >= 2);
+        String first = ((Label) tagsPane.getChildren().get(0)).getText();
+        String second = ((Label) tagsPane.getChildren().get(1)).getText();
+        assertTrue(first.compareTo(second) <= 0);
+
+        int propertyCount = personWithData.getOwnedProperties().size();
+        int actual = ownedPane.getChildren().size();
+        assertEquals(propertyCount, actual, "Owned properties pane should contain only chips.");
+
+        for (int i = 0; i < propertyCount; i++) {
+            Label chip = (Label) ownedPane.getChildren().get(i);
+            assertTrue(chip.getStyleClass().contains("cell_small_label"));
+            String expectedText = personWithData.getOwnedProperties().get(i).getPropertyName().toString()
+                    + (i < propertyCount - 1 ? ", " : "");
+            assertEquals(expectedText, chip.getText(), "Owned property chip text mismatch at index " + i);
+        }
+    }
+
+    /**
      * Verifies that the gaps for owned and interested property panes are set to zero so that commas control spacing.
      */
     @Test
