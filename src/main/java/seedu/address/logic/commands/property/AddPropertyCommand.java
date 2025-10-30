@@ -32,7 +32,7 @@ public class AddPropertyCommand extends Command {
 
 
     public static final String MESSAGE_SUCCESS = "New property added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This property already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_PROPERTY = "This property already exists in the address book";
 
     private final Property toAdd;
 
@@ -49,7 +49,7 @@ public class AddPropertyCommand extends Command {
         requireNonNull(model);
 
         if (model.hasProperty(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+            throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
         }
 
         model.addProperty(toAdd);
