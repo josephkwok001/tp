@@ -1,8 +1,6 @@
 package seedu.address.storage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static seedu.address.storage.JsonAdaptedProperty.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -102,12 +100,18 @@ public class JsonAdaptedPropertyTest {
     @Test
     public void equals_sameObject_returnsTrue() {
         JsonAdaptedProperty adapted = new JsonAdaptedProperty(VALID_ADDRESS, VALID_PRICE, VALID_PROPERTY_NAME);
-        assertEquals(adapted, adapted);
+        assertTrue(adapted.equals(adapted));
     }
 
     @Test
     public void equals_differentType_returnsFalse() {
         JsonAdaptedProperty adapted = new JsonAdaptedProperty(VALID_ADDRESS, VALID_PRICE, VALID_PROPERTY_NAME);
-        assertNotEquals("Some String", adapted);
+        assertFalse(adapted.equals("Some String"));
+    }
+
+    @Test
+    public void getPrice_returnsCorrectValue() {
+        JsonAdaptedProperty adapted = new JsonAdaptedProperty(VALID_ADDRESS, VALID_PRICE, VALID_PROPERTY_NAME);
+        assertEquals(VALID_PRICE, adapted.getPrice());
     }
 }
