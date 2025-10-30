@@ -7,7 +7,7 @@ pageNav: 3
 # Welcome to EstateSearch!
 
 **EstateSearch** is a desktop application that is designed specifically for **real estate agents** who are looking
-for a tool that allows them to be fast and efficient through the use of a **Command-Line Interface (CLI)**. 
+for a tool that allows them to be fast and efficient through the use of a **Command-Line Interface (CLI)**.
 Along with a dual view **Graphical User Interface (GUI)**, you will be able to manage your client contacts, 
 organize property details, as well as client-property relations at significantly faster speeds than traditional 
 GUI-only applications. For the fast-typing real estate agent or property manager, **EstateSearch** is designed to
@@ -26,30 +26,33 @@ For any terms that you are not familiar with, do refer to the Glossary of Terms 
 --------------------------------------------------------------------------------------------------------------------
 ## How to use this User Guide
 
-This User Guide is designed to help you navigate EstateSearch and maximise your productivity with the 
+This User Guide is designed to help you navigate EstateSearch and maximise your productivity with the
 available features. It's designed to walk you through all the application's features, from getting started to using 
 advanced commands—no prior experience is necessary. Explore the sections below to begin:
 
 1. **Table of Contents**:
    You’ll find this on the right side of the User Guide. Click any section to jump straight to it.
 2. [**Getting Started**](#getting-started):
-A simple step-by-step guide for new users to follow and get acquainted with EstateSearch’s interface 
+A simple step-by-step guide for new users to follow and get acquainted with EstateSearch’s interface
 and basic functions.
 3. [**Command Summary**](#estatesearch-command-summary):
-The command summary is a good reference as it provides a general overview of all the available 
+The command summary is a good reference as it provides a general overview of all the available
 commands. Use the command summary when you need to clarify input formats for a command without having to go too in-depth
 regarding its usage.
 4. [**Features**](#features):
-Explore all the features that EstateSearch has to offer. This section offers in-depth information on every command 
+Explore all the features that EstateSearch has to offer. This section offers in-depth information on every command
 including information such as command formats, examples, and screenshots of expected outputs.
 5. [**FAQ**](#faq):
-This section contains answers to the most commonly asked questions regarding EstateSearch's functionality or issues 
+This section contains answers to the most commonly asked questions regarding EstateSearch's functionality or issues
 that are not brought up in other sections.
+6. [**Known Issues**](#known-issues):
+This section contains several known issues with usage of EstateSearch. If you face any unexpected behaviour do checkout
+this section for fixes.
 7. [**Glossary**](#glossary):
-If you encounter any unfamiliar terms in this User Guide, refer to the Glossary of Terms, which acts as a quick 
+If you encounter any unfamiliar terms in this User Guide, refer to the Glossary of Terms, which acts as a quick
 dictionary of key terms used in the EstateSearch.
 8. [**Acceptable Range for Input Parameters**]():
-Detailed information on valid inputs and constraints for commands. This section is useful for ensuring that your 
+Detailed information on valid inputs and constraints for commands. This section is useful for ensuring that your
 command inputs are valid and satisfy the required constraints.
 
 ### Alert Boxes
@@ -62,7 +65,7 @@ Within the User Guide, you will see these boxes appear, providing additional con
 </box>
 <box type="tip">
 
-**Tip**: Look out for tips that can help to improve your user experience and learn how to best use a feature. 
+**Tip**: Look out for tips that can help to improve your user experience and learn how to best use a feature.
 
 </box>
 <box type="warning">
@@ -120,9 +123,9 @@ On macOS:
 <box type="tip">
 
 **Tip**:
-When you first open EstateSearch, you will see that the application is populated with sample data. Feel free to test 
-out the features on the sample data to get comfortable with the app and its functions. Once you are ready to start 
-adding your own data, type in the <code>clear</code> command and press <kbd>ENTER</kbd>to reset all the client and 
+When you first open EstateSearch, you will see that the application is populated with sample data. Feel free to test
+out the features on the sample data to get comfortable with the app and its functions. Once you are ready to start
+adding your own data, type in the <code>clear</code> command and press <kbd>ENTER</kbd>to reset all the client and
 property data.
 </box>
 
@@ -419,15 +422,15 @@ If there are any entries with invalid values, EstateSearch will ignore those ent
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that 
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that
 contains the data of your previous EstateSearch home folder.
 
 **Q**: Can I search for partial names like 'John' for 'Johnathan'<br>
-**A**: EstateSearch does support partial name matching but only for full words within the name. For example, 
+**A**: EstateSearch does support partial name matching but only for full words within the name. For example,
 searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.
 
 **Q**: Does each client or property have a fixed index?<br>
-**A**: No. The index of each client and property depends on the current filtered list showed in the GUI. 
+**A**: No. The index of each client and property depends on the current filtered list showed in the GUI.
 The index may change when the list is filtered using the `find` command or when a client or a property is deleted.<br>
 
 **Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
@@ -438,8 +441,8 @@ The index may change when the list is filtered using the `find` command or when 
 
 **Q**: How are duplicates determined for clients and properties?<br>
 **A**: Clients are considered duplicates if they have the same, <code>NAME</code>, <code>PHONE</code>,
-<code>EMAIL</code>, <code>ADDRESS</code>, and <code>TAGS</code>. Properties are considered duplicates if they have the 
-same <code>PROPERTY NAME</code>, <code>ADDRESS</code>, and <code>PRICE</code>,<br>
+<code>EMAIL</code>, <code>ADDRESS</code>, and <code>TAGS</code>. Properties are considered duplicates if they have the
+same <code>PROPERTY NAME</code><br>
 
 **Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
 **A**: EstateSearch does not require any prior programming knowledge
@@ -453,9 +456,9 @@ same <code>PROPERTY NAME</code>, <code>ADDRESS</code>, and <code>PRICE</code>,<b
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only 
-the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by 
+1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only
+the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by
 the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard 
-shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. 
+2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard
+shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear.
 The remedy is to manually restore the minimized Help Window.
