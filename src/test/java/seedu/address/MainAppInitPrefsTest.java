@@ -1,9 +1,7 @@
 package seedu.address;
 
-import seedu.address.commons.exceptions.DataLoadingException;
-import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.UserPrefs;
-import seedu.address.storage.UserPrefsStorage;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -11,9 +9,10 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.UserPrefs;
+import seedu.address.storage.UserPrefsStorage;
 
 public class MainAppInitPrefsTest {
 
