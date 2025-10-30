@@ -533,7 +533,108 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC13: Clear all persons (dangerous operation)**
+---
+
+**Use case UC13: Set owned property for a person**
+
+**MSS**
+1. Agent requests to list persons
+2. System shows a list of persons
+3. Agent requests to set an owned property for a specific person by providing person index and property name
+4. System validates that the person exists, the property exists, and the person doesn't already own it
+5. System adds the property to the person's owned properties and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. The person list is empty.
+    * Use case ends.
+* 3a. The given person index is invalid.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
+* 4a. The specified property does not exist in the property list.
+    * 4a1. System shows "Property not found" error.
+    * Use case ends.
+* 4b. The person already owns the specified property.
+    * 4b1. System shows "duplicate property" error.
+    * Use case ends.
+
+---
+
+**Use case UC14: Set interested property for a person**
+
+**MSS**
+1. Agent requests to list persons
+2. System shows a list of persons
+3. Agent requests to set an interested property for a specific person by providing person index and property name
+4. System validates that the person exists, the property exists, and the person isn't already interested in it
+5. System adds the property to the person's interested properties and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. The person list is empty.
+    * Use case ends.
+* 3a. The given person index is invalid.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
+* 4a. The specified property does not exist in the property list.
+    * 4a1. System shows "Property not found" error.
+    * Use case ends.
+* 4b. The person is already interested in the specified property.
+    * 4b1. System shows "duplicate link" error.
+    * Use case ends.
+
+---
+
+**Use case UC15: Delete owned property from a person**
+
+**MSS**
+1. Agent requests to list persons
+2. System shows a list of persons
+3. Agent requests to delete an owned property from a specific person by providing person index and property name
+4. System validates that the person exists, the property exists, and the person owns it
+5. System removes the property from the person's owned properties and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. The person list is empty.
+    * Use case ends.
+* 3a. The given person index is invalid.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
+* 4a. The specified property does not exist in the property list.
+    * 4a1. System shows "Property not found" error.
+    * Use case ends.
+* 4b. The person does not own the specified property.
+    * 4b1. System shows error that the property is not in the person's owned list.
+    * Use case ends.
+
+---
+
+**Use case UC16: Delete interested property from a person**
+
+**MSS**
+1. Agent requests to list persons
+2. System shows a list of persons
+3. Agent requests to delete an interested property from a specific person by providing person index and property name
+4. System validates that the person exists, the property exists, and the person is interested in it
+5. System removes the property from the person's interested properties and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. The person list is empty.
+    * Use case ends.
+* 3a. The given person index is invalid.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
+* 4a. The specified property does not exist in the property list.
+    * 4a1. System shows "Property not found" error.
+    * Use case ends.
+* 4b. The person is not interested in the specified property.
+    * 4b1. System shows error that the property is not in the person's interested list.
+    * Use case ends.
+---
+
+**Use case UC17: Clear all persons (dangerous operation)**
 
 **MSS**
 1. Agent requests to clear all persons
@@ -547,59 +648,33 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * 2a1. System aborts the operation.
   * Use case ends.
 
----
-
-**Use case UC14: Undo the last modifying command**
-
-**MSS**
-1. Agent requests to undo the last modifying command
-2. System checks undo history
-3. System restores the previous state and shows confirmation
-   Use case ends.
-
-**Extensions**
-* 2a. There is no command to undo.
-  * 2a1. System shows an error indicating no undoable action.
-  * Use case ends.
-
----
-
-**Use case UC15: Redo the last undone command**
-
-**MSS**
-1. Agent requests to redo the last undone command
-2. System checks redo history
-3. System reapplies the command and shows confirmation
-   Use case ends.
-
-**Extensions**
-* 2a. There is no command to redo.
-  * 2a1. System shows an error indicating no redoable action.
-  * Use case ends.
-
 ### Non-Functional Requirements
 
 1. Technical Requirements
    1. The system must avoid OS-dependent features and be portable across Windows, Linux, and macOS without requiring code changes.
    2. The app must run exclusively on Java 17, and shall not require features from higher versions.
-   3. The data stored should be stored in a single human editable text file.
+   3. The data should be stored in a single human-editable text file in JSON format.
    4. The app should not rely on external database software.
    5. The app should only support offline usage with no server component.
+   6. The app must maintain separate storage structures for persons and properties while preserving their relationships.
 
 2. Usability & Quality Requirements
    1. Any user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
    2. The app should be usable by people with visual disabilities (e.g. colour blindness).
-   3. All error messages must provide clear, actionable guidance without technical jargon.
+   3. All error messages must provide clear, actionable guidance without technical jargon, including specific messages for relationship operations (e.g., property not found, duplicate property link).
    4. The product is offered as a free offline service.
    5. The user interface should be intuitive enough for users who are not IT-savvy.
    6. The application should not require the user to have advanced IT knowledge to operate.
    7. The app shall not require an installer; it should be deliverable as a standalone package (e.g. single JAR) that can run without setup steps.
    8. The product should be for a single user.
+   9. The UI should clearly distinguish between owned properties and interested properties for each person.
+   10. The dual-pane interface should provide clear visual separation between person list and property list views.
 
 3. Performance Requirements
-   1. All command-based operations (add, delete, update, search)The system must avoid OS-dependent features and be portable across Windows, Linux, and macOS without requiring code changes. must complete within 1 second under normal usage.
+   1. All command-based operations (add, delete, update, search) for both persons and properties must complete within 1 second under normal usage.
    2. The GUI must support standard resolutions (e.g. 1920×1080 and above) without layout issues, and degrade gracefully (no broken layouts) down to lower resolutions (e.g. 1280×720) or scaled UI modes.
-   3. The system must support at least 1,000 contacts without exceeding 1s for add/delete/update/search operations.
+   3. The system must support at least 1,000 persons and 1,000 properties without exceeding 1s for add/delete/update/search operations.
+   4. The dual-pane UI must render and switch between person and property views without noticeable lag (< 500ms).
 
 ### Glossary
 
