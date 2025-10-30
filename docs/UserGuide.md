@@ -457,7 +457,25 @@ same <code>PROPERTY NAME</code><br>
 **A**: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the `find` command or when persons are added or deleted.
 
 ---
+## Glossary {#glossary}
 
+| Term | Meaning |
+| --- | --- |
+| **CLI (Command-Line Interface)** | Use the app by typing commands (e.g., `add …`). |
+| **GUI (Graphical User Interface)** | The visual window with lists, buttons, and panels. |
+| **Command Box** | Text field where you enter commands; press <kbd>ENTER</kbd> to run. |
+| **Result Display** | Panel that shows feedback after a command executes. |
+| **Index** | 1-based position shown in the current list; changes with filtering. |
+| **Filtered List** | The list after `find`/`findp`; commands using indices refer to this list. |
+| **Person / Client** | A contact entry with Name, Phone, Email, Address, and Tags. |
+| **Property (Listing)** | A real-estate entry with Property Name, Address, and Price. |
+| **Owned Properties** | Properties a client owns; managed via `setop`. |
+| **Interested Properties** | Properties a client is interested in; managed via `setip`. |
+| **Tag** | Short label (e.g., `buyer`, `vip`) for grouping/filtering contacts. |
+| **Data File (`addressbook.json`)** | The JSON storage file for persons and properties. |
+| **Load Report Popup** | Startup dialog summarizing invalid records and reasons. |
+
+---
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.

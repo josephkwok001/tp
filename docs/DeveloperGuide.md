@@ -687,11 +687,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
-* **Real estate agent**: A professional who helps clients buy, sell, or rent properties. They link between buyers and sellers, providing advice, handling negotiations, and managing paperwork.
-* **Command-Line Interface (CLI):** A text-based interface where users interact with the program by typing.
-* **AB3 (AddressBook Level 3):** A desktop application for managing contacts.
-* **GUI (Graphical User Interface):** An interface that allows users to interact with software through visual elements.
-* **Interface:** Allows users to interact with the program.
+| **AB3** | AddressBook Level 3 — the base codebase on which EstateSearch is built. |
+| **Architecture Diagram** | A UML diagram showing the high-level relationships among components (UI, Logic, Model, Storage, Commons). |
+| **Command** | Represents an executable user action (e.g., `AddCommand`, `DeleteCommand`). Each command encapsulates its own logic. |
+| **CommandResult** | The object returned after a command is executed, containing feedback to display in the UI. |
+| **Component** | A self-contained module of the application (e.g., `Logic`, `Model`, `UI`, `Storage`). |
+| **Logic** | Component that interprets user input, parses commands, executes them, and returns results. |
+| **Model** | Component that manages in-memory data (e.g., persons, properties, user preferences). |
+| **Storage** | Component responsible for reading/writing JSON files to persist data. |
+| **UI (User Interface)** | Component that manages the visible JavaFX interface. |
+| **Parser** | A class that converts raw text input (like `"add n/John"`) into a structured `Command` object. |
+| **ObservableList** | A JavaFX collection that notifies the UI when its contents change, allowing auto-updates. |
+| **Filtered List** | A view of data after applying search filters (e.g., results of `find`). |
+| **Property** | A new entity type in EstateSearch, representing a real estate listing with attributes like address and price. |
+| **Client** | A person (buyer/seller) entry in EstateSearch, adapted from AB3’s Person entity. |
+| **Relationship Command** | Commands that link clients and properties (e.g., `setop`, `setip`, `deleteop`, `deleteip`). |
+| **VersionedAddressBook** | A proposed data structure for implementing undo/redo functionality. |
+| **FXML** | XML-based layout files defining UI components in JavaFX. |
+| **Dual-pane Interface** | EstateSearch’s UI layout that displays both client and property lists simultaneously. |
 
 
 --------------------------------------------------------------------------------------------------------------------
