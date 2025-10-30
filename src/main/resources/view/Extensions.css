@@ -18,3 +18,12 @@
 .tooltip-text {
     -fx-text-fill: white;
 }
+
+.split-pane > .split-pane-divider {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.list-view .list-cell {
+    -fx-padding: 0;
+}

@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
@@ -26,25 +28,26 @@ public class PersonListPanel extends UiPart<Region> {
      */
     public PersonListPanel(ObservableList<Person> personList) {
         super(FXML);
+        personListView.setFixedCellSize(-1);
         personListView.setItems(personList);
-        personListView.setCellFactory(listView -> new PersonListViewCell());
-    }
+        personListView.setMaxHeight(Double.MAX_VALUE);
+        HBox.setHgrow(personListView, Priority.ALWAYS);
 
-    /**
-     * Custom {@code ListCell} that displays the graphics of a {@code Person} using a {@code PersonCard}.
-     */
-    class PersonListViewCell extends ListCell<Person> {
-        @Override
-        protected void updateItem(Person person, boolean empty) {
-            super.updateItem(person, empty);
+        personListView.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Person person, boolean empty) {
+                super.updateItem(person, empty);
 
-            if (empty || person == null) {
-                setGraphic(null);
-                setText(null);
-            } else {
-                setGraphic(new PersonCard(person, getIndex() + 1).getRoot());
+                if (empty || person == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    PersonCard card = new PersonCard(person, getIndex() + 1);
+                    setGraphic(card.getRoot());
+                }
             }
-        }
+        });
     }
+
 
 }

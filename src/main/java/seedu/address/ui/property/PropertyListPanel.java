@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.property.Property;
@@ -26,26 +28,28 @@ public class PropertyListPanel extends UiPart<Region> {
      */
     public PropertyListPanel(ObservableList<Property> propertyList) {
         super(FXML);
+        propertyListView.setFixedCellSize(-1);
         propertyListView.setItems(propertyList);
-        propertyListView.setCellFactory(listView -> new PropertyListViewCell());
-    }
+        propertyListView.setMaxHeight(Double.MAX_VALUE);
+        HBox.setHgrow(propertyListView, Priority.ALWAYS);
 
-    /**
-     * Custom {@code ListCell} that displays the graphics of a {@code Property} using a {@code PropertyCard}.
-     */
-    class PropertyListViewCell extends ListCell<Property> {
-        @Override
-        protected void updateItem(Property property, boolean empty) {
-            super.updateItem(property, empty);
+        propertyListView.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Property property, boolean empty) {
+                super.updateItem(property, empty);
 
-            if (empty || property == null) {
-                setGraphic(null);
-                setText(null);
-            } else {
-                setGraphic(new PropertyCard(property, getIndex() + 1).getRoot());
+                if (empty || property == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    PropertyCard card = new PropertyCard(property, getIndex() + 1);
+                    setGraphic(card.getRoot());
+                }
             }
-        }
+        });
     }
+
+
 
 }
 
