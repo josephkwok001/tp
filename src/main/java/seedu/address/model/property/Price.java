@@ -9,7 +9,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Price {
 
-    public static final String MESSAGE_CONSTRAINTS = "Price can only take positive numbers";
+    public static final String MESSAGE_CONSTRAINTS = "Price can only take positive numbers less than $"
+            + Integer.MAX_VALUE + " and it should be a singular integer with no commas or decimal points.";
 
     public final Integer price;
 
@@ -44,7 +45,7 @@ public class Price {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof Price // instanceof handles nulls
-                && price.equals(((Price) other).price)); // state check
+                        && price.equals(((Price) other).price)); // state check
     }
 
     @Override

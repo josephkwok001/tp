@@ -19,4 +19,17 @@ public class PriceTest {
         assertEquals(p1, p2);
         assertEquals(p1.hashCode(), p2.hashCode());
     }
+
+    @Test
+    public void equals_differentValue_returnsFalse() {
+        Price p1 = new Price(500000);
+        Price p2 = new Price(600000);
+        assertThrows(AssertionError.class, () -> assertEquals(p1, p2));
+    }
+
+    @Test
+    public void isSamePrice() {
+        Price p1 = new Price(750000);
+        assertEquals(p1, p1);
+    }
 }
