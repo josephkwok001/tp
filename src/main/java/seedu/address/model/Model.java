@@ -77,6 +77,12 @@ public interface Model {
     void removePropertyFromAllPersons(Property propertyToDelete);
 
     /**
+     * Updates all references to the old property with the new property in all persons
+     * (both owned and interested properties).
+     */
+    void updatePropertyInAllPersons(Property oldProperty, Property newProperty);
+
+    /**
      * Deletes the given property.
      * The property must exist in the address book.
      */
