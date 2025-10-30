@@ -133,23 +133,23 @@ property data.
 
 ## EstateSearch Command Summary
 
- Action                      | Format, Examples                                                                                                                                                      
------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add**                     | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/client t/colleague` 
- **Clear**                   | `clear`                                                                                                                                                               
- **Delete**                  | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   
- **Edit**                    | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                               
- **Find**                    | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`                                                                                               
- **List**                    | `list`                                                                                                                                                                
- **Help**                    | `help`                                                                                                                                                                
- **Export**                  | `export FILENAME`                                                                                                                                                     
- **Exit**                    | `exit`                                                                                                                                                                
- **Add Property**            | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`                                                              
- **Delete Property**         | `deletep INDEX`<br> e.g., `deletep 3`                                                                                                                                 
- **Set Owned Property**      | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`                                                                                                     
- **Set Interested Property** | `setip i/INDEX n/PROPERTY_NAME`<br> e.g., `setip i/2 n/Sunshine Condo`                                                                                                
- **Edit Property**           | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/ 123 Testing Rd`                                                       
- **Find Property**           | `findp n/PROPERTY` <br> e.g., `find n/Sunshine Condo`                                                                                                                 
+Action     | Format, Examples
+-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/client t/colleague`
+**Clear**  | `clear`
+**Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Find**   | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`
+**List**   | `list`
+**Help**   | `help`
+**Export** | `export FILENAME`
+**Exit**   | `exit`
+**Add Property** | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`
+**Delete Property** | `deletep INDEX`<br> e.g., `deletep 3`
+**Set Owned Property** | `setop i/INDEX n/PROPERTY_NAME`<br> e.g., `setop i/1 n/City Loft`
+**Set Interested Property** | `setip i/INDEX n/PROPERTY_NAME`<br> e.g., `setip i/2 n/Sunshine Condo`
+**Edit Property**   | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/ 123 Testing Rd`
+**Find Property**   | `findp n/PROPERTY` <br> e.g., `find n/Sunshine Condo`
 
 
 
