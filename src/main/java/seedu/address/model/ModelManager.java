@@ -145,6 +145,46 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void updatePropertyInAllPersons(Property oldProperty, Property newProperty) {
+        requireAllNonNull(oldProperty, newProperty);
+
+        List<Person> allPersons = addressBook.getPersonList();
+        for (Person person : allPersons) {
+            boolean hasOwnedProperty = person.getOwnedProperties().contains(oldProperty);
+            boolean hasInterestedProperty = person.getInterestedProperties().contains(oldProperty);
+
+            if (hasOwnedProperty || hasInterestedProperty) {
+                List<Property> updatedOwnedProperties =
+                        new java.util.ArrayList<>(person.getOwnedProperties());
+                List<Property> updatedInterestedProperties =
+                        new java.util.ArrayList<>(person.getInterestedProperties());
+
+                if (hasOwnedProperty) {
+                    int index = updatedOwnedProperties.indexOf(oldProperty);
+                    updatedOwnedProperties.set(index, newProperty);
+                }
+
+                if (hasInterestedProperty) {
+                    int index = updatedInterestedProperties.indexOf(oldProperty);
+                    updatedInterestedProperties.set(index, newProperty);
+                }
+
+                Person updatedPerson = new Person(
+                    person.getName(),
+                    person.getPhone(),
+                    person.getEmail(),
+                    person.getAddress(),
+                    person.getTags(),
+                    updatedOwnedProperties,
+                    updatedInterestedProperties
+                );
+
+                addressBook.setPerson(person, updatedPerson);
+            }
+        }
+    }
+
+    @Override
     public void addProperty(Property property) {
         addressBook.addProperty(property);
     }
