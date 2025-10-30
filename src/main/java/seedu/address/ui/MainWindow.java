@@ -8,7 +8,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
@@ -43,10 +45,13 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private StackPane personListPanelPlaceholder;
+    private VBox contentList;
 
     @FXML
-    private StackPane propertyListPanelPlaceholder;
+    private AnchorPane personListPanelPlaceholder;
+
+    @FXML
+    private AnchorPane propertyListPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -116,15 +121,23 @@ public class MainWindow extends UiPart<Stage> {
     void fillInnerParts() {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        AnchorPane.setTopAnchor(personListPanel.getRoot(), 0.0);
+        AnchorPane.setBottomAnchor(personListPanel.getRoot(), 0.0);
+        AnchorPane.setLeftAnchor(personListPanel.getRoot(), 0.0);
+        AnchorPane.setRightAnchor(personListPanel.getRoot(), 0.0);
 
         propertyListPanel = new PropertyListPanel(logic.getFilteredPropertyList());
         propertyListPanelPlaceholder.getChildren().add(propertyListPanel.getRoot());
+        AnchorPane.setTopAnchor(propertyListPanel.getRoot(), 0.0);
+        AnchorPane.setBottomAnchor(propertyListPanel.getRoot(), 0.0);
+        AnchorPane.setLeftAnchor(propertyListPanel.getRoot(), 0.0);
+        AnchorPane.setRightAnchor(propertyListPanel.getRoot(), 0.0);
 
-        // Initially show persons view
+        // Show both Person & Property list panels by default
         personListPanelPlaceholder.setVisible(true);
         personListPanelPlaceholder.setManaged(true);
-        propertyListPanelPlaceholder.setVisible(false);
-        propertyListPanelPlaceholder.setManaged(false);
+        propertyListPanelPlaceholder.setVisible(true);
+        propertyListPanelPlaceholder.setManaged(true);
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -140,8 +153,13 @@ public class MainWindow extends UiPart<Stage> {
      * Sets the default size based on {@code guiSettings}.
      */
     private void setWindowDefaultSize(GuiSettings guiSettings) {
+        final double MIN_WIDTH = 800.0;
+        final double MIN_HEIGHT = 600.0;
+
         primaryStage.setHeight(guiSettings.getWindowHeight());
         primaryStage.setWidth(guiSettings.getWindowWidth());
+        primaryStage.setMinWidth(MIN_WIDTH);
+        primaryStage.setMinHeight(MIN_HEIGHT);
         if (guiSettings.getWindowCoordinates() != null) {
             primaryStage.setX(guiSettings.getWindowCoordinates().getX());
             primaryStage.setY(guiSettings.getWindowCoordinates().getY());
@@ -202,26 +220,6 @@ public class MainWindow extends UiPart<Stage> {
             if (commandResult.isExit()) {
                 handleExit();
             }
-
-            // Handle view switching
-            switch (commandResult.getViewType()) {
-            case PERSONS:
-                personListPanelPlaceholder.setVisible(true);
-                personListPanelPlaceholder.setManaged(true);
-                propertyListPanelPlaceholder.setVisible(false);
-                propertyListPanelPlaceholder.setManaged(false);
-                break;
-            case PROPERTIES:
-                personListPanelPlaceholder.setVisible(false);
-                personListPanelPlaceholder.setManaged(false);
-                propertyListPanelPlaceholder.setVisible(true);
-                propertyListPanelPlaceholder.setManaged(true);
-                break;
-            default:
-                // NONE - don't change view
-                break;
-            }
-
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
