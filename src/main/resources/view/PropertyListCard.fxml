@@ -16,7 +16,7 @@
     </columnConstraints>
     <VBox alignment="CENTER_LEFT" minHeight="100" GridPane.columnIndex="0">
       <padding>
-        <Insets top="5" right="0" bottom="5" left="15" />
+        <Insets top="5" right="5" bottom="5" left="15" />
       </padding>
       <HBox spacing="5" alignment="CENTER_LEFT" maxWidth="Infinity">
         <Label fx:id="id" styleClass="cell_big_label">
@@ -28,8 +28,8 @@
       </HBox>
 
       <!-- Property details -->
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" wrapText="true"/>
-      <Label fx:id="price" styleClass="cell_small_label" text="\$price" wrapText="true"/>
+      <Label fx:id="address" styleClass="cell_small_label" text="Address:" wrapText="true"/>
+      <Label fx:id="price" styleClass="cell_small_label" text="Price:" wrapText="true"/>
     </VBox>
   </GridPane>
 </HBox>

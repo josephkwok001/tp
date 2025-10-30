@@ -1,4 +1,4 @@
-package seedu.address.ui;
+package seedu.address.ui.property;
 
 import java.util.logging.Logger;
 
@@ -11,6 +11,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.property.Property;
+import seedu.address.ui.UiPart;
 
 /**
  * Panel containing the list of properties.

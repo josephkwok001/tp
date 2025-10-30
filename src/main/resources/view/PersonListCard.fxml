@@ -13,11 +13,11 @@
     fillHeight="true" prefWidth="200" maxWidth="Infinity" minWidth="0">
   <GridPane HBox.hgrow="ALWAYS" maxWidth="Infinity">
     <columnConstraints>
-      <ColumnConstraints hgrow="ALWAYS" minWidth="0" maxWidth="Infinity"/>
+      <ColumnConstraints hgrow="ALWAYS" minWidth="0" maxWidth="150"/>
     </columnConstraints>
-    <VBox alignment="CENTER_LEFT" minHeight="120" GridPane.columnIndex="0">
+    <VBox alignment="CENTER_LEFT" minHeight="105" GridPane.columnIndex="0">
       <padding>
-        <Insets top="5" right="0" bottom="5" left="15" />
+        <Insets top="5" right="5" bottom="5" left="15" />
       </padding>
       <HBox spacing="5" alignment="CENTER_LEFT">
         <Label fx:id="id" styleClass="cell_big_label">
@@ -33,20 +33,32 @@
 
       <!-- Owned properties line -->
       <HBox spacing="6" alignment="CENTER_LEFT">
-        <Label text="Owned:" styleClass="chip-prefix"/>
-        <FlowPane fx:id="ownedProperties" hgap="0" vgap="5" prefWrapLength="250.0"/>
+        <Label text="Owned:" styleClass="cell_small_label"/>
+        <FlowPane fx:id="ownedProperties" hgap="0" vgap="5" prefWrapLength="300.0"/>
       </HBox>
 
       <!-- Interested properties line -->
       <HBox spacing="6" alignment="CENTER_LEFT">
-        <Label text="Interested:" styleClass="chip-prefix"/>
-        <FlowPane fx:id="interestedProperties" hgap="0" vgap="5" prefWrapLength="250.0"/>
+        <Label text="Interested:" styleClass="cell_small_label"/>
+        <FlowPane fx:id="interestedProperties" hgap="0" vgap="5" prefWrapLength="300.0"/>
       </HBox>
 
       <!-- Person details -->
-      <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" wrapText="true"/>
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" wrapText="true"/>
-      <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true"/>
+      <HBox spacing="5">
+        <Label text="Phone:" styleClass="cell_small_label" />
+
+        <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" wrapText="true"/>
+      </HBox>
+      <HBox spacing="5">
+        <Label text="Address:" styleClass="cell_small_label" />
+
+        <Label fx:id="address" styleClass="cell_small_label" text="\$address" wrapText="true"/>
+      </HBox>
+      <HBox spacing="5">
+        <Label text="Email:" styleClass="cell_small_label" />
+
+        <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true"/>
+      </HBox>
     </VBox>
   </GridPane>
 </HBox>

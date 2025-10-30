@@ -48,10 +48,10 @@ public class PersonTest {
     }
 
     @Test
-    public void isSamePerson_sameName_true() {
+    public void isSamePerson_sameName_false() {
         Person a = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", Set.of());
         Person b = person("Alice Bob", "99999999", "alice2@example.com", "Other", Set.of(new Tag("z")));
-        org.junit.jupiter.api.Assertions.assertTrue(a.isSamePerson(b));
+        org.junit.jupiter.api.Assertions.assertFalse(a.isSamePerson(b));
     }
 
     @Test
