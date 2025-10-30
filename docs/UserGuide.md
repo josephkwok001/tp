@@ -6,29 +6,95 @@ pageNav: 3
 
 # Welcome to EstateSearch!
 
-We're excited to help you **streamline your real estate client management**! This user guide contains everything you need to know to get started with **EstateSearch**, from adding your first client and property to mastering all of its powerful features. Let's dive in!
+**EstateSearch** is a desktop application that is designed specifically for **real estate agents** who are looking
+for a tool that allows them to be fast and efficient through the use of a **Command-Line Interface (CLI)**. 
+Along with a dual view **Graphical User Interface (GUI)**, you will be able to manage your client contacts, 
+organize property details, as well as client-property relations at significantly faster speeds than traditional 
+GUI-only applications. For the fast-typing real estate agent or property manager, **EstateSearch** is designed to
+keep up with your pace for productivity gains.
+
+<box type="tip">
+
+**Tip**
+For any terms that you are not familiar with, do refer to the Glossary of Terms below.
+
+</box>
+
 <!-- * Table of Contents -->
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
+## How to use this User Guide
 
+This User Guide is designed to help you navigate EstateSearch and maximise your productivity with the 
+available features. It's designed to walk you through all the application's features, from getting started to using 
+advanced commands—no prior experience is necessary. Explore the sections below to begin:
+
+1. **Table of Contents**:
+   You’ll find this on the right side of the User Guide. Click any section to jump straight to it.
+2. [**Getting Started**](#getting-started):
+A simple step-by-step guide for new users to follow and get acquainted with EstateSearch’s interface 
+and basic functions.
+3. [**Command Summary**]():
+The command summary is a good reference as it provides a general overview of all the available 
+commands. Use the command summary when you need to clarify input formats for a command without having to go too in-depth
+regarding its usage.
+4. [**Features**](#features):
+Explore all the features that EstateSearch has to offer. This section offers in-depth information on every command 
+including information such as command formats, examples, and screenshots of expected outputs.
+5. [**FAQ**](#faq):
+This section contains answers to the most commonly asked questions regarding EstateSearch's functionality or issues 
+that are not brought up in other sections.
+7. [**Glossary**](#glossary):
+If you encounter any unfamiliar terms in this User Guide, refer to the Glossary of Terms, which acts as a quick 
+dictionary of key terms used in the EstateSearch.
+8. [**Acceptable Range for Input Parameters**]():
+Detailed information on valid inputs and constraints for commands. This section is useful for ensuring that your 
+command inputs are valid and satisfy the required constraints.
+
+### Alert Boxes
+Within the User Guide, you will see these boxes appear, providing additional context or information.
+
+<box type="info">
+
+**Info**: These boxes provide additional information relevant to the current context.
+
+</box>
+<box type="tip">
+
+**Tip**: Look out for tips that can help to improve your user experience and learn how to best use a feature. 
+
+</box>
+<box type="warning">
+
+**Warning**: Pay attention to these warnings to avoid common pitfalls.
+
+</box>
+
+---
 ## Getting Started
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-<box type="tip" seamless>
+<box type="tip">
 
 **Tip**: 
-Finding Your Command-Line Application:
+Finding Your Java Version:
 
-* On Windows: Open the **Start Menu** and search for **Command Prompt** or **PowerShell**.
+On Windows: 
+* Open the **Start Menu** and search for **Command Prompt** or **PowerShell**.
+* In the application, type the command java -version and press Enter.
+* Refer to this [guide](https://se-education.org/guides/tutorials/javaInstallationWindows.html) for installation of Java `17`.
 
-* On macOS: Open Spotlight (Cmd + Space) and search for **Terminal**.
+On macOS:
+* Open **Finder** (Cmd + Space) and search for **Terminal**.
+* In the Terminal, type java -version and press Enter.
+* Refer to this [guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) for installation of Java `17`.
 
 </box>
 
-2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W12-4/tp/releases/tag/v1.3).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-W12-4/tp/releases/tag/v1.5).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your EstateSearch application.
 
@@ -41,18 +107,23 @@ Finding Your Command-Line Application:
 
     * `list` : Lists all contacts.
 
-    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to Estate Search.
+    * `add n/Edward Lim p/98765432 e/edwardl@gmail.com a/John street, block 123, #01-01` : Adds a client named `Edward Lim` to Estate Search.
 
-    * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `delete 3` : Deletes the 3rd client shown in the current list.
 
-    * `clear` : Deletes all contacts.
+    * `clear` : Deletes all clients.
 
     * `exit` : Exits the app.
 
 6. Refer to the [Features](#features) below for details of each command.
 
-<box type="info" seamless>
-The application contains sample contacts. To remove them, type <code>clear</code> and press <kbd>ENTER</kbd>.
+<box type="tip">
+
+**Tip**:
+When you first open EstateSearch, you will see that the application is populated with sample data. Feel free to test 
+out the features on the sample data to get comfortable with the app and its functions. Once you are ready to start 
+adding your own data, type in the <code>clear</code> command and press <kbd>ENTER</kbd>to reset all the client and 
+property data.
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -84,7 +155,7 @@ Action     | Format, Examples
 
 ## Features
 
-<box type="info" seamless>
+<box type="info">
 
 **Notes about the command format:**<br>
 
@@ -114,7 +185,7 @@ Shows a brief overview of the commands that are available as well as a link to t
 
 Format: `help`
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** The help menu will be opened in a separate window. You can close the help window without exiting the application.
 
@@ -126,7 +197,7 @@ Adds a person to EstateSearch.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
-<box type="tip" seamless>
+<box type="tip">
 
 **Tip:** A person can have any number of tags (including 0)
 </box>
@@ -293,7 +364,7 @@ Clears all entries from EstateSearch.
 
 Format: `clear`
 
-<box type="warning" seamless>
+<box type="warning">
 
 **Caution:**
 Clearing the data will delete all person and property entries permanently. There is no undo for this operation.<br>
@@ -314,7 +385,7 @@ Examples:
 * `export clients` creates a file named `clients.csv`
 * `export my_contacts` creates a file named `my_contacts.csv`
 
-<box type="tip" seamless>
+<box type="tip">
 
 The generated CSV file can be found at `[JAR file location]/data/[EXPORT_FILENAME].csv`.<br>
 
@@ -334,7 +405,7 @@ EstateSearch data are saved in the hard disk automatically after any command tha
 
 EstateSearch data are saved automatically as a JSON file located at`[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<box type="warning" seamless>
+<box type="warning">
 
 **Caution:**
 If your changes to the data file makes its format invalid, EstateSearch will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
@@ -348,16 +419,40 @@ If there are any entries with invalid values, EstateSearch will ignore those ent
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous EstateSearch home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that 
+contains the data of your previous EstateSearch home folder.
 
 **Q**: Can I search for partial names like 'John' for 'Johnathan'<br>
-**A**: EstateSearch does support partial name matching but only for full words within the name. For example, searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.
+**A**: EstateSearch does support partial name matching but only for full words within the name. For example, 
+searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.
 
-**Q**: Does each person have a fixed index?<br>
-**A**: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the `find` command or when persons are added or deleted.
+**Q**: Does each client or property have a fixed index?<br>
+**A**: No. The index of each client and property depends on the current filtered list showed in the GUI. 
+The index may change when the list is filtered using the `find` command or when a client or a property is deleted.<br>
+
+**Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
+**A**: EstateSearch does not require any prior programming knowledge<br>
+
+**Q**: Which operating systems can EstateSearch run on?<br>
+**A**: EstateSearch can run on Windows, macOS, and Linux, as long as Java `17` is installed and used.<br>
+
+**Q**: How are duplicates determined for clients and properties?<br>
+**A**: Clients are considered duplicates if they have the same, <code>NAME</code>, <code>PHONE</code>,
+<code>EMAIL</code>, <code>ADDRESS</code>, and <code>TAGS</code>. Properties are considered duplicates if they have the 
+same <code>PROPERTY NAME</code>, <code>ADDRESS</code>, and <code>PRICE</code>,<br>
+
+**Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
+**A**: EstateSearch does not require any prior programming knowledge
+
+**Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
+**A**: EstateSearch does not require any prior programming knowledge
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only 
+the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by 
+the application before running the application again.
+2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard 
+shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. 
+The remedy is to manually restore the minimized Help Window.
