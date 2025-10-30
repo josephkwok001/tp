@@ -2,7 +2,9 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalProperties.PROPERTY_A;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -29,7 +31,7 @@ public class ExportCommandTest {
 
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, filename + ".csv"),
+        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, 0, filename + ".csv"),
                 result.getFeedbackToUser());
 
         File file = new File(System.getProperty("user.dir") + "/data/" + filename + ".csv");
@@ -60,7 +62,7 @@ public class ExportCommandTest {
 
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, filename + ".csv"),
+        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, 0, filename + ".csv"),
                 result.getFeedbackToUser());
 
         File csvFile = new File(System.getProperty("user.dir") + "/data/" + filename + ".csv");
@@ -86,7 +88,7 @@ public class ExportCommandTest {
         ExportCommand command = new ExportCommand(filename);
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, filename + ".csv"),
+        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, 0, filename + ".csv"),
                 result.getFeedbackToUser());
 
         assertEquals(true, file.exists());
@@ -94,4 +96,21 @@ public class ExportCommandTest {
         file.delete();
     }
 
+    @Test
+    public void execute_exportWithProperties_includesPropertiesInFile() throws Exception {
+        Model model = new ModelManager(new AddressBook(), new UserPrefs());
+
+        model.addPerson(ALICE);
+        model.addProperty(PROPERTY_A);
+
+        String filename = "test_property_export";
+        ExportCommand command = new ExportCommand(filename);
+
+        command.execute(model);
+
+        File file = new File(System.getProperty("user.dir") + "/data/" + filename + ".csv");
+        assertTrue(file.exists());
+
+        file.delete();
+    }
 }

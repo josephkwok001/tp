@@ -285,6 +285,7 @@ class JsonAdaptedPerson {
             return false;
         }
         JsonAdaptedPerson that = (JsonAdaptedPerson) o;
+
         return Objects.equals(name, that.name)
                 && Objects.equals(phone, that.phone)
                 && Objects.equals(email, that.email)

@@ -37,7 +37,7 @@ public class EditPropertyCommand extends Command {
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "PROPERTY NAME] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_PRICE + "PRICE] "
+            + "[" + PREFIX_PRICE + "PRICE]\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_ADDRESS + " 123, New Road, #01-01, S123456 "
             + PREFIX_PRICE + " 1000000 ";

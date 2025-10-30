@@ -62,4 +62,15 @@ public class PropertyNameContainsKeywordsPredicateTest {
                 new PropertyNameContainsKeywordsPredicate(Arrays.asList("A", "B"));
         assertEquals(p1, p2);
     }
+
+    @Test
+    public void substringMatch_returnsTrue() {
+        Property p = new Property(
+                new Address("123 Example St"),
+                new Price(1000),
+                new PropertyName("Sunny Villa"));
+        PropertyNameContainsKeywordsPredicate predicate =
+                new PropertyNameContainsKeywordsPredicate(Arrays.asList("sun"));
+        assertTrue(predicate.test(p));
+    }
 }
