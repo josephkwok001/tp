@@ -20,11 +20,11 @@ public class AddPropertyCommand extends Command {
 
     public static final String COMMAND_WORD = "addp";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a property to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a property to the address book.\n"
             + "Parameters: "
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_PRICE + "PRICE "
-            + PREFIX_NAME + "NAME "
+            + PREFIX_NAME + "NAME\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_PRICE + "1000000 "

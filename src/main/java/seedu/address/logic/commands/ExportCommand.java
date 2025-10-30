@@ -26,7 +26,7 @@ public class ExportCommand extends Command {
     public static final String COMMAND_WORD = "export";
 
     /** Usage message explaining how to use the command. */
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exports the current filtered contacts to a CSV file. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exports the current filtered contacts to a CSV file.\n"
             + "Parameters: FILENAME\n"
             + "Example: " + COMMAND_WORD + " clients";
 
