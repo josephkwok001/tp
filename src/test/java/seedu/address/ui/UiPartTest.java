@@ -241,7 +241,7 @@ public class UiPartTest {
 
         for (int i = 0; i < ownedCount; i++) {
             Label chip = (Label) ownedPane.getChildren().get(i);
-            assertTrue(chip.getStyleClass().contains("owned-property"));
+            assertTrue(chip.getStyleClass().contains("cell_small_label"));
             String expected = personWithData.getOwnedProperties().get(i).getPropertyName().toString()
                     + (i < ownedCount - 1 ? ", " : "");
             assertEquals(expected, chip.getText(), "Owned property chip mismatch at index " + i);
@@ -249,7 +249,7 @@ public class UiPartTest {
 
         for (int i = 0; i < interestedCount; i++) {
             Label chip = (Label) interestedPane.getChildren().get(i);
-            assertTrue(chip.getStyleClass().contains("interested-property"));
+            assertTrue(chip.getStyleClass().contains("cell_small_label"));
             String expected = personWithData.getInterestedProperties().get(i).getPropertyName().toString()
                     + (i < interestedCount - 1 ? ", " : "");
             assertEquals(expected, chip.getText(), "Interested property chip mismatch at index " + i);
@@ -351,7 +351,7 @@ public class UiPartTest {
 
         for (int i = 0; i < propertyCount; i++) {
             Label chip = (Label) ownedPane.getChildren().get(i);
-            assertTrue(chip.getStyleClass().contains("owned-property"));
+            assertTrue(chip.getStyleClass().contains("cell_small_label"));
             String expectedText = personWithData.getOwnedProperties().get(i).getPropertyName().toString()
                     + (i < propertyCount - 1 ? ", " : "");
             assertEquals(expectedText, chip.getText(), "Owned property chip text mismatch at index " + i);

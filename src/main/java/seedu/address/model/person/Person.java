@@ -172,9 +172,7 @@ public class Person {
                 && phone.equals(o.phone)
                 && email.equals(o.email)
                 && address.equals(o.address)
-                && tags.equals(o.tags)
-                && ownedProperties.equals(o.ownedProperties)
-                && interestedProperties.equals(o.interestedProperties);
+                && tags.equals(o.tags);
     }
 
     /**

@@ -78,7 +78,7 @@ public class PersonCard extends UiPart<Region> {
     /**
      * Returns the display texts for properties joined by ", " where only non-last items carry the suffix.
      */
-    static List<String> renderPropertyTexts(List<Property> properties) {
+    public static List<String> renderPropertyTexts(List<Property> properties) {
         List<String> out = new ArrayList<>();
         for (int i = 0; i < properties.size(); i++) {
             String name = properties.get(i).getPropertyName().toString();
