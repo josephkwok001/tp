@@ -453,11 +453,6 @@ same <code>PROPERTY NAME</code><br>
 **Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
 **A**: EstateSearch does not require any prior programming knowledge
 
-**Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
-**A**: EstateSearch does not require any prior programming knowledge
-
-
-
 **Q**: Does each person have a fixed index?<br>
 **A**: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the `find` command or when persons are added or deleted.
 
