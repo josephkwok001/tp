@@ -16,6 +16,8 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.ui.person.PersonListPanel;
+import seedu.address.ui.property.PropertyListPanel;
 
 /**
  * The Main Window. Provides the basic application layout containing

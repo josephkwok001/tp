@@ -140,16 +140,16 @@ public class Person {
 
     /**
      * Checks if another person has the same identity as this person.
-     * Identity is defined by the {@link Name}.
+     * Identity is defined by a combination of all attributes associate with a person.
      *
      * @param otherPerson the other person to compare
-     * @return {@code true} if both refer to the same person by name; {@code false} otherwise
+     * @return {@code true} if both refer to the same person based on .equals method; {@code false} otherwise
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {
             return true;
         }
-        return otherPerson != null && otherPerson.getName().equals(getName());
+        return otherPerson != null && otherPerson.equals(this);
     }
 
     /**
@@ -172,9 +172,7 @@ public class Person {
                 && phone.equals(o.phone)
                 && email.equals(o.email)
                 && address.equals(o.address)
-                && tags.equals(o.tags)
-                && ownedProperties.equals(o.ownedProperties)
-                && interestedProperties.equals(o.interestedProperties);
+                && tags.equals(o.tags);
     }
 
     /**

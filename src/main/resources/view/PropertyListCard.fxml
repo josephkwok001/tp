@@ -27,8 +27,8 @@
       </HBox>
 
       <!-- Property details -->
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
-      <Label fx:id="price" styleClass="cell_small_label" text="\$price" />
+      <Label fx:id="address" styleClass="cell_small_label" text="Address:" />
+      <Label fx:id="price" styleClass="cell_small_label" text="Price:" />
     </VBox>
   </GridPane>
 </HBox>

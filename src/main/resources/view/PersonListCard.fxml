@@ -32,20 +32,32 @@
 
       <!-- Owned properties line -->
       <HBox spacing="6" alignment="CENTER_LEFT">
-        <Label text="Owned:" styleClass="chip-prefix"/>
+        <Label text="Owned:" styleClass="cell_small_label"/>
         <FlowPane fx:id="ownedProperties" hgap="0" vgap="5" prefWrapLength="300.0"/>
       </HBox>
 
       <!-- Interested properties line -->
       <HBox spacing="6" alignment="CENTER_LEFT">
-        <Label text="Interested:" styleClass="chip-prefix"/>
+        <Label text="Interested:" styleClass="cell_small_label"/>
         <FlowPane fx:id="interestedProperties" hgap="0" vgap="5" prefWrapLength="300.0"/>
       </HBox>
 
       <!-- Person details -->
-      <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
-      <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
+      <HBox spacing="5">
+        <Label text="Phone:" styleClass="cell_small_label" />
+
+        <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
+      </HBox>
+      <HBox spacing="5">
+        <Label text="Address:" styleClass="cell_small_label" />
+
+        <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
+      </HBox>
+      <HBox spacing="5">
+        <Label text="Email:" styleClass="cell_small_label" />
+
+        <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
+      </HBox>
     </VBox>
   </GridPane>
 </HBox>

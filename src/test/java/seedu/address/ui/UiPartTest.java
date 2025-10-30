@@ -29,6 +29,7 @@ import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.TypicalPersons;
+import seedu.address.ui.person.PersonCard;
 
 /**
  * Tests for {@link UiPart} and {@link PersonCard}.
@@ -240,7 +241,7 @@ public class UiPartTest {
 
         for (int i = 0; i < ownedCount; i++) {
             Label chip = (Label) ownedPane.getChildren().get(i);
-            assertTrue(chip.getStyleClass().contains("owned-property"));
+            assertTrue(chip.getStyleClass().contains("cell_small_label"));
             String expected = personWithData.getOwnedProperties().get(i).getPropertyName().toString()
                     + (i < ownedCount - 1 ? ", " : "");
             assertEquals(expected, chip.getText(), "Owned property chip mismatch at index " + i);
@@ -248,7 +249,7 @@ public class UiPartTest {
 
         for (int i = 0; i < interestedCount; i++) {
             Label chip = (Label) interestedPane.getChildren().get(i);
-            assertTrue(chip.getStyleClass().contains("interested-property"));
+            assertTrue(chip.getStyleClass().contains("cell_small_label"));
             String expected = personWithData.getInterestedProperties().get(i).getPropertyName().toString()
                     + (i < interestedCount - 1 ? ", " : "");
             assertEquals(expected, chip.getText(), "Interested property chip mismatch at index " + i);
@@ -281,23 +282,9 @@ public class UiPartTest {
     }
 
     /**
-     * Verifies that the gaps for owned and interested property panes are set to zero so that commas control spacing.
-     */
-    @Test
-    public void personCard_propertyPanesHaveZeroGap() throws Exception {
-        assumeTrue(fxReady);
-        Person p = new PersonBuilder(TypicalPersons.ALICE).build();
-        PersonCard card = runOnFxAndGet(() -> new PersonCard(p, 2));
-        FlowPane ownedPane = getPrivateField(card, "ownedProperties");
-        FlowPane interestedPane = getPrivateField(card, "interestedProperties");
-        assertEquals(0.0, ownedPane.getHgap(), 0.0);
-        assertEquals(0.0, interestedPane.getHgap(), 0.0);
-    }
-
-    /**
-     * Builds a person with tags, adds owned properties, renders {@link PersonCard},
-     * and verifies text fields, tag ordering, chip count, chip style class,
-     * and chip text with trailing comma-and-space for all but the last item.
+     * Builds a person with tags and owned properties, renders {@link PersonCard},
+     * and verifies basic text fields, tag ordering, chip counts and texts for owned properties,
+     * plus the displayed index.
      */
     @Test
     public void personCard_rendersAllFields_andOwnedProperties() throws Exception {
@@ -350,11 +337,25 @@ public class UiPartTest {
 
         for (int i = 0; i < propertyCount; i++) {
             Label chip = (Label) ownedPane.getChildren().get(i);
-            assertTrue(chip.getStyleClass().contains("owned-property"));
+            assertTrue(chip.getStyleClass().contains("cell_small_label"));
             String expectedText = personWithData.getOwnedProperties().get(i).getPropertyName().toString()
                     + (i < propertyCount - 1 ? ", " : "");
             assertEquals(expectedText, chip.getText(), "Owned property chip text mismatch at index " + i);
         }
+    }
+
+    /**
+     * Verifies that the gaps for owned and interested property panes are set to zero so that commas control spacing.
+     */
+    @Test
+    public void personCard_propertyPanesHaveZeroGap() throws Exception {
+        assumeTrue(fxReady);
+        Person p = new PersonBuilder(TypicalPersons.ALICE).build();
+        PersonCard card = runOnFxAndGet(() -> new PersonCard(p, 2));
+        FlowPane ownedPane = getPrivateField(card, "ownedProperties");
+        FlowPane interestedPane = getPrivateField(card, "interestedProperties");
+        assertEquals(0.0, ownedPane.getHgap(), 0.0);
+        assertEquals(0.0, interestedPane.getHgap(), 0.0);
     }
 
     /**

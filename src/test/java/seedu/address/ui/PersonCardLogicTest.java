@@ -10,6 +10,7 @@ import seedu.address.model.property.Address;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
+import seedu.address.ui.person.PersonCard;
 
 /**
  * Headless tests for PersonCard.renderPropertyTexts (no JavaFX required).
