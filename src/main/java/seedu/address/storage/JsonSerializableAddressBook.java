@@ -54,29 +54,53 @@ class JsonSerializableAddressBook {
 
     /**
      * Converts this JSON-serializable address book into the model type while
-     * generating a {@link LoadReport} that includes invalid entries.
+     * generating a {@link LoadReport} that includes invalid entries for both
+     * properties and persons.
      *
-     * @return a {@link LoadReport} containing the model data and invalid entries
-     * @throws IllegalValueException if duplicate persons or properties are found
+     * @return load report with model snapshot and invalid entries
      */
-    public LoadReport toModelTypeWithReport() throws IllegalValueException {
+    public LoadReport toModelTypeWithReport() throws seedu.address.commons.exceptions.IllegalValueException {
         AddressBook model = new AddressBook();
-        List<LoadReport.InvalidPersonEntry> invalidList = new ArrayList<>();
+        java.util.List<LoadReport.InvalidPersonEntry> invalidPersons = new java.util.ArrayList<>();
+        java.util.List<LoadReport.InvalidPropertyEntry> invalidProps = new java.util.ArrayList<>();
 
-        for (JsonAdaptedProperty jap : properties) {
-            Property prop = jap.toModelType();
-            if (model.hasProperty(prop)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_PROPERTY);
+        for (int i = 0; i < properties.size(); i++) {
+            JsonAdaptedProperty jap = properties.get(i);
+            try {
+                seedu.address.model.property.Property prop = jap.toModelType();
+                if (model.hasProperty(prop)) {
+                    invalidProps.add(new LoadReport.InvalidPropertyEntry(
+                            i,
+                            MESSAGE_DUPLICATE_PROPERTY,
+                            jap.getAddress(),
+                            jap.getPrice(),
+                            jap.getName(),
+                            java.util.Set.of("propertyName")
+                    ));
+                    continue;
+                }
+                model.addProperty(prop);
+            } catch (seedu.address.commons.exceptions.IllegalValueException ive) {
+                java.util.Set<String> keys = jap.invalidFieldKeys();
+                String reason = ive.getMessage() == null ? "Invalid property" : ive.getMessage();
+                invalidProps.add(new LoadReport.InvalidPropertyEntry(
+                        i,
+                        reason,
+                        jap.getAddress(),
+                        jap.getPrice(),
+                        jap.getName(),
+                        keys
+                ));
             }
-            model.addProperty(prop);
         }
 
+        java.util.Map<Integer, seedu.address.model.person.Person> indexToPerson = new java.util.LinkedHashMap<>();
         for (int i = 0; i < persons.size(); i++) {
             JsonAdaptedPerson jap = persons.get(i);
             try {
-                Person p = jap.toModelType(model);
+                seedu.address.model.person.Person p = jap.toModelType(model);
                 if (model.hasPerson(p)) {
-                    invalidList.add(new LoadReport.InvalidPersonEntry(
+                    invalidPersons.add(new LoadReport.InvalidPersonEntry(
                             i,
                             MESSAGE_DUPLICATE_PERSON,
                             jap.getName(),
@@ -88,9 +112,10 @@ class JsonSerializableAddressBook {
                     continue;
                 }
                 model.addPerson(p);
-            } catch (IllegalValueException ive) {
+                indexToPerson.put(i, p);
+            } catch (seedu.address.commons.exceptions.IllegalValueException ive) {
                 String reason = ive.getMessage() == null ? "Invalid person" : ive.getMessage();
-                invalidList.add(new LoadReport.InvalidPersonEntry(
+                invalidPersons.add(new LoadReport.InvalidPersonEntry(
                         i,
                         reason,
                         jap.getName(),
@@ -102,40 +127,33 @@ class JsonSerializableAddressBook {
             }
         }
 
-        Map<String, Property> propertyByName = new LinkedHashMap<>();
-        for (Property p : model.getPropertyList()) {
+        java.util.Map<String, seedu.address.model.property.Property> propertyByName = new java.util.LinkedHashMap<>();
+        for (seedu.address.model.property.Property p : model.getPropertyList()) {
             propertyByName.put(p.getPropertyName().toString(), p);
         }
 
-        Map<String, Person> personByName = new LinkedHashMap<>();
-        for (Person p : model.getPersonList()) {
-            personByName.put(p.getName().fullName, p);
-        }
-
         for (int i = 0; i < persons.size(); i++) {
-            JsonAdaptedPerson jap = persons.get(i);
-            Person base = personByName.get(jap.getName());
+            seedu.address.model.person.Person base = indexToPerson.get(i);
             if (base == null) {
                 continue;
             }
-
-            List<String> ownedNames = jap.getOwnedProperties();
-            List<String> interestedNames = jap.getInterestedProperties();
-            List<Property> resolvedOwned = new ArrayList<>();
-            List<Property> resolvedInterested = new ArrayList<>();
-            List<String> unknowns = new ArrayList<>();
+            JsonAdaptedPerson jap = persons.get(i);
+            java.util.List<String> ownedNames = jap.getOwnedProperties();
+            java.util.List<String> interestedNames = jap.getInterestedProperties();
+            java.util.List<seedu.address.model.property.Property> resolvedOwned = new java.util.ArrayList<>();
+            java.util.List<seedu.address.model.property.Property> resolvedInterested = new java.util.ArrayList<>();
+            java.util.List<String> unknowns = new java.util.ArrayList<>();
 
             for (String n : ownedNames) {
-                Property prop = propertyByName.get(n);
+                var prop = propertyByName.get(n);
                 if (prop != null) {
                     resolvedOwned.add(prop);
                 } else {
                     unknowns.add(n);
                 }
             }
-
             for (String n : interestedNames) {
-                Property prop = propertyByName.get(n);
+                var prop = propertyByName.get(n);
                 if (prop != null) {
                     resolvedInterested.add(prop);
                 } else {
@@ -143,31 +161,23 @@ class JsonSerializableAddressBook {
                 }
             }
 
-            Person replaced = new Person(
-                    base.getName(),
-                    base.getPhone(),
-                    base.getEmail(),
-                    base.getAddress(),
-                    base.getTags(),
-                    resolvedOwned,
-                    resolvedInterested
+            seedu.address.model.person.Person replaced = new seedu.address.model.person.Person(
+                    base.getName(), base.getPhone(), base.getEmail(), base.getAddress(),
+                    base.getTags(), resolvedOwned, resolvedInterested
             );
             model.setPerson(base, replaced);
 
             if (!unknowns.isEmpty()) {
-                invalidList.add(new LoadReport.InvalidPersonEntry(
+                invalidPersons.add(new LoadReport.InvalidPersonEntry(
                         i,
                         "Unknown properties: " + String.join(", ", unknowns),
-                        jap.getName(),
-                        jap.getPhone(),
-                        jap.getEmail(),
-                        jap.getAddress(),
+                        jap.getName(), jap.getPhone(), jap.getEmail(), jap.getAddress(),
                         java.util.Set.of("properties")
                 ));
             }
         }
 
-        return new LoadReport(new LoadReport.ModelData(model), invalidList);
+        return new LoadReport(new LoadReport.ModelData(model), invalidPersons, invalidProps);
     }
 
     /**

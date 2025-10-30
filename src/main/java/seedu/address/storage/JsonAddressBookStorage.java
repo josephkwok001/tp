@@ -77,21 +77,23 @@ public class JsonAddressBookStorage implements AddressBookStorage {
     }
 
     /**
-     * Reads JSON and returns a LoadReport containing:
-     *  - model snapshot constructed from valid records;
-     *  - a list of invalid records with reasons (quarantined).
+     * Reads JSON and returns a LoadReport containing model snapshot and invalid entries.
+     *
+     * @param file path to the JSON file
+     * @return load report
+     * @throws DataLoadingException if deserialization fails
      */
     @Override
     public LoadReport readAddressBookWithReport(Path file) throws DataLoadingException {
-        requireNonNull(file);
-
-        Optional<JsonSerializableAddressBook> jsonAddressBook =
-                JsonUtil.readJsonFile(file, JsonSerializableAddressBook.class);
+        java.util.Objects.requireNonNull(file);
+        var jsonAddressBook = JsonUtil.readJsonFile(file, JsonSerializableAddressBook.class);
 
         if (jsonAddressBook.isEmpty()) {
             return new LoadReport(
                     new LoadReport.ModelData(new seedu.address.model.AddressBook()),
-                    java.util.Collections.emptyList());
+                    java.util.Collections.emptyList(),
+                    java.util.Collections.emptyList()
+            );
         }
 
         try {
