@@ -1,10 +1,10 @@
 ---
-  layout: default.md
-    title: "Developer Guide"
-    pageNav: 3
+layout: default.md
+title: "Developer Guide"
+pageNav: 3
 ---
 
-# AB-3 Developer Guide
+# EstateSearch Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -13,8 +13,14 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+This application, EstateSearch, is built on top of the Address-Book Level 3 (AB3) project, which is developed by the
+[SE-EDU Initiative](https://se-education.org/). 
 
+The libraries and resources that were used include the following:
+1. [AB3](https://se-education.org/addressbook-level3/)
+2. [JavaFX](https://openjfx.io/)
+3. [JUnit](https://junit.org/)
+4. [Jackson](https://github.com/FasterXML/jackson)
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
@@ -94,7 +100,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 <puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `delete 1` Command" />
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline continues till the end of diagram.
 </box>
@@ -128,7 +134,7 @@ The `Model` component,
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
@@ -184,7 +190,7 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 
 <puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
 
@@ -195,7 +201,7 @@ Step 4. The user now decides that adding the person was a mistake, and decides t
 <puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
 
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
 than attempting to perform the undo.
@@ -206,7 +212,7 @@ The following sequence diagram shows how an undo operation goes through the `Log
 
 <puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
@@ -218,7 +224,7 @@ Similarly, how an undo operation goes through the `Model` component is shown bel
 
 The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
 
@@ -537,7 +543,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 Given below are instructions to test the app manually.
 
-<box type="info" seamless>
+<box type="info">
 
 **Note:** These instructions only provide a starting point for testers to work on;
 testers are expected to do more *exploratory* testing.
