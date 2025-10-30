@@ -106,29 +106,6 @@ class JsonAdaptedProperty {
         return price;
     }
 
-    /**
-     * Returns the set of field keys that are invalid, based on the same validation
-     * rules used by toModelType(). Keys are one or more of:
-     * "propertyName", "address", "price"
-     *
-     * This lets the load-report and the fix wizard know exactly which inputs to
-     * require from the user, while pre-filling the valid ones as read-only.
-     */
-    public java.util.Set<String> invalidFieldKeys() {
-        java.util.Set<String> invalids = new java.util.HashSet<>();
-
-        if (address == null || !Address.isValidAddress(address)) {
-            invalids.add("address");
-        }
-        if (price == null || !Price.isValidPrice(price)) {
-            invalids.add("price");
-        }
-        if (propertyName == null || !PropertyName.isValidName(propertyName)) {
-            invalids.add("propertyName");
-        }
-        return invalids;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
