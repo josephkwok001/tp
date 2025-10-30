@@ -76,6 +76,7 @@ Action     | Format, Examples
 **Set Interested Property** | `setip i/INDEX n/PROPERTY_NAME`<br> e.g., `setip i/2 n/Sunshine Condo`
 **Edit Property**   | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/ 123 Testing Rd`
 **Find Property**   | `findp n/PROPERTY` <br> e.g., `find n/Sunshine Condo`
+**List Property**   | `listp`
 
 
 
@@ -149,6 +150,12 @@ Examples:
 Shows a list of all persons in EstateSearch.
 
 Format: `list`
+
+### Listing all properties : `listp`
+
+Shows a list of all properties in EstateSearch.
+
+Format: `listp`
 
 ### Editing a property : `editp`
 
