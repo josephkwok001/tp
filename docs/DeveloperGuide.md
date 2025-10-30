@@ -162,7 +162,7 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `EstateSearch` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
 * `VersionedAddressBook#commit()` — Saves the current address book state in its history.
 * `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
@@ -334,7 +334,27 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC03: Edit a person**
+**Use case UC03: Add a property**
+
+**MSS**
+1. Agent requests to add a property
+2. System requests required details (address, price, property name)
+3. Agent enters the requested details
+4. System validates and saves the property, and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 3a. One or more fields are missing/invalid.
+  * 3a1. System indicates the problematic fields.
+  * 3a2. Agent re-enters details.
+  * Use case resumes at step 4.
+* 3b. A duplicate property is detected (based on property name).
+  * 3b1. System warns about duplication and rejects the add.
+  * Use case ends.
+
+---
+
+**Use case UC04: Edit a person**
 
 **MSS**
 1. Agent requests to edit a specific person
@@ -357,7 +377,37 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC04: Delete a person**
+**Use case UC05: Edit a property**
+
+**MSS**
+1. Agent requests to list properties
+2. System shows a list of properties
+3. Agent requests to edit a specific property in the list
+4. System requests the fields to update
+5. Agent provides new values for one or more fields (name, address, price)
+6. System validates and updates the property, then shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. The list is empty.
+  * Use case ends.
+* 3a. The specified index is invalid.
+  * 3a1. System shows an error message.
+  * Use case resumes at step 2.
+* 5a. No fields are provided for update.
+  * 5a1. System indicates that at least one field must be provided.
+  * Use case resumes at step 4.
+* 5b. New values are invalid (e.g., price format).
+  * 5b1. System indicates invalid fields.
+  * 5b2. Agent corrects and resubmits.
+  * Use case resumes at step 6.
+* 5c. Update would create a duplicate with another property.
+  * 5c1. System warns and rejects the update.
+  * Use case ends.
+
+---
+
+**Use case UC06: Delete a person**
 
 **MSS**
 1. Agent requests to list persons
@@ -375,7 +425,25 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC05: Find persons by keywords**
+**Use case UC07: Delete a property**
+
+**MSS**
+1. Agent requests to list properties
+2. System shows a list of properties
+3. Agent requests to delete a specific property in the list
+4. System deletes the property (and removes it from all associated persons) and shows confirmation
+   Use case ends.
+
+**Extensions**
+* 2a. The list is empty.
+  * Use case ends.
+* 3a. The given index is invalid.
+  * 3a1. System shows an error message.
+  * Use case resumes at step 2.
+
+---
+
+**Use case UC08: Find persons by keywords**
 
 **MSS**
 1. Agent requests to find persons by one or more keywords
@@ -392,7 +460,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC06: Add a tag to a person (find-then-act)**
+**Use case UC09: Find properties by keywords**
+
+**MSS**
+1. Agent requests to find properties by one or more keywords in property name
+2. System filters and shows matching properties
+   Use case ends.
+
+**Extensions**
+* 1a. Keywords are invalid (e.g., empty/whitespace only).
+  * 1a1. System shows usage guidance.
+  * Use case ends.
+* 2a. No properties match the keywords.
+  * 2a1. System shows "no results found".
+  * Use case ends.
+
+---
+
+**Use case UC10: Add a tag to a person (find-then-act)**
 
 **MSS**
 1. Agent requests to find persons by keyword(s)
@@ -420,27 +505,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC07: Remove a tag from a person (find-then-act)**
-
-**MSS**
-1. Agent requests to find persons by keyword(s)
-2. System shows matching persons
-3. Agent selects a specific person from the results
-4. System requests the tag to remove
-5. Agent specifies the tag
-6. System removes the tag and shows confirmation
-   Use case ends.
-
-**Extensions**
-* 2a. No persons match → same as UC06–2a.
-* 3a. Invalid index → same as UC06–3a.
-* 5a. The tag does not exist on this person.
-  * 5a1. System informs that the tag is not found and rejects the remove.
-  * Use case ends.
-
----
-
-**Use case UC08: List persons**
+**Use case UC11: List persons**
 
 **MSS**
 1. Agent requests to list persons
@@ -454,7 +519,21 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC09: Clear all persons (dangerous operation)**
+**Use case UC12: List properties**
+
+**MSS**
+1. Agent requests to list properties
+2. System shows all properties with count
+   Use case ends.
+
+**Extensions**
+* 1a. There are no properties stored.
+  * 1a1. System shows an empty list message with count of 0.
+  * Use case ends.
+
+---
+
+**Use case UC13: Clear all persons (dangerous operation)**
 
 **MSS**
 1. Agent requests to clear all persons
@@ -470,7 +549,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC10: Undo the last modifying command**
+**Use case UC14: Undo the last modifying command**
 
 **MSS**
 1. Agent requests to undo the last modifying command
@@ -485,7 +564,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC11: Redo the last undone command**
+**Use case UC15: Redo the last undone command**
 
 **MSS**
 1. Agent requests to redo the last undone command
@@ -585,3 +664,58 @@ testers are expected to do more *exploratory* testing.
     1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Effort**
+
+### Difficulty Level and Challenges
+
+EstateSearch presented significantly greater complexity compared to AB3 due to the introduction of multiple entity types and their inter-relationships. While AB3 manages a single entity type (Person), our application handles two distinct entity types—Person and Property—with bidirectional associations between them.
+
+**Key Challenges:**
+
+1. **Multiple Entity Management**: Implementing operations for i and Property entities required careful design to maintain consistency across the codebase. Each entity needed its own set of commands, parsers, and UI components, effectively doubling the implementation effort for core features.
+
+2. **Entity Relationships**: The most challenging aspect was managing relationships between persons and properties. Persons can own properties or be interested in properties, creating a many-to-many relationship. This required:
+   - Careful synchronization when properties are deleted (automatically removing references from all associated persons)
+   - Complex validation to ensure referential integrity
+   - Additional commands for managing these associations (e.g., `setownedp`, `setinterestedp`)
+
+3. **Data Model Complexity**: Properties have distinct attributes (address, price, property name) that differ significantly from Person attributes. This necessitated separate validation logic, storage adapters, and display components for each entity type.
+
+4. **UI Complexity**: Unlike AB3's single list view, EstateSearch required implementing a dual-pane interface to display both persons and properties simultaneously, with dynamic switching between views based on user commands. This involved significant modifications to the UI component architecture.
+
+### Effort Required
+
+The project required approximately similar effort to the individual project, due to:
+- **Dual Entity Implementation**: Every feature implemented for persons needed a parallel implementation for properties, including commands, parsers, storage, and UI components.
+- **Extended Testing**: Test coverage needed to account for entity interactions, edge cases in relationships, and state consistency across both entity types.
+
+### Achievements
+
+Despite the increased complexity, the team successfully delivered:
+
+1. **Comprehensive Feature Set**: Full CRUD operations for both Person and Property entities, including add, edit, delete, find, and list commands for each.
+
+2. **Robust Relationship System**: A reliable mechanism for associating properties with persons, with automatic cleanup to maintain data integrity when entities are deleted.
+
+3. **Enhanced User Experience**: A property-focused interface tailored for real estate agents, with features like property price tracking and filtered property listings.
+
+4. **Maintained Code Quality**: Despite the expanded codebase, we maintained high test coverage and adhered to software engineering best practices throughout development.
+
+### Reuse and Efficiency
+
+The project benefited from the AB3 foundation, which provided:
+
+- **Core Architecture**: The Logic-Model-Storage-UI architecture was reused and extended for property management
+- **Person class**: The AB3's person class was reused, alongside its features such as add, edit, delete, etc. 
+- **Command Pattern**: The existing command execution framework was adapted for property commands with minimal modifications (~10% effort saved)
+- **Testing Framework**: AB3's testing utilities and patterns were reused, saving significant effort in test setup
+
+However, substantial new code was required for:
+- Property entity model and all associated operations (implemented in `seedu.address.model.property` package)
+- Property-specific commands and parsers (implemented in `seedu.address.logic.commands.property` and `seedu.address.logic.parser.property` packages)
+- Relationship management logic (implemented across `Model` and command classes like `DeletePropertyCommand`, which handles cascading updates)
+- Dual-view UI components (implemented in `seedu.address.ui.property` package)
+
