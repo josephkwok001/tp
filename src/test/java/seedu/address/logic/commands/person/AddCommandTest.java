@@ -193,6 +193,9 @@ public class AddCommandTest {
         @Override
         public void removePropertyFromAllPersons(Property propertyToDelete) {
         }
+        @Override
+        public void updatePropertyInAllPersons(Property oldProperty, Property newProperty) {
+        }
     }
 
     /**
