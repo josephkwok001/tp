@@ -545,43 +545,104 @@ testers are expected to do more *exploratory* testing.
 </box>
 
 ### Launch and shutdown
+#### Initial Launch
+1. Download the jar file and copy into an empty folder
+2. Double-click the jar file<br>Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Initial launch
-
-    1. Download the jar file and copy into an empty folder
-
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
-
-1. Saving window preferences
-
-    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-
-    1. Re-launch the app by double-clicking the jar file.<br>
+#### Saving window preferences
+1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Managing Persons
+#### Adding a person
+1. Adding a person with all fields specified
+    1. Test case: `add n/Jason Doe p/98765432 e/jasond@example.com a/311, Clementi Ave 2, #02-25 t/buyer`<br>
+       Expected: Person is added to the list. Details of the new contact shown in the status message.
 
-### Deleting a person
+2. Adding a duplicate person
+    1. Test case: `add n/Duplicate Person p/82345719 e/duplicate@mail.com a/123 Jurong West Avenue 1 #12-18 t/seller`
+    2. Repeat with the same command.
+       Expected: Person is added the first time. On second time, no person is added and error showing duplicate person.
 
+3. Adding a person with missing fields
+   1. Test case: `add n/Missing Fields p/91234567`<br>
+      Expected: No person is added. Shows invalid command.
+   2. This can be repeated with other fields, eg. `add n/Missing Fields e/field@mail.com`<br>
+      Expected: No person is added. Shows invalid command.
+
+#### Listing all person
+1. Listing all persons
+    1. Test case: `list`<br>
+       Expected: All persons in the address book are listed.
+
+#### Deleting a person
 1. Deleting a person while all persons are being shown
-
     1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-
-    1. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
-
-    1. Test case: `delete 0`<br>
+    2. Test case: `delete 1`<br>
+       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
+    3. Test case: `delete 100`<br>
        Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-
-    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+    4. Other incorrect delete commands to try: `delete`, `delete 0`, `delete x`, `...` 
+       (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+#### Finding a person
+1. Finding a person by name keyword
+    1. Prerequisites: List all persons using the `list` command.
+    2. Test case: `find n/Alice`<br>
+       Expected: Only persons whose names contain "Alice" are listed. Shows "X persons listed!" in the status message.
 
-### Saving data
+2. Finding a person by tag keyword
+    1. Prerequisites: List all persons using the `list` command.
+    2. Test case: `find t/Buyer`<br>
+       Expected: Only persons whose tags contain "Buyer" are listed. Shows "X persons listed!" in the status message.
 
-1. Dealing with missing/corrupted data files
+3. Finding no people of a keyword
+    1. Prerequisites: List all persons using the `list` command.
+    2. Test case: `find n/NonExistingName`<br>
+       Expected: No persons are listed. Shows "0 persons listed!" in the status message.
 
-    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+### Managing Property
+#### Adding a property
+1. Adding a property with all fields specified
+    1. Test case: `addp n/Clementi Villa a/41 Clementi Ave 2, #02-25 pr/700000`<br>
+       Expected: Property is added to the list. Details of the new property shown in the status message.
 
-1. _{ more test cases …​ }_
+2. Adding a duplicate property
+    1. Test case: `add n/Duplicate Property a/321 Yishun Avenue 1 #12-18 pr/468810`
+    2. Repeat with the same command.
+       Expected: Property is added the first time. On second time, no property is added and error showing duplicate person.
+
+3. Adding a property with missing fields
+    1. Test case: `add n/Missing property a/127 Bishan Avenue 4 #18-19`<br>
+       Expected: No property is added. Shows invalid command.
+    2. This can be repeated with other fields, eg. `add n/Missing property pr/214`<br>
+       Expected: No property is added. Shows invalid command.
+
+#### Listing all properties
+1. Listing all property
+    1. Test case: `listp`<br>
+       Expected: All properties in the address book are listed.
+
+#### Deleting a property
+1. Deleting a property while all property are being shown
+    1. Prerequisites: List all properties using the `listp` command. Multiple persons in the list.
+    2. Test case: `deletep 1`<br>
+       Expected: First property is deleted from the list. Details of the deleted contact shown in the status message.
+    3. Test case: `deletep 100`<br>
+       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+    4. Other incorrect delete commands to try: `delete`, `delete 0`, `delete x`, `...`
+       (where x is larger than the list size)<br>
+       Expected: Similar to previous.
+
+#### Finding a property
+1. Finding a property by name keyword
+    1. Prerequisites: List all properties using the `listp` command.
+    2. Test case: `find n/HDB`<br>
+       Expected: All properties contain "HDB" are listed. Shows "X properties listed!" in the status message.
+
+2. No keyword found
+    1. Prerequisites: List all properties using the `listp` command.
+    2. Test case: `find n/Name`<br>
+       Expected: No properties are listed. Shows "0 properties listed!" in the status message.
