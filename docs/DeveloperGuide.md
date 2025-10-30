@@ -725,253 +725,164 @@ testers are expected to do more _exploratory_ testing.
 
 
 ### Launch and shutdown
+#### Initial Launch
+1. Download the jar file and copy into an empty folder
+2. Double-click the jar file<br>Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
+#### Saving window preferences
+1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+2. Re-launch the app by double-clicking the jar file.<br>
+       Expected: The most recent window size and location is retained.
 
-1. Initial launch
+### Managing Persons
+#### Adding a person
+1. Adding a client with all fields specified
+    1. Test case: `add n/Jason Doe p/98765432 e/jasond@example.com a/311, Clementi Ave 2, #02-25 t/buyer`<br>
+       Expected: Client is added to the list. Details of the new contact shown in the status message.
 
+2. Adding a duplicate client
+    1. Test case: `add n/Duplicate Person p/82345719 e/duplicate@mail.com a/123 Jurong West Avenue 1 #12-18 t/seller`
+    2. Repeat with the same command.
+       Expected: Client is added the first time. On second time, no person is added and error showing duplicate person.
 
-   1. Download the jar file and copy into an empty folder
+3. Adding a client with missing fields
+   1. Test case: `add n/Missing Fields p/91234567`<br>
+      Expected: No client is added. Shows invalid command.
+   2. This can be repeated with other fields, eg. `add n/Missing Fields e/field@mail.com`<br>
+      Expected: No client is added. Shows invalid command.
 
-
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
-
-
-1. Saving window preferences
-
-
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-
-
-   1. Re-launch the app by double-clicking the jar file.<br>
-      Expected: The most recent window size and location is retained.
-
-
-1. _{ more test cases …​ }_
-
-
-### Adding a client
-
-
-1. Adding a client while all clients are being shown
-
-
-   1. Test case: `add n/Hannah p/89098891 e/hannah@gmail.com a/123 Bridge t/client t/buyer`<br>
-      Expected: client added onto the list. Details of the added client shown in the status message.
-
-
-   1. Test case: `add n/Hannah p/89098891 e/hannah@gmail.com a/123 Bridge t/client buyer`<br>
-      Expected: No client is added. Error details shown in the status message. Status bar remains the same.
-
-
-   1. Other incorrect add client commands to try: `add p/89098891 e/hannah@gmail.com a/123 Bridge t/client buyer`,<br>
-      Expected: Similar to previous.
-
-
-### Adding a property
-
-
-1. Adding a property while all properties are being shown
-
-
-   1. Test case: `addp n/123 Bridge pr/11200 a/123 Bridge`<br>
-      Expected: Property added onto the list. Details of the added property shown in the status message.
-
-
-   1. Test case: `addp n/123 Bridge pr/1ooo a/1233 Bridge`<br>
-      Expected: No property is added. Error details shown in the status message. Status bar remains the same.
-
-
-   1. Other incorrect add property commands to try: `addp n/123 Bridge pr/qwerty a/1233 Bridge`,<br>
-      Expected: Similar to previous.
-
-
-### Deleting a client
-
-
-1. Deleting a client while all clients are being shown
-
-
-   1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-
-
-   1. Test case: `delete 1`<br>
-      Expected: First client is deleted from the list. Details of the deleted client shown in the status message.
-
-
-   1. Test case: `delete 0`<br>
-      Expected: No client is deleted. Error details shown in the status message. Status bar remains the same.
-
-
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
-
-
-### Deleting a property
-
-
-1. Deleting a property while all properties are being shown
-
-
-   1. Prerequisites: List all properties using the `listp` command. Multiple properties in the list.
-
-
-   1. Test case: `deletep 1`<br>
-      Expected: First property is deleted from the list. Details of the deleted property shown in the status message.
-
-
-   1. Test case: `deletep 0`<br>
-      Expected: No property is deleted. Error details shown in the status message. Status bar remains the same.
-
-
-   1. Other incorrect delete commands to try: `deletep`, `deletep x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
-
-
-### Editing a client
-
-
+#### Listing all client
+1. Listing all persons
+    1. Test case: `list`<br>
+       Expected: All persons in the address book are listed.
+       
+#### Editing a client
 1. Editing a client while all clients are being shown
-
-
    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-
-
-   1. Test case: `edit 1 n/Hannah`<br>
+   2. Test case: `edit 1 n/Hannah`<br>
       Expected: First client is edited. Details of the edited client shown in the status message.
-
-
-   1. Test case: `edit 0 n/Hannah`<br>
+   3. Test case: `edit 0 n/Hannah`<br>
       Expected: No client is deleted. Error details shown in the status message. Status bar remains the same.
-
-
-   1. Other incorrect delete commands to try: `edit `, `edit x`, `...` (where x is larger than the list size)<br>
+   4. Other incorrect delete commands to try: `edit `, `edit x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
+#### Deleting a client
+1. Deleting a client while all clients are being shown
+    1. Prerequisites: List all clients using the `list` command. Multiple persons in the list.
+    2. Test case: `delete 1`<br>
+       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
+    3. Test case: `delete 100`<br>
+       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+    4. Other incorrect delete commands to try: `delete`, `delete 0`, `delete x`, `...` 
+       (where x is larger than the list size)<br>
+       Expected: Similar to previous.
 
-### Editing a property
+#### Finding a client
+1. Finding a client by name keyword
+    1. Prerequisites: List all clients using the `list` command.
+    2. Test case: `find n/Alice`<br>
+       Expected: Only clients whose names contain "Alice" are listed. Shows "X persons listed!" in the status message.
 
+2. Finding a client by tag keyword
+    1. Prerequisites: List all clients using the `list` command.
+    2. Test case: `find t/Buyer`<br>
+       Expected: Only clients whose tags contain "Buyer" are listed. Shows "X persons listed!" in the status message.
 
+3. Finding no clients of a keyword
+    1. Prerequisites: List all clients using the `list` command.
+    2. Test case: `find n/NonExistingName`<br>
+       Expected: No clients are listed. Shows "0 persons listed!" in the status message.
+
+### Managing Property
+#### Adding a property
+1. Adding a property with all fields specified
+    1. Test case: `addp n/Clementi Villa a/41 Clementi Ave 2, #02-25 pr/700000`<br>
+       Expected: Property is added to the list. Details of the new property shown in the status message.
+
+2. Adding a duplicate property
+    1. Test case: `add n/Duplicate Property a/321 Yishun Avenue 1 #12-18 pr/468810`
+    2. Repeat with the same command.
+       Expected: Property is added the first time. On second time, no property is added and error showing duplicate person.
+
+3. Adding a property with missing fields
+    1. Test case: `add n/Missing property a/127 Bishan Avenue 4 #18-19`<br>
+       Expected: No property is added. Shows invalid command.
+    2. This can be repeated with other fields, eg. `add n/Missing property pr/214`<br>
+       Expected: No property is added. Shows invalid command.
+       
+#### Editing a property
 1. Editing a property while all properties are being shown
-
-
    1. Prerequisites: List all properties using the `listp` command. Multiple properties in the list.
-
-
-   1. Test case: `editp 1 n/Hannah Mansion`<br>
+   2. Test case: `editp 1 n/Hannah Mansion`<br>
       Expected: First property is edited. Details of the edited property shown in the status message.
-
-
-   1. Test case: `editp 0 n/Hannah's Mansion`<br>
+   3. Test case: `editp 0 n/Hannah's Mansion`<br>
       Expected: No property is deleted. Error details shown in the status message. Status bar remains the same.
-
-
-   1. Other incorrect delete commands to try: `editp `, `editp x`, `...` (where x is larger than the list size)<br>
+   4. Other incorrect delete commands to try: `editp `, `editp x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
+#### Listing all properties
+1. Listing all property
+    1. Test case: `listp`<br>
+       Expected: All properties in the address book are listed.
 
-### Finding a client
+#### Deleting a property
+1. Deleting a property while all property are being shown
+    1. Prerequisites: List all properties using the `listp` command. Multiple persons in the list.
+    2. Test case: `deletep 1`<br>
+       Expected: First property is deleted from the list. Details of the deleted contact shown in the status message.
+    3. Test case: `deletep 100`<br>
+       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+    4. Other incorrect delete commands to try: `delete`, `delete 0`, `delete x`, `...`
+       (where x is larger than the list size)<br>
+       Expected: Similar to previous.
 
+#### Finding a property
+1. Finding a property by name keyword
+    1. Prerequisites: List all properties using the `listp` command.
+    2. Test case: `find n/HDB`<br>
+       Expected: All properties contain "HDB" are listed. Shows "X properties listed!" in the status message.
 
-1. Finding a client while all clients are being shown
+2. No keyword found
+    1. Prerequisites: List all properties using the `listp` command.
+    2. Test case: `find n/Name`<br>
+       Expected: No properties are listed. Shows "0 properties listed!" in the status message.
 
-
-   1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-
-
-   1. Test case: `find n/Hannah`<br>
-      Expected: If clients with the specification exists, clients will be shown. Number of clients in the status message.
-
-
-   1. Test caseL `find t/friend`<br>
-      Expected: If client with the specificatino exists, client will be shown. Number of clients in the status message.
-
-
-   1. Test case: `find n/Hannah`<br>
-      Expected: No property is deleted. Error details shown in the status message. Status bar remains the same.
-
-
-### Finding a property
-
-
-1. Finding a property while all properties are being shown
-
-
-   1. Prerequisites: List all properties using the `listp` command. Multiple properties in the list.
-
-
-   1. Test case: `findp n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, properties will be shown. Number of properties in the status message.
-
-
-   1. Test case: `findp n/Hannah'`<br>
-      Expected: No property is deleted. Error details shown in the status message. Status bar remains the same.
-
-
-### Setting owned property
-
-
+### Linking Properties to Clients
+#### Setting owned property
 1. Setting client's owned properties while all clients are being shown
-
-
    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-
-
-   1. Test case: `setop i/1 n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, property will be added into client's owned properties. Client's and property detail in the status message.
-
-
-   1. Test case: `setop n/Hannah'`<br>'
+   2. Test case: `setop i/1 n/Hannah Mansion`<br>
+      Expected: If properties with the specification exists, property will be added into client's owned properties.
+      Client's and property detail in the status message.
+   3. Test case: `setop n/Hannah'`<br>'
       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
-
-### Setting interested property
-
-
+#### Setting interested property
 1. Setting client's interested properties while all clients are being shown
-
-
    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-
-
-   1. Test case: `setip i/1 n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, property will be added into client's interested properties. Client's and property detail in the status message.
-
-
-   1. Test case: `setip n/Hannah'`<br>'
+   2. Test case: `setip i/1 n/Hannah Mansion`<br>
+      Expected: If properties with the specification exists, property will be added into client's interested properties.
+      Client's and property detail in the status message.
+   3. Test case: `setip n/Hannah'`<br>'
       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
-
 
 ### Deleting owned property
-
-
 1. Deleting client's owned properties while all clients are being shown
-
-
    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-
-
-   1. Test case: `deleteop i/1 n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, property will be deleted from client's owned properties. Client's and property detail in the status message.
-
-
-   1. Test case: `deleteop n/Hannah'`<br>'
+   2. Test case: `deleteop i/1 n/Hannah Mansion`<br>
+      Expected: If properties with the specification exists, property will be deleted from client's owned properties. 
+      Client's and property detail in the status message.
+   3. Test case: `deleteop n/Hannah'`<br>'
       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 
 ### Deleting interested property
-
-
 1. Deleting client's interested properties while all clients are being shown
-
-
    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-
-
-   1. Test case: `deleteip i/1 n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, property will be deleted from client's interested properties. Client's and property detail in the status message.
-
-
-   1. Test case: `deleteip n/Hannah'`<br>'
+   2. Test case: `deleteip i/1 n/Hannah Mansion`<br>
+      Expected: If properties with the specification exists, property will be deleted from client's interested properties.
+      Client's and property detail in the status message.
+   3. Test case: `deleteip n/Hannah'`<br>'
       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 --------------------------------------------------------------------------------------------------------------------
