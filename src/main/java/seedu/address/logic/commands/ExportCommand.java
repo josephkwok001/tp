@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -78,7 +79,7 @@ public class ExportCommand extends Command {
         }
 
         try (FileWriter writer = new FileWriter(file)) {
-            writer.append("Name,Phone,Email,Address,Tags\n");
+            writer.append("Name,Phone,Email,Address,Tags,Owned Properties,Interested Properties\n");
 
             for (Person p : model.getFilteredPersonList()) {
                 writer.append(escapeCsv(p.getName().toString())).append(",");
@@ -87,7 +88,27 @@ public class ExportCommand extends Command {
                 writer.append(escapeCsv(p.getAddress().toString())).append(",");
                 writer.append(escapeCsv(
                         p.getTags().stream().map(Tag::toString).collect(Collectors.joining(";"))
+                )).append(",");
+                writer.append(escapeCsv(
+                        p.getOwnedProperties().stream()
+                                .map(property -> property.getPropertyName().toString())  // ← Added .toString()
+                                .collect(Collectors.joining(";"))
+                )).append(",");
+                writer.append(escapeCsv(
+                        p.getInterestedProperties().stream()
+                                .map(property -> property.getPropertyName().toString())
+                                .collect(Collectors.joining(";"))
                 )).append("\n");
+            }
+
+            writer.append("\n");
+            writer.append("\n");
+            writer.append("Property Name,Address,Price,Features,Tags\n");
+
+            for (Property p : model.getFilteredPropertyList()) {
+                writer.append(escapeCsv(p.getPropertyName().toString())).append(",");
+                writer.append(escapeCsv(p.getAddress().toString())).append(",");
+                writer.append(escapeCsv(String.valueOf(p.getPrice().toString()))).append("\n");
             }
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, model.getFilteredPersonList().size(), filename));
