@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,8 +10,6 @@ import seedu.address.model.property.Address;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
-
-
 
 /**
  * Jackson-friendly version of {@link Property}.
@@ -127,5 +127,26 @@ class JsonAdaptedProperty {
             invalids.add("propertyName");
         }
         return invalids;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof JsonAdaptedProperty)) {
+            return false;
+        }
+        JsonAdaptedProperty that = (JsonAdaptedProperty) o;
+        return Objects.equals(propertyName, that.propertyName)
+                && Objects.equals(address, that.address)
+                && Objects.equals(price, that.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                propertyName, address, price
+        );
     }
 }
