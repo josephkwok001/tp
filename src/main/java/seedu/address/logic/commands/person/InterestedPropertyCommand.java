@@ -24,7 +24,7 @@ public class InterestedPropertyCommand extends Command {
     public static final String COMMAND_WORD = "setip";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Links a Property as an interested property to a Person.\n"
+            + ": Sets an interested property for the specified person.\n"
             + "Parameters: "
             + PREFIX_INDEX + "PERSON INDEX "
             + PREFIX_NAME + "NAME OF PROPERTY \n"
