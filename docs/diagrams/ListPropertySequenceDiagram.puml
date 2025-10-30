@@ -1,0 +1,74 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":ListPropertyCommandParser" as ListPropertyCommandParser LOGIC_COLOR
+participant "l:ListPropertyCommand" as ListPropertyCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("listp")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("listp")
+activate AddressBookParser
+
+create ListPropertyCommandParser
+AddressBookParser -> ListPropertyCommandParser
+activate ListPropertyCommandParser
+
+ListPropertyCommandParser --> AddressBookParser
+deactivate ListPropertyCommandParser
+
+AddressBookParser -> ListPropertyCommandParser : parse("")
+activate ListPropertyCommandParser
+
+create ListPropertyCommand
+ListPropertyCommandParser -> ListPropertyCommand
+activate ListPropertyCommand
+
+ListPropertyCommand --> ListPropertyCommandParser :
+deactivate ListPropertyCommand
+
+ListPropertyCommandParser --> AddressBookParser : l
+deactivate ListPropertyCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+ListPropertyCommandParser -[hidden]-> AddressBookParser
+destroy ListPropertyCommandParser
+
+AddressBookParser --> LogicManager : l
+deactivate AddressBookParser
+
+LogicManager -> ListPropertyCommand : execute(m)
+activate ListPropertyCommand
+
+ListPropertyCommand -> Model : updateFilteredPropertyList(PREDICATE_SHOW_ALL_PROPERTIES)
+activate Model
+Model --> ListPropertyCommand
+deactivate Model
+
+ListPropertyCommand -> Model : getFilteredPropertyList()
+activate Model
+Model --> ListPropertyCommand : propertyList
+deactivate Model
+
+create CommandResult
+ListPropertyCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> ListPropertyCommand
+deactivate CommandResult
+
+ListPropertyCommand --> LogicManager : r
+deactivate ListPropertyCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

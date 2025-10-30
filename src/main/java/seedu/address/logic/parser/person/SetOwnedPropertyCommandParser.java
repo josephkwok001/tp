@@ -13,7 +13,7 @@ import seedu.address.logic.parser.Parser;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.Prefix;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Name;
+import seedu.address.model.property.PropertyName;
 
 /**
  * Parses input arguments to create a {@link SetOwnedPropertyCommand}.
@@ -39,8 +39,8 @@ public class SetOwnedPropertyCommandParser implements Parser<SetOwnedPropertyCom
         Index index = ParserUtil.parseIndex(argMultimap.getValue(CliSyntax.PREFIX_INDEX).get());
 
         String propertyNameRaw = argMultimap.getValue(CliSyntax.PREFIX_NAME).get().trim();
-        if (!Name.isValidName(propertyNameRaw)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+        if (!PropertyName.isValidName(propertyNameRaw)) {
+            throw new ParseException(PropertyName.MESSAGE_CONSTRAINTS);
         }
 
         return new SetOwnedPropertyCommand(index, propertyNameRaw);

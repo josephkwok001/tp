@@ -1,7 +1,5 @@
 package seedu.address.logic.parser.property;
 
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import seedu.address.logic.commands.property.ListPropertyCommand;
 import seedu.address.logic.parser.Parser;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -10,11 +8,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 public class ListPropertyCommandParser implements Parser<ListPropertyCommand> {
     @Override
     public ListPropertyCommand parse(String args) throws ParseException {
-        String trimmed = args == null ? "" : args.trim();
-        if (trimmed.isEmpty()) {
-            return new ListPropertyCommand();
-        }
-        throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+        return new ListPropertyCommand();
     }
 }
 

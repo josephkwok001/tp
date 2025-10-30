@@ -37,7 +37,7 @@ public class AddPropertyCommandTest {
     @Test
     public void execute_propertyAcceptedByModel_addSuccessful() throws Exception {
         AddPropertyCommandTest.ModelStubAcceptingPropertyAdded modelStub = new AddPropertyCommandTest
-                .ModelStubAcceptingPropertyAdded();
+            .ModelStubAcceptingPropertyAdded();
         Property validProperty = new PropertyBuilder().build();
 
         CommandResult commandResult = new AddPropertyCommand(validProperty).execute(modelStub);
@@ -53,7 +53,7 @@ public class AddPropertyCommandTest {
         AddPropertyCommand addPropertyCommand = new AddPropertyCommand(validProperty);
         AddPropertyCommandTest.ModelStub modelStub = new AddPropertyCommandTest.ModelStubWithProperty(validProperty);
 
-        assertThrows(CommandException.class, AddPropertyCommand.MESSAGE_DUPLICATE_PERSON, () -> addPropertyCommand
+        assertThrows(CommandException.class, AddPropertyCommand.MESSAGE_DUPLICATE_PROPERTY, () -> addPropertyCommand
                 .execute(modelStub));
     }
 
