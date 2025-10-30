@@ -33,10 +33,14 @@ import seedu.address.model.property.Property;
 import seedu.address.model.tag.Tag;
 
 /**
- * Tests for {@link SetOwnedPropertyCommand}.
+ * Unit tests for {@link SetOwnedPropertyCommand}.
  */
 public class SetOwnedPropertyCommandTest {
 
+    /**
+     * Successfully adds an owned property and verifies unified success format:
+     * "Set owned property for {person}: {property}".
+     */
     @Test
     public void execute_success_addsPropertyToPerson() throws Exception {
         Person alex = new Person(
@@ -63,7 +67,8 @@ public class SetOwnedPropertyCommandTest {
 
         assertEquals(
                 String.format(SetOwnedPropertyCommand.MESSAGE_SUCCESS, "Alex Yeoh", "City Loft"),
-                result.getFeedbackToUser());
+                result.getFeedbackToUser()
+        );
 
         List<Property> expectedOwned = new ArrayList<>();
         expectedOwned.add(cityLoft);
@@ -80,6 +85,9 @@ public class SetOwnedPropertyCommandTest {
         assertEquals(expected, model.persons.get(0));
     }
 
+    /**
+     * Fails when the property name is not found in the address book.
+     */
     @Test
     public void execute_propertyNotFound_throwsCommandException() {
         Person alex = new Person(
@@ -103,6 +111,9 @@ public class SetOwnedPropertyCommandTest {
                 ex.getMessage());
     }
 
+    /**
+     * Fails when the person index is invalid.
+     */
     @Test
     public void execute_invalidIndex_throwsCommandException() {
         Person alex = new Person(
@@ -131,6 +142,75 @@ public class SetOwnedPropertyCommandTest {
         assertEquals(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX, ex.getMessage());
     }
 
+    /**
+     * Fails with duplicate when the person already owns the property.
+     */
+    @Test
+    public void execute_duplicateOwned_throwsCommandException() throws Exception {
+        Person alex = new Person(
+                new Name("Alex Yeoh"),
+                new Phone("87438807"),
+                new Email("alexyeoh@example.com"),
+                new Address("Blk 30 Geylang Street 29, #06-40"),
+                Set.of(),
+                List.of(),
+                List.of()
+        );
+
+        Property sunny = new Property(
+                new seedu.address.model.property.Address("123 Example St"),
+                new Price(500000),
+                new seedu.address.model.property.PropertyName("Sunny Villa"));
+
+        AddressBook ab = new AddressBook();
+        ab.addPerson(alex);
+        ab.addProperty(sunny);
+
+        ModelStub model = new ModelStub(FXCollections.observableArrayList(alex), ab);
+
+        new SetOwnedPropertyCommand(Index.fromOneBased(1), "Sunny Villa").execute(model);
+
+        CommandException ex = assertThrows(CommandException.class, () ->
+                new SetOwnedPropertyCommand(Index.fromOneBased(1),
+                        "Sunny Villa").execute(model));
+        assertEquals(String.format(SetOwnedPropertyCommand.MESSAGE_DUPLICATE_PROP, "Sunny Villa"), ex.getMessage());
+    }
+
+    /**
+     * Fails with interest conflict when the person is already interested in the same property.
+     */
+    @Test
+    public void execute_interestConflict_throwsCommandException() {
+        Property sunny = new Property(
+                new seedu.address.model.property.Address("123 Example St"),
+                new Price(500000),
+                new seedu.address.model.property.PropertyName("Sunny Villa"));
+
+        Person alex = new Person(
+                new Name("Alex Yeoh"),
+                new Phone("87438807"),
+                new Email("alexyeoh@example.com"),
+                new Address("Blk 30 Geylang Street 29, #06-40"),
+                Set.of(),
+                List.of(),
+                List.of(sunny)
+        );
+
+        AddressBook ab = new AddressBook();
+        ab.addPerson(alex);
+        ab.addProperty(sunny);
+
+        ModelStub model = new ModelStub(FXCollections.observableArrayList(alex), ab);
+
+        CommandException ex = assertThrows(CommandException.class, () ->
+                new SetOwnedPropertyCommand(Index.fromOneBased(1),
+                        "Sunny Villa").execute(model));
+        assertEquals(
+                String.format(SetOwnedPropertyCommand.MESSAGE_INTEREST_CONFLICT, "Sunny Villa"),
+                ex.getMessage()
+        );
+    }
+
     private static class ModelStub implements Model {
         final ObservableList<Person> persons;
         final AddressBook ab;
@@ -157,9 +237,7 @@ public class SetOwnedPropertyCommandTest {
         }
 
         @Override
-        public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
-            throw new UnsupportedOperationException();
-        }
+        public void setUserPrefs(ReadOnlyUserPrefs userPrefs) { }
 
         @Override
         public ReadOnlyUserPrefs getUserPrefs() {
@@ -176,18 +254,14 @@ public class SetOwnedPropertyCommandTest {
 
         @Override
         public Path getAddressBookFilePath() {
-            throw new UnsupportedOperationException();
+            return null;
         }
 
         @Override
-        public void setAddressBookFilePath(Path addressBookFilePath) {
-            throw new UnsupportedOperationException();
-        }
+        public void setAddressBookFilePath(Path addressBookFilePath) { }
 
         @Override
-        public void setAddressBook(ReadOnlyAddressBook addressBook) {
-            throw new UnsupportedOperationException();
-        }
+        public void setAddressBook(ReadOnlyAddressBook addressBook) { }
 
         @Override
         public boolean hasPerson(Person person) {
@@ -195,37 +269,27 @@ public class SetOwnedPropertyCommandTest {
         }
 
         @Override
-        public void deletePerson(Person target) {
-            throw new UnsupportedOperationException();
-        }
+        public void deletePerson(Person target) { }
 
         @Override
-        public void addPerson(Person person) {
-            throw new UnsupportedOperationException();
-        }
+        public void addPerson(Person person) { }
 
         @Override
         public void updateFilteredPersonList(Predicate<Person> predicate) { }
 
         @Override
-        public void setProperty(Property target, Property editedProperty) {
-            throw new UnsupportedOperationException();
-        }
+        public void setProperty(Property target, Property editedProperty) { }
 
         @Override
         public boolean hasProperty(Property property) {
-            throw new UnsupportedOperationException();
+            return false;
         }
 
         @Override
-        public void deleteProperty(Property target) {
-            throw new UnsupportedOperationException();
-        }
+        public void deleteProperty(Property target) { }
 
         @Override
-        public void addProperty(Property property) {
-            throw new UnsupportedOperationException();
-        }
+        public void addProperty(Property property) { }
 
         @Override
         public ObservableList<Property> getFilteredPropertyList() {
@@ -233,11 +297,9 @@ public class SetOwnedPropertyCommandTest {
         }
 
         @Override
-        public void updateFilteredPropertyList(Predicate<Property> predicate) {
-        }
+        public void updateFilteredPropertyList(Predicate<Property> predicate) { }
 
         @Override
-        public void removePropertyFromAllPersons(Property propertyToDelete) {
-        }
+        public void removePropertyFromAllPersons(Property propertyToDelete) { }
     }
 }

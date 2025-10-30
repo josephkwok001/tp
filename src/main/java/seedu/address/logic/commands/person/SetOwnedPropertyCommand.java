@@ -17,7 +17,7 @@ import seedu.address.model.property.Property;
 
 /**
  * Adds an existing {@link Property} in the address book to a target {@link Person}'s owned properties.
- * <p>Usage: {@code setop i/INDEX n/NAME_OF_PROPERTY}</p>
+ * Usage: {@code setop i/INDEX n/NAME_OF_PROPERTY}
  */
 public class SetOwnedPropertyCommand extends Command {
 
@@ -25,18 +25,21 @@ public class SetOwnedPropertyCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets an owned property for the specified person.\n"
             + "Parameters: i/INDEX n/NAME_OF_PROPERTY\n"
             + "Example: " + COMMAND_WORD + " i/1 n/Marina Bay Apt 12F";
+
     public static final String MESSAGE_SUCCESS = "Set owned property for %s: %s";
     public static final String MESSAGE_PROP_NOT_FOUND = "Property not found: %s";
     public static final String MESSAGE_DUPLICATE_PROP = "This person already owns the property: %s";
+    public static final String MESSAGE_INTEREST_CONFLICT =
+            "This person is already marked as interested in the property: %s";
 
     private final Index index;
     private final String propertyName;
 
     /**
-     * Creates a {@code SetOwnedPropertyCommand}.
+     * Constructs a {@code SetOwnedPropertyCommand}.
      *
-     * @param index        index of the person in the last shown list (1-based in UI, zero-based internally).
-     * @param propertyName exact name of the property to add.
+     * @param index index of the person in the last shown list (1-based in UI, zero-based internally); must be non-null
+     * @param propertyName exact name of the property to add; must be non-null
      */
     public SetOwnedPropertyCommand(Index index, String propertyName) {
         requireNonNull(index);
@@ -45,14 +48,6 @@ public class SetOwnedPropertyCommand extends Command {
         this.propertyName = propertyName;
     }
 
-    /**
-     * Executes the command to add the referenced property to the specified person's owned properties.
-     *
-     * @param model the model holding persons and properties.
-     * @return the {@link CommandResult} indicating success.
-     * @throws CommandException if the person index is invalid, the property is not found,
-     *                          or the person already owns the property.
-     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
@@ -68,6 +63,10 @@ public class SetOwnedPropertyCommand extends Command {
                 .filter(p -> p.getPropertyName().toString().equals(propertyName))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PROP_NOT_FOUND, propertyName)));
+
+        if (target.getInterestedProperties().stream().anyMatch(prop::isSameProperty)) {
+            throw new CommandException(String.format(MESSAGE_INTEREST_CONFLICT, propertyName));
+        }
 
         if (target.getOwnedProperties().stream().anyMatch(prop::isSameProperty)) {
             throw new CommandException(String.format(MESSAGE_DUPLICATE_PROP, propertyName));
@@ -88,8 +87,8 @@ public class SetOwnedPropertyCommand extends Command {
 
         model.setPerson(target, edited);
 
-        return new CommandResult(String.format(
-                MESSAGE_SUCCESS, target.getName().fullName, prop.getPropertyName().toString()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS,
+                target.getName().fullName, prop.getPropertyName().toString()));
     }
 
     @Override

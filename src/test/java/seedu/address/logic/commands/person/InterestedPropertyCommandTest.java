@@ -1,5 +1,7 @@
 package seedu.address.logic.commands.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TestUtil.getTypicalCombinedAddressBook;
@@ -8,15 +10,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Person;
 import seedu.address.model.property.Property;
-import seedu.address.testutil.PropertyBuilder;
 
 /**
- * Contains integration tests (interaction with the Model) for {@code AddCommand}.
+ * Integration tests for {@link InterestedPropertyCommand}.
  */
 public class InterestedPropertyCommandTest {
 
@@ -27,43 +28,244 @@ public class InterestedPropertyCommandTest {
         model = new ModelManager(getTypicalCombinedAddressBook(), new UserPrefs());
     }
 
+    /**
+     * Links a property as interested to a valid person and verifies unified success format:
+     * "Set interested property for {person}: {property}".
+     */
     @Test
     public void execute_linkProperty_success() {
-        Property validProperty = model.getFilteredPropertyList().get(1);
-        Index index = Index.fromZeroBased(1);
+        Property property = model.getFilteredPropertyList().get(1);
+        Index personIndex = Index.fromZeroBased(1);
+        Person person = model.getFilteredPersonList().get(personIndex.getZeroBased());
 
-        assertCommandSuccess(new InterestedPropertyCommand(validProperty.getPropertyName(), index), model,
-                String.format(InterestedPropertyCommand.MESSAGE_SUCCESS, Messages.formatProperty(validProperty),
-                        Messages.formatPerson(model.getFilteredPersonList().get(index.getZeroBased()))),
-                model);
+        String expectedMessage = String.format(
+                InterestedPropertyCommand.MESSAGE_SUCCESS,
+                person.getName().fullName,
+                property.getPropertyName().toString()
+        );
+
+        assertCommandSuccess(
+                new InterestedPropertyCommand(property.getPropertyName(), personIndex),
+                model,
+                expectedMessage,
+                model
+        );
     }
 
+    /**
+     * After a successful link, interested list increments by exactly one and contains the property.
+     */
+    @Test
+    public void execute_success_incrementsListOnce() {
+        Property property = model.getFilteredPropertyList().get(0);
+        Index personIndex = Index.fromZeroBased(0);
+        Person before = model.getFilteredPersonList().get(personIndex.getZeroBased());
+        int beforeSize = before.getInterestedProperties().size();
+
+        String expectedMessage = String.format(
+                InterestedPropertyCommand.MESSAGE_SUCCESS,
+                before.getName().fullName,
+                property.getPropertyName().toString()
+        );
+
+        assertCommandSuccess(
+                new InterestedPropertyCommand(property.getPropertyName(), personIndex),
+                model,
+                expectedMessage,
+                model
+        );
+
+        Person after = model.getFilteredPersonList().get(personIndex.getZeroBased());
+        assertEquals(beforeSize + 1, after.getInterestedProperties().size());
+        boolean contains = after.getInterestedProperties()
+                .stream().anyMatch(property::isSameProperty);
+        assertTrue(contains);
+    }
+
+    /**
+     * Fails when property name does not exist in the property list.
+     * Model must remain unchanged.
+     */
     @Test
     public void execute_invalidProperty_throwsCommandException() {
-        Property invalidProperty = new PropertyBuilder().withName("NonExistentProperty")
-                .withAddress("123 Non-existant Road")
-                .withPrice(100).build();
-        Index index = Index.fromZeroBased(1);
+        Index personIndex = Index.fromZeroBased(1);
+        String missingName = "NonExistentProperty";
 
-        assertCommandFailure(new InterestedPropertyCommand(invalidProperty.getPropertyName(), index), model,
-                String.format(InterestedPropertyCommand.MESSAGE_PROPERTY_NOT_FOUND));
+        Person before = model.getFilteredPersonList().get(personIndex.getZeroBased());
+        int sizeBefore = before.getInterestedProperties().size();
+
+        assertCommandFailure(
+                new InterestedPropertyCommand(new seedu.address.model.property.PropertyName(missingName), personIndex),
+                model,
+                String.format(InterestedPropertyCommand.MESSAGE_PROPERTY_NOT_FOUND, missingName)
+        );
+
+        Person after = model.getFilteredPersonList().get(personIndex.getZeroBased());
+        assertEquals(sizeBefore, after.getInterestedProperties().size());
     }
 
+    /**
+     * Fails when person index is out of bounds.
+     * Model must remain unchanged.
+     */
     @Test
     public void execute_invalidPerson_throwsCommandException() {
-        Property validProperty = model.getFilteredPropertyList().get(2);
-        Index invalidIndex = Index.fromOneBased(model.getFilteredPropertyList().size() + 1);
+        Property property = model.getFilteredPropertyList().get(2);
+        Index validIndexForSnapshot = Index.fromZeroBased(0);
+        Person before = model.getFilteredPersonList().get(validIndexForSnapshot.getZeroBased());
+        int sizeBefore = before.getInterestedProperties().size();
 
-        assertCommandFailure(new InterestedPropertyCommand(validProperty.getPropertyName(), invalidIndex), model,
-                String.format(InterestedPropertyCommand.MESSAGE_PERSON_NOT_FOUND));
+        Index invalidPersonIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
+
+        assertCommandFailure(
+                new InterestedPropertyCommand(property.getPropertyName(), invalidPersonIndex),
+                model,
+                InterestedPropertyCommand.MESSAGE_PERSON_NOT_FOUND
+        );
+
+        Person after = model.getFilteredPersonList().get(validIndexForSnapshot.getZeroBased());
+        assertEquals(sizeBefore, after.getInterestedProperties().size());
     }
 
+    /**
+     * Fails with duplicate when the person is already interested in the property.
+     * Model must remain unchanged on failure.
+     */
     @Test
     public void execute_duplicateProperty_throwsCommandException() {
-        Property validProperty = model.getFilteredPropertyList().get(1);
-        Index index = Index.fromZeroBased(1);
+        int pIdx = -1;
+        int prIdx = -1;
+        outer:
+        for (int i = 0; i < model.getFilteredPersonList().size(); i++) {
+            Person p = model.getFilteredPersonList().get(i);
+            for (int j = 0; j < model.getFilteredPropertyList().size(); j++) {
+                Property pr = model.getFilteredPropertyList().get(j);
+                boolean owns = p.getOwnedProperties().stream().anyMatch(pr::isSameProperty);
+                boolean interested = p.getInterestedProperties().stream().anyMatch(pr::isSameProperty);
+                if (!owns && !interested) {
+                    pIdx = i;
+                    prIdx = j;
+                    break outer;
+                }
+            }
+        }
+        org.junit.jupiter.api.Assertions.assertTrue(
+                pIdx >= 0 && prIdx >= 0,
+                "No (person, property) pair available that is neither owned nor already interested."
+        );
 
-        assertCommandFailure(new InterestedPropertyCommand(validProperty.getPropertyName(), index), model,
-                InterestedPropertyCommand.MESSAGE_DUPLICATE_LINK);
+        Index personIndex = Index.fromZeroBased(pIdx);
+        Property property = model.getFilteredPropertyList().get(prIdx);
+
+        String successMsg = String.format(
+                InterestedPropertyCommand.MESSAGE_SUCCESS,
+                model.getFilteredPersonList().get(personIndex.getZeroBased()).getName().fullName,
+                property.getPropertyName().toString()
+        );
+        assertCommandSuccess(
+                new InterestedPropertyCommand(property.getPropertyName(), personIndex),
+                model,
+                successMsg,
+                model
+        );
+
+        Person before = model.getFilteredPersonList().get(personIndex.getZeroBased());
+        int sizeBefore = before.getInterestedProperties().size();
+
+        String expectedDup = String.format(
+                InterestedPropertyCommand.MESSAGE_DUPLICATE_LINK,
+                property.getPropertyName().fullName
+        );
+        assertCommandFailure(
+                new InterestedPropertyCommand(property.getPropertyName(), personIndex),
+                model,
+                expectedDup
+        );
+
+        Person after = model.getFilteredPersonList().get(personIndex.getZeroBased());
+        assertEquals(sizeBefore, after.getInterestedProperties().size());
+    }
+
+    /**
+     * Fails with ownership conflict when the person already owns the property.
+     * We first pick a (person, property) pair that is neither owned nor interested,
+     * set it as owned successfully, then linking as interested must fail.
+     */
+    @Test
+    public void execute_ownershipConflict_throwsCommandException() {
+        int pIdx = -1;
+        int prIdx = -1;
+        outer:
+        for (int i = 0; i < model.getFilteredPersonList().size(); i++) {
+            Person p = model.getFilteredPersonList().get(i);
+            for (int j = 0; j < model.getFilteredPropertyList().size(); j++) {
+                Property pr = model.getFilteredPropertyList().get(j);
+                boolean owns = p.getOwnedProperties().stream().anyMatch(pr::isSameProperty);
+                boolean interested = p.getInterestedProperties().stream().anyMatch(pr::isSameProperty);
+                if (!owns && !interested) {
+                    pIdx = i;
+                    prIdx = j;
+                    break outer;
+                }
+            }
+        }
+        org.junit.jupiter.api.Assertions.assertTrue(
+                pIdx >= 0 && prIdx >= 0,
+                "No (person, property) pair available that is neither owned nor already interested."
+        );
+
+        Index personIndex = Index.fromZeroBased(pIdx);
+        Property property = model.getFilteredPropertyList().get(prIdx);
+        Person person = model.getFilteredPersonList().get(personIndex.getZeroBased());
+
+        String setopSuccess = String.format(
+                SetOwnedPropertyCommand.MESSAGE_SUCCESS,
+                person.getName().fullName,
+                property.getPropertyName().toString()
+        );
+        assertCommandSuccess(
+                new SetOwnedPropertyCommand(personIndex, property.getPropertyName().toString()),
+                model,
+                setopSuccess,
+                model
+        );
+
+        String expectedConflict = String.format(
+                InterestedPropertyCommand.MESSAGE_OWNERSHIP_CONFLICT,
+                property.getPropertyName().fullName
+        );
+        assertCommandFailure(
+                new InterestedPropertyCommand(property.getPropertyName(), personIndex),
+                model,
+                expectedConflict
+        );
+    }
+
+    /**
+     * Ensures equals(), hashCode(), and toString() are covered.
+     */
+    @Test
+    public void equals_hashcode_toString() {
+        Index idx1 = Index.fromZeroBased(0);
+        Index idx2 = Index.fromZeroBased(1);
+        Property property1 = model.getFilteredPropertyList().get(0);
+        Property property2 = model.getFilteredPropertyList().get(1);
+
+        InterestedPropertyCommand cmd1a = new InterestedPropertyCommand(property1.getPropertyName(), idx1);
+        InterestedPropertyCommand cmd1b = new InterestedPropertyCommand(property1.getPropertyName(), idx1);
+        InterestedPropertyCommand cmd2 = new InterestedPropertyCommand(property2.getPropertyName(), idx2);
+
+        assertTrue(cmd1a.equals(cmd1a));
+
+        assertTrue(cmd1a.equals(cmd1b));
+        assertEquals(cmd1a.hashCode(), cmd1b.hashCode());
+
+        assertTrue(!cmd1a.equals(cmd2));
+
+        assertTrue(!cmd1a.equals("not a command"));
+
+        String ts = cmd1a.toString();
+        assertTrue(ts.contains("propertyName"));
+        assertTrue(ts.contains("personIndex"));
     }
 }
