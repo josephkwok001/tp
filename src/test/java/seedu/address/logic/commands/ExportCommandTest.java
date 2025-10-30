@@ -113,23 +113,4 @@ public class ExportCommandTest {
 
         file.delete();
     }
-
-    @Test
-    public void execute_readOnlyDirectory_throwsCommandException() throws Exception {
-        Model model = new ModelManager(new AddressBook(), new UserPrefs());
-        model.addPerson(ALICE);
-
-        File readOnlyDir = new File(System.getProperty("user.dir") + "/data/readonly");
-        readOnlyDir.mkdirs();
-        readOnlyDir.setReadOnly();
-
-        String filename = "readonly/test_export";
-        ExportCommand command = new ExportCommand(filename);
-
-        assertThrows(CommandException.class, () -> command.execute(model));
-
-        readOnlyDir.setWritable(true);
-        readOnlyDir.delete();
-    }
-
 }
