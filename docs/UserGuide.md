@@ -35,7 +35,7 @@ advanced commands—no prior experience is necessary. Explore the sections below
 2. [**Getting Started**](#getting-started):
 A simple step-by-step guide for new users to follow and get acquainted with EstateSearch’s interface 
 and basic functions.
-3. [**Command Summary**]():
+3. [**Command Summary**](#estatesearch-command-summary):
 The command summary is a good reference as it provides a general overview of all the available 
 commands. Use the command summary when you need to clarify input formats for a command without having to go too in-depth
 regarding its usage.
@@ -439,6 +439,9 @@ same <code>PROPERTY NAME</code>, <code>ADDRESS</code>, and <code>PRICE</code>,<b
 
 **Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
 **A**: EstateSearch does not require any prior programming knowledge
+
+
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
