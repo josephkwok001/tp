@@ -2,6 +2,7 @@ package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FORMAT;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 
@@ -14,7 +15,11 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Phone;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
@@ -176,11 +181,82 @@ public class JsonAdaptedPersonTest {
      * Validates that invalid field combinations trigger composite exception behavior.
      */
     @Test
-    public void toModelType_invalidComposite_throwsIllegalValueException() {
-        JsonAdaptedPerson person = new JsonAdaptedPerson(
-                INVALID_NAME, INVALID_PHONE, INVALID_EMAIL, INVALID_ADDRESS,
-                null, null, null);
-        assertThrows(IllegalValueException.class, person::toModelType);
+    public void toModelType_multipleInvalidFields_throwsIllegalValueException() {
+        Property owned = new Property(new seedu.address.model.property.Address("1 NUS Rd"),
+                new Price(1_000_000), new PropertyName("Campus Home"));
+        Property interested = new Property(new seedu.address.model.property.Address("2 Clementi Ave"),
+                new Price(2_000_000), new PropertyName("Sunset Loft"));
+        AddressBook ab = new AddressBook();
+        ab.addProperty(owned);
+        ab.addProperty(interested);
+
+        List<String> ownedList = List.of("Campus Home");
+        List<String> interestedList = List.of("Sunset Loft");
+
+        JsonAdaptedPerson invalidPerson;
+        String expectedMessage;
+
+        // missing name
+        invalidPerson = new JsonAdaptedPerson(
+                null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, ownedList, interestedList);
+
+        expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                Name.class.getSimpleName());
+        assertThrows(IllegalValueException.class, expectedMessage, invalidPerson::toModelType);
+
+        // invalid name
+        invalidPerson = new JsonAdaptedPerson(
+                INVALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, ownedList, interestedList);
+        expectedMessage = Name.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, invalidPerson::toModelType);
+
+        // missing phone
+
+        invalidPerson = new JsonAdaptedPerson(
+                VALID_NAME, null, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, ownedList, interestedList);
+        expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                Phone.class.getSimpleName());
+        assertThrows(IllegalValueException.class, expectedMessage, invalidPerson::toModelType);
+
+        // invalid phone
+        invalidPerson = new JsonAdaptedPerson(
+                VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, ownedList, interestedList);
+        expectedMessage = Phone.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, invalidPerson::toModelType);
+
+        // missing email
+        invalidPerson = new JsonAdaptedPerson(
+                VALID_NAME, VALID_PHONE, null, VALID_ADDRESS,
+                VALID_TAGS, ownedList, interestedList);
+        expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                Email.class.getSimpleName());
+        assertThrows(IllegalValueException.class, expectedMessage, invalidPerson::toModelType);
+
+        // invalid email
+        invalidPerson = new JsonAdaptedPerson(
+                VALID_NAME, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, ownedList, interestedList);
+        expectedMessage = Email.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, invalidPerson::toModelType);
+
+        // missing address
+        invalidPerson = new JsonAdaptedPerson(
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, null,
+                VALID_TAGS, ownedList, interestedList);
+        expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                Address.class.getSimpleName());
+        assertThrows(IllegalValueException.class, expectedMessage, invalidPerson::toModelType);
+
+        // invalid address
+        invalidPerson = new JsonAdaptedPerson(
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS,
+                VALID_TAGS, ownedList, interestedList);
+        expectedMessage = Address.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, invalidPerson::toModelType);
     }
 
     /**
@@ -210,5 +286,12 @@ public class JsonAdaptedPersonTest {
         assertTrue(keys.contains("phone"));
         assertTrue(keys.contains("email"));
         assertTrue(keys.contains("address"));
+    }
+
+
+    @Test
+    public void equals_sameAdaptedPersonObject_true() {
+        JsonAdaptedPerson adaptedPerson = new JsonAdaptedPerson(BENSON);
+        assertTrue(adaptedPerson.equals(adaptedPerson));
     }
 }
