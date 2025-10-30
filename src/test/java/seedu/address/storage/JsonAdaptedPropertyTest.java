@@ -98,4 +98,16 @@ public class JsonAdaptedPropertyTest {
         String expectedMessage = Address.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, adapted::toModelType);
     }
+
+    @Test
+    public void equals_sameObject_returnsTrue() {
+        JsonAdaptedProperty adapted = new JsonAdaptedProperty(VALID_ADDRESS, VALID_PRICE, VALID_PROPERTY_NAME);
+        assertEquals(adapted, adapted);
+    }
+
+    @Test
+    public void equals_differentType_returnsFalse() {
+        JsonAdaptedProperty adapted = new JsonAdaptedProperty(VALID_ADDRESS, VALID_PRICE, VALID_PROPERTY_NAME);
+        assertNotEquals("Some String", adapted);
+    }
 }
