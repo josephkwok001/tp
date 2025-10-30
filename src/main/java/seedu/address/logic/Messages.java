@@ -57,11 +57,11 @@ public class Messages {
      */
     public static String formatProperty(Property property) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(property.getAddress())
+        builder.append(property.getPropertyName())
                 .append("; Price: ")
                 .append(property.getPrice())
-                .append("; Property Name: ")
-                .append(property.getPropertyName());
+                .append("; Address: ")
+                .append(property.getAddress());
         return builder.toString();
     }
 }
