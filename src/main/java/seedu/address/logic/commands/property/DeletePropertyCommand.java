@@ -42,7 +42,7 @@ public class DeletePropertyCommand extends Command {
         List<Property> lastShownList = model.getAddressBook().getPropertyList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_OUT_OF_RANGE_INDEX);
         }
 
         Property propertyToDelete = lastShownList.get(targetIndex.getZeroBased());
