@@ -161,8 +161,10 @@ public class MainApp extends Application {
      * The summary contains overall statistics followed by per-index details.
      * For each person index, this method prints either:
      * <ul>
-     *   <li>the collected reasons when there is no base-field error (e.g., duplicates or only properties issues), or</li>
-     *   <li>only the invalid field section when base fields (name, phone, email, address) are invalid, to avoid duplication.</li>
+     *   <li>the collected reasons when there is no base-field error (e.g.,
+     *   duplicates or only properties issues), or</li>
+     *   <li>only the invalid field section when base fields (name, phone, email, address)
+     *   are invalid, to avoid duplication.</li>
      * </ul>
      *
      * @param report the {@code LoadReport} containing model data and invalid person entries
