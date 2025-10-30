@@ -29,7 +29,7 @@ public class ExportCommandTest {
 
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, filename + ".csv"),
+        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, 0, filename + ".csv"),
                 result.getFeedbackToUser());
 
         File file = new File(System.getProperty("user.dir") + "/data/" + filename + ".csv");
@@ -60,7 +60,7 @@ public class ExportCommandTest {
 
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, filename + ".csv"),
+        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, 0, filename + ".csv"),
                 result.getFeedbackToUser());
 
         File csvFile = new File(System.getProperty("user.dir") + "/data/" + filename + ".csv");
@@ -86,7 +86,7 @@ public class ExportCommandTest {
         ExportCommand command = new ExportCommand(filename);
         CommandResult result = command.execute(model);
 
-        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, filename + ".csv"),
+        assertEquals(String.format(ExportCommand.MESSAGE_SUCCESS, 1, 0, filename + ".csv"),
                 result.getFeedbackToUser());
 
         assertEquals(true, file.exists());

@@ -32,7 +32,7 @@ public class ExportCommand extends Command {
             + "Example: " + COMMAND_WORD + " clients";
 
     /** Message shown on successful export. */
-    public static final String MESSAGE_SUCCESS = "Exported %1$d contacts to %2$s";
+    public static final String MESSAGE_SUCCESS = "Exported %1$d clients and %2$d properties to %3$s";
 
     /** Message shown if export fails. */
     public static final String MESSAGE_FAILURE = "Failed to export contacts: %1$s";
@@ -79,39 +79,50 @@ public class ExportCommand extends Command {
         }
 
         try (FileWriter writer = new FileWriter(file)) {
-            writer.append("Name,Phone,Email,Address,Tags,Owned Properties,Interested Properties\n");
+            writer.append("List of persons\n");
+            writer.append("Format: Name, Phone, Email, Address, Tags, Owned Properties, Interested Properties\n");
 
             for (Person p : model.getFilteredPersonList()) {
-                writer.append(escapeCsv(p.getName().toString())).append(",");
-                writer.append(escapeCsv(p.getPhone().toString())).append(",");
-                writer.append(escapeCsv(p.getEmail().toString())).append(",");
-                writer.append(escapeCsv(p.getAddress().toString())).append(",");
+                writer.append(escapeCsv(p.getName().toString())).append(", ");
+                writer.append(escapeCsv(p.getPhone().toString())).append(", ");
+                writer.append(escapeCsv(p.getEmail().toString())).append(", ");
+                writer.append(escapeCsv(p.getAddress().toString())).append(", ");
                 writer.append(escapeCsv(
-                        p.getTags().stream().map(Tag::toString).collect(Collectors.joining(";"))
-                )).append(",");
+                        "[" + p.getTags().stream()
+                                .map(Tag::toString)
+                                .map(tag -> tag
+                                        .replace("[", "")
+                                        .replace("]", ""))
+                                .collect(Collectors.joining("; ")) + "]"
+                )).append(", ");
                 writer.append(escapeCsv(
-                        p.getOwnedProperties().stream()
-                                .map(property -> property.getPropertyName().toString())  // ← Added .toString()
-                                .collect(Collectors.joining(";"))
-                )).append(",");
-                writer.append(escapeCsv(
-                        p.getInterestedProperties().stream()
+                        "[" + p.getOwnedProperties().stream()
                                 .map(property -> property.getPropertyName().toString())
-                                .collect(Collectors.joining(";"))
+                                .collect(Collectors.joining("; ")) + "]"
+                )).append(", ");
+                writer.append(escapeCsv(
+                        "[" + p.getInterestedProperties().stream()
+                                .map(property -> property.getPropertyName().toString())
+                                .collect(Collectors.joining("; ")) + "]"
                 )).append("\n");
+
             }
 
             writer.append("\n");
             writer.append("\n");
-            writer.append("Property Name,Address,Price,Features,Tags\n");
+            writer.append("List of properties \n");
+            writer.append("Format: Property Name, Price, Address\n");
 
             for (Property p : model.getFilteredPropertyList()) {
-                writer.append(escapeCsv(p.getPropertyName().toString())).append(",");
-                writer.append(escapeCsv(p.getAddress().toString())).append(",");
-                writer.append(escapeCsv(String.valueOf(p.getPrice().toString()))).append("\n");
+                writer.append(escapeCsv(p.getPropertyName().toString())).append(", ");
+                writer.append(escapeCsv(String.valueOf(p.getPrice().toString()))).append(", ");
+                writer.append(escapeCsv(p.getAddress().toString())).append("\n");
             }
 
-            return new CommandResult(String.format(MESSAGE_SUCCESS, model.getFilteredPersonList().size(), filename));
+            int personCount = model.getFilteredPersonList().size();
+            int propertyCount = model.getFilteredPropertyList().size();
+
+            return new CommandResult(String.format(MESSAGE_SUCCESS, personCount, propertyCount, filename));
 
         } catch (IOException e) {
             throw new CommandException(String.format(MESSAGE_FAILURE, e.getMessage()));
