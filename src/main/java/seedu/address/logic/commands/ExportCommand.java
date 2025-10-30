@@ -79,7 +79,7 @@ public class ExportCommand extends Command {
         }
 
         try (FileWriter writer = new FileWriter(file)) {
-            writer.append("List of persons\n");
+            writer.append("List of people\n");
             writer.append("Format: Name, Phone, Email, Address, Tags, Owned Properties, Interested Properties\n");
 
             for (Person p : model.getFilteredPersonList()) {
