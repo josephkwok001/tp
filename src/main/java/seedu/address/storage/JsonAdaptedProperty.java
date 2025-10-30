@@ -1,5 +1,7 @@
 package seedu.address.storage;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,8 +10,6 @@ import seedu.address.model.property.Address;
 import seedu.address.model.property.Price;
 import seedu.address.model.property.Property;
 import seedu.address.model.property.PropertyName;
-
-
 
 /**
  * Jackson-friendly version of {@link Property}.
@@ -106,26 +106,24 @@ class JsonAdaptedProperty {
         return price;
     }
 
-    /**
-     * Returns the set of field keys that are invalid, based on the same validation
-     * rules used by toModelType(). Keys are one or more of:
-     * "propertyName", "address", "price"
-     *
-     * This lets the load-report and the fix wizard know exactly which inputs to
-     * require from the user, while pre-filling the valid ones as read-only.
-     */
-    public java.util.Set<String> invalidFieldKeys() {
-        java.util.Set<String> invalids = new java.util.HashSet<>();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof JsonAdaptedProperty)) {
+            return false;
+        }
+        JsonAdaptedProperty that = (JsonAdaptedProperty) o;
+        return Objects.equals(propertyName, that.propertyName)
+                && Objects.equals(address, that.address)
+                && Objects.equals(price, that.price);
+    }
 
-        if (address == null || !Address.isValidAddress(address)) {
-            invalids.add("address");
-        }
-        if (price == null || !Price.isValidPrice(price)) {
-            invalids.add("price");
-        }
-        if (propertyName == null || !PropertyName.isValidName(propertyName)) {
-            invalids.add("propertyName");
-        }
-        return invalids;
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                propertyName, address, price
+        );
     }
 }
