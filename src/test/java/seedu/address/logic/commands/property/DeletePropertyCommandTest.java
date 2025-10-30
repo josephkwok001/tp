@@ -43,31 +43,8 @@ public class DeletePropertyCommandTest {
         Index outOfBoundIndex = Index.fromOneBased(model.getAddressBook().getPropertyList().size() + 1);
         DeletePropertyCommand deletePropertyCommand = new DeletePropertyCommand(outOfBoundIndex);
 
-        assertCommandFailure(deletePropertyCommand, model, Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
+        assertCommandFailure(deletePropertyCommand, model, Messages.MESSAGE_INVALID_OUT_OF_RANGE_INDEX);
     }
-
-    /*@Test
-    public void execute_validIndexFilteredList_success() {
-        Property propertyToDelete = model.getAddressBook().getPropertyList().get(INDEX_FIRST_PROPERTY.getZeroBased());
-        DeletePropertyCommand deletePropertyCommand = new DeletePropertyCommand(INDEX_FIRST_PROPERTY);
-
-        String expectedMessage = String.format(DeletePropertyCommand.MESSAGE_DELETE_PROPERTY_SUCCESS,
-                Messages.formatProperty(propertyToDelete));
-
-        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.deleteProperty(propertyToDelete);
-
-        assertCommandSuccess(deletePropertyCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_invalidIndexFilteredList_throwsCommandException() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getAddressBook().getPropertyList().size() + 1);
-        DeletePropertyCommand deletePropertyCommand = new DeletePropertyCommand(outOfBoundIndex);
-
-        assertCommandFailure(deletePropertyCommand, model, Messages.MESSAGE_INVALID_PROPERTY_DISPLAYED_INDEX);
-      }
-    */
 
     @Test
     public void equals() {
