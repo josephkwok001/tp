@@ -51,7 +51,7 @@ this section for fixes.
 7. [**Glossary**](#glossary):
 If you encounter any unfamiliar terms in this User Guide, refer to the Glossary of Terms, which acts as a quick
 dictionary of key terms used in the EstateSearch.
-8. [**Acceptable Range for Input Parameters**]():
+8. [**Acceptable Range for Input Parameters**](#acceptable-value-range-for-parameters):
 Detailed information on valid inputs and constraints for commands. This section is useful for ensuring that your
 command inputs are valid and satisfy the required constraints.
 
@@ -484,8 +484,7 @@ same <code>PROPERTY NAME</code><br>
 
 ---
 
-<a id="acceptable-parameters"></a>
-<span style="font-size: 30px; font-weight: bold; color: #d67d3e">Acceptable Value Ranges for Parameters</span>
+## Acceptable Value Range for Parameters
 
 <table>
     <tr><th>Command</th><th>Parameter</th><th>Acceptable inputs</th></tr>
@@ -546,12 +545,3 @@ same <code>PROPERTY NAME</code><br>
     <tr>
 </table>
 --------------------------------------------------------------------------------------------------------------------
-
-## Known issues
-
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only
-the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by
-the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard
-shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear.
-The remedy is to manually restore the minimized Help Window.
