@@ -477,71 +477,41 @@ same <code>PROPERTY NAME</code><br>
 | **Load Report Popup** | Startup dialog summarizing invalid records and reasons. |
 
 ---
-## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+### Acceptable Value Ranges for Parameters
+
+
+| Command | Parameters & Acceptable Inputs |
+|---------|-------------------------------|
+| **General** | |
+| List | No parameters required |
+| List Property | No parameters required |
+| Clear | No parameters required |
+| Help | No parameters required |
+| Exit | No parameters required |
+| Export | Alphanumeric and space, should not be blank |
+| Delete, Delete Property | **Index**: Positive integers only.<br>• Integers less than 1 will cause an invalid command format error.<br>• Integers greater than the number of contacts displayed in the given mode are invalid. |
+| **Client** | |
+| Add | **Name**: Alphanumeric characters and space, should not be blank<br>**Phone**: Numbers, at least 3 digits and at most 20 digits long<br>**Email**: Emails should be of the format local-part@domain and adhere to the following constraints:<br>• The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters.<br>• This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods.<br>• The domain name must end with a domain label at least 2 characters long, have each domain label start and end with alphanumeric characters, and have each domain label consist of alphanumeric characters, separated only by hyphens, if any.<br>• Special characters (+_.-) can only be used to separate alphanumeric values and not be put together consecutively.<br>**Address**: Can take any value, should not be blank<br>**Tag**: Tag names should only contain alphanumeric |
+| Edit | **Index**: Refer to General > Delete, Delete Property > Index<br>**Other parameters**: Same as Client > Add |
+| Find | **Name**: Refer to Client > Add > Name<br>**Tag**: Refer to Client > Add > Tag |
+| **Property** | |
+| Add Property | **Address**: Refer to Client > Add > Address<br>**Price**: Can only take positive numbers less than $2147483647 and should be a singular integer with no commas or decimal points<br>**Property Name**: Refer to Client > Add > Name |
+| Edit Property | **Index**: Refer to General > Delete > Index<br>**Other parameters**: Same as Property > Add |
+| Find Property | **Property Name**: Refer to Property > Add > Property Name |
+| **Client-Property Relationship** | |
+| Set Interested Property, Set Owned Property | **Index**: Refer to General > Delete, Delete Property > Index<br>**Property Name**: Refer to Property > Add > Property Name |
+| Delete Interested Property, Delete Owned Property | **Index**: Refer to General > Delete, Delete Property > Index<br>**Property Name**: Refer to Property > Add > Property Name |
+
+
 
 ---
 
-## Acceptable Value Range for Parameters
+## Known issues
 
-<table>
-    <tr><th>Command</th><th>Parameter</th><th>Acceptable inputs</th></tr>
-    <tr><th colspan="3">General</th></tr>
-    <tr><th>List</th><td colspan="2">No parameters required</td></tr>
-    <tr><th>List Property</th><td colspan="2">No parameters required</td></tr>
-    <tr><th>Clear</th><td colspan="2">No parameters required</td></tr>
-    <tr><th>Help</th><td colspan="2">No parameters required</td></tr>
-    <tr><th>Exit</th><td colspan="2">No parameters required</td></tr>
-    <tr><th>Export</th><td colspan="2">Alphanumeric and space, should not be blank</td></tr>
-    <tr>
-        <th>Delete, Delete Property</th>
-        <td>Index</td>
-        <td>Positive integers only.
-            <br>Integers less than 1 will cause an invalid command format error.
-            <br>Integers greater than the number of contacts displayed in the given mode are invalid.</td>
-    </tr>
-    <tr><th colspan="3">Client</th></tr>
-    <tr><th rowspan="5">Add</th><td>Name</td><td>Alphanumeric characters and space, should not be blank</td></tr>
-    <tr><td>Phone</td><td>Numbers, at least 3 digits and at most 20 digits long</td></tr>
-    <tr>
-        <td>Email</td>
-        <td>Emails should be of the format local-part@domain and adhere to the following constraints:
-            <br>The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters.
-            <br>This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods.<br>The domain name must:
-            <br>- end with a domain label at least 2 characters long<br>- have each domain label start and end with alphanumeric characters
-            <br>- have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
-            <br>Special characters (+_.-) can only be used to separate alphanumeric values and not be put together consecutively.
-        </td>
-    </tr>
-    <tr>
-        <td>Address</td>
-        <td>It can take any value, and it should not be blank 
-    </tr>
-    <tr><td>Tag</td><td>Tags names should only contain alphanumeric</td></tr>
-    <tr>
-        <th rowspan="2">Edit</th>
-        <td>Index</td><td>Refer to General > Delete, Delete Property> Index</td>
-    </tr>
-    <tr><td colspan="2">The remaining parameters are the same as that for Client > Add</td></tr>
-    <tr><th rowspan="2">Find</th><td>Name</td><td>Refer to Client > Add > Name</td></tr>
-    <tr><td>Tag</td><td>Refer to Client > Add > Tag</td></tr>
-    <tr><th colspan="3">Property</th></tr>
-    <tr>
-    <th rowspan="3">Add Property</th>
-    <td>Address</td><td>Refer to Client > Add > Address</td>
-    </tr>
-    <tr><td>Price</td><td>Price can only take positive numbers less than $2147483647 and it should be a singular integer with no commas or decimal points.</td></tr>
-    <tr><td>Property Name</td><td>Refer to Client > Add > Name</td></tr>
-    <tr><th rowspan="2">Edit Property</th><td>Index</td><td>Refer to General > Delete > Index</td></tr>
-    <tr><td colspan="2">The remaining parameters are the same as that for Property > Add</td></tr>
-    <tr><th>Find Property</th><td>Property Name</td><td>Refer to Property > Add > Property Name</td></tr>
-    <tr><th colspan="3">Client-Property Relationship</th></tr>
-    <tr><th rowspan="2">Set Interested Property, Set Owned Property</th><td>Index</td><td>Refer to Client > Add > Index</td></tr>
-    <tr><td>Property Name</td><td>Refer to Property > Add > Property Name</td></tr>
-    <tr><th rowspan="2">Delete Interested Property, Delete Owned Property</th><td>Index</td><td>Refer to Client > Add > Index</td></tr>
-    <tr><td>Property Name</td><td>Refer to Property > Add > Property Name</td></tr>
-    <tr>
-</table>
---------------------------------------------------------------------------------------------------------------------
+1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only
+the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by
+the application before running the application again.
+2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard
+shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear.
+The remedy is to manually restore the minimized Help Window.
