@@ -51,7 +51,7 @@ this section for fixes.
 7. [**Glossary**](#glossary):
 If you encounter any unfamiliar terms in this User Guide, refer to the Glossary of Terms, which acts as a quick
 dictionary of key terms used in the EstateSearch.
-8. [**Acceptable Range for Input Parameters**]():
+8. [**Acceptable Range for Input Parameters**](#acceptable-value-range-for-parameters):
 Detailed information on valid inputs and constraints for commands. This section is useful for ensuring that your
 command inputs are valid and satisfy the required constraints.
 
