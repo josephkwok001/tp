@@ -58,8 +58,27 @@ public class AddCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
+        String newName = toAdd.getName().fullName;
+        String newNameNoSpace = newName.replaceAll("\\s+", "");
+        boolean onlySpaceNameClash = model.getAddressBook().getPersonList().stream().anyMatch(p -> {
+            boolean samePhone = p.getPhone().value.equalsIgnoreCase(toAdd.getPhone().value);
+            boolean sameEmail = p.getEmail().value.equalsIgnoreCase(toAdd.getEmail().value);
+            boolean sameAddr = p.getAddress().value.equalsIgnoreCase(toAdd.getAddress().value);
+
+            String existName = p.getName().fullName;
+            boolean onlySpacesDifferent = !existName.equals(newName)
+                    && existName.replaceAll("\\s+", "").equals(newNameNoSpace);
+
+            return samePhone && sameEmail && sameAddr && onlySpacesDifferent;
+        });
+
         model.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.formatPerson(toAdd)));
+
+        String msg = String.format(MESSAGE_SUCCESS, Messages.formatPerson(toAdd));
+        if (onlySpaceNameClash) {
+            msg += "\nWarning: Another contact with the same details exists but with different spacing in the name.";
+        }
+        return new CommandResult(msg);
     }
 
     @Override

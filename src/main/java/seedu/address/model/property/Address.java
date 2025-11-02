@@ -62,4 +62,18 @@ public class Address {
         return value.hashCode();
     }
 
+    /**
+     * Produces a loose canonical form of a property name for fuzzy comparison.
+     * @param s the input string, may be {@code null}
+     * @return the normalized string; returns an empty string if {@code s} is {@code null}
+     */
+    public static String canonicalLoose(String s) {
+        if (s == null) {
+            return "";
+        }
+        return s.toLowerCase()
+                .replaceAll("[^\\p{L}\\p{N}\\s]", "")
+                .replaceAll("\\s+", " ")
+                .trim();
+    }
 }

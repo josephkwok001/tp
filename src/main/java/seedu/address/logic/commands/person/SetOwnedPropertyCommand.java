@@ -60,7 +60,7 @@ public class SetOwnedPropertyCommand extends Command {
         Person target = lastShownList.get(index.getZeroBased());
 
         Property prop = model.getAddressBook().getPropertyList().stream()
-                .filter(p -> p.getPropertyName().toString().equals(propertyName))
+                .filter(p -> p.getPropertyName().toString().trim().equalsIgnoreCase(propertyName.trim()))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PROP_NOT_FOUND, propertyName)));
 

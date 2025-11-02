@@ -77,10 +77,25 @@ public class EditPropertyCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
         }
 
+        String newKey = PropertyName.canonicalLoose(editedProperty.getPropertyName().toString());
+        Optional<Property> similar = model.getAddressBook().getPropertyList().stream()
+                .filter(p -> p != propertyToEdit)
+                .filter(p -> PropertyName.canonicalLoose(p.getPropertyName().toString()).equals(newKey))
+                .filter(p -> !p.getPropertyName().equals(editedProperty.getPropertyName()))
+                .findFirst();
+
         model.setProperty(propertyToEdit, editedProperty);
         model.updatePropertyInAllPersons(propertyToEdit, editedProperty);
         model.updateFilteredPropertyList(PREDICATE_SHOW_ALL_PROPERTIES);
-        return new CommandResult(String.format(MESSAGE_EDIT_PROPERTY_SUCCESS, Messages.formatProperty(editedProperty)));
+
+        String msg = String.format(MESSAGE_EDIT_PROPERTY_SUCCESS, Messages.formatProperty(editedProperty));
+        if (similar.isPresent()) {
+            msg += String.format(
+                    "\nWarning: A similar property name already exists: \"%s\" (differs only by spacing/case).",
+                    similar.get().getPropertyName().toString());
+        }
+
+        return new CommandResult(msg);
     }
 
     /**

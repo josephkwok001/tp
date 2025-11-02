@@ -31,7 +31,7 @@ public class PropertyTest {
     @Test
     public void isSameProperty_differentName_returnsFalse() {
         Property p1 = new Property(new Address("A1"), new Price(100), new PropertyName("N1"));
-        Property p2 = new Property(new Address("A1"), new Price(100), new PropertyName("N2"));
+        Property p2 = new Property(new Address("A2"), new Price(100), new PropertyName("N2"));
         assertFalse(p1.isSameProperty(p2));
     }
 
