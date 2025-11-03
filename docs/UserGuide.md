@@ -466,7 +466,7 @@ Format: `findp n/PROPERTY NAME`
 - The search is case-insensitive. e.g. `Sunshine` will match `sunshine`
 - The order of the keywords does not matter. e.g. `Sunshine Lodge` will match `Lodge Sunshine`
 - Only the property name is searched.
-- Only full words will be matched e.g. `Sunshine` will not match `Sunshines`
+- findp uses substring matching for keywords. e.g. `Sun` matches `Sunflower Mansion` and `Sunshine Lodge`
 - Properties matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Sunshine Lodge` will return `Sunshine Home`, `Lodge Farm`
 - `findp n/Sunshine` returns all properties whose property names contain `sunshine` (case-insensitive)
@@ -503,7 +503,7 @@ Format: `setop INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app.
 - The specified client must not already own a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F).
-- Repeating the command with the same property for the same client has no effect (duplicates are ignored).
+- Repeating the command with the same property for the same client will throw an error.
 
 Examples:
 
@@ -531,7 +531,7 @@ Format: `setip INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must not already be interested in a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
-- Repeating the command with the same property for the same client has no effect (duplicates are ignored)
+- Repeating the command with the same property for the same client will throw an error (e.g. This person already owns the property: PROPERTY_NAME)
 
 Examples:
 
