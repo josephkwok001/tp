@@ -58,20 +58,20 @@ public class HelpWindow extends UiPart<Stage> {
             // Managing client-property relations
             + "--- Managing Client-Property Relations ---\n"
             + "setip: Sets an interested property for a client.\n"
-            + "  Format: setip i/PERSON INDEX n/PROPERTY NAME \n"
-            + "  Example: setip i/1 n/Hillside Villa\n\n"
+            + "  Format: setip PERSON INDEX n/PROPERTY NAME \n"
+            + "  Example: setip 1 n/Hillside Villa\n\n"
 
             + "setop: Sets an owned property for a client.\n"
-            + "  Format: setop i/PERSON INDEX n/PROPERTY NAME \n"
-            + "  Example: setop i/1 n/Hillside Villa\n\n"
+            + "  Format: setop PERSON INDEX n/PROPERTY NAME \n"
+            + "  Example: setop 1 n/Hillside Villa\n\n"
 
             + "deleteip: Deletes an interested property from a client.\n"
-            + "  Format: deleteip i/PERSON INDEX n/PROPERTY NAME \n"
-            + "  Example: deleteip i/1 n/Hillside Villa\n\n"
+            + "  Format: deleteip PERSON INDEX n/PROPERTY NAME \n"
+            + "  Example: deleteip 1 n/Hillside Villa\n\n"
 
             + "deleteop: Deletes an owned property from a client.\n"
-            + "  Format: deleteop i/PERSON INDEX n/PROPERTY NAME \n"
-            + "  Example: deleteop i/1 n/Hillside Villa\n\n"
+            + "  Format: deleteop PERSON INDEX n/PROPERTY NAME \n"
+            + "  Example: deleteop 1 n/Hillside Villa\n\n"
 
             // Viewing Data
             + "--- Viewing Data ---\n"
