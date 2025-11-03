@@ -7,8 +7,8 @@ pageNav: 3
 # Welcome to EstateSearch!
 
 
-**EstateSearch** is a desktop application that is designed specifically for fast-typing **real estate agents** 
-who are looking for a tool that allows them to be fast and efficient through the use of a **Command-Line Interface (CLI)**. 
+**EstateSearch** is a desktop application designed for fast-typing **real estate agents** 
+who want to work efficiently using a **Command-Line Interface (CLI)**. 
 
 With EstateSearch, you can:
 * Store and manage client contacts and property details in one integrated system. 
@@ -37,8 +37,7 @@ For any terms that you are not familiar with, do refer to the [Glossary of Terms
 --------------------------------------------------------------------------------------------------------------------
 ## How to use this User Guide
 
-This user guide is designed to help you navigate EstateSearch and maximise your productivity with the
-available features. It's designed to walk you through all the application's features, from getting started to using 
+This user guide helps you navigate EstateSearch and maximise your productivity. It walks you through all the application's features, from getting started to using 
 advanced commands—no prior experience is necessary. Through this user guide, users will learn to be able
 to **confidently use** the various features that EstateSearch has to offer. 
 
@@ -232,6 +231,13 @@ Format: `help`
 
 Exports the current filtered contacts to a CSV file
 
+<box type="warning">
+
+**Caution:**
+If a file with the same filename already exists in the data folder, it will be overwritten without confirmation.
+</box>
+
+
 Format: `export FILENAME`
 
 - Exports all contacts currently shown in the filtered list to a CSV file.
@@ -300,6 +306,12 @@ Examples:
 ### Deleting a client : `delete`
 
 Deletes the specified client from EstateSearch.
+<box type="warning">
+
+**Caution:**
+Deleting a client is permanent and cannot be undone. All associated owned and interested property relationships will also be removed.
+</box>
+
 
 Format: `delete INDEX` or `delete e/EMAIL`
 
@@ -333,7 +345,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 - Edits the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
 - At least one of the optional fields must be provided.
 - Existing values will be updated to the input values.
-- When editing tags, the existing tags of the client will be removed i.e. adding of tags is not cumulative.
+- When editing tags, all existing tags are replaced with your new tags. To keep existing tags, you must re-enter them along with any new tags.
 - You can remove all the client’s tags by typing `t/` without
   specifying any tags after it.
 
@@ -401,6 +413,12 @@ Examples:
 ### Deleting a property : `deletep`
 
 Deletes the specified property from EstateSearch.
+<box type="warning">
+
+**Caution:**
+Deleting a property will permanently remove it from EstateSearch and clear all ownership and interest relationships with clients. This action cannot be undone.
+</box>
+
 
 Format: `deletep INDEX`
 
