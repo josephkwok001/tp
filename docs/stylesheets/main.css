@@ -168,3 +168,15 @@ h5,
 h6 {
   color: #e46c0a;
 }
+
+/* Change Table of Contents font */
+.page-nav {
+    font-family: Arial, sans-serif; /* Change to your desired font */
+    font-size: 14px; /* Change to your desired size */
+    font-weight: normal; /* Change weight if needed */
+}
+
+/* If you want to be more specific */
+#page-nav .nav-component {
+    font-family: Arial, sans-serif;
+}
