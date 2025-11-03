@@ -30,6 +30,8 @@ public class NameTest {
         assertFalse(Name.isValidName("^")); // only symbols
         assertFalse(Name.isValidName("peter^")); // contains invalid symbols
         assertFalse(Name.isValidName("@12")); // symbols and numbers
+        // exceeds character limit
+        assertFalse(Name.isValidName("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ123"));
 
         // valid name
         assertTrue(Name.isValidName("peter the 2nd")); // contains numbers

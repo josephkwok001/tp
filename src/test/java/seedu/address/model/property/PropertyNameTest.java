@@ -32,8 +32,9 @@ public class PropertyNameTest {
         assertFalse(PropertyName.isValidName(" ")); // only spaces
         assertFalse(PropertyName.isValidName("^")); // only symbols
         assertFalse(PropertyName.isValidName("ABC@")); // name and symbols
-        assertFalse(PropertyName.isValidName("ThisNameIsWayTooLongToBeConsideredValidBecauseItExceedsFifty"));
         // over 50 characters
+        assertFalse(PropertyName.isValidName("ThisNameIsWayTooLongToBeConsideredValidBecauseItExceedsFifty"));
+
 
         // valid property names
         assertTrue(PropertyName.isValidName("Sunny Villa")); // Only Alphabets
