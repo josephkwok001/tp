@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FixInvalidCommand;
 import seedu.address.logic.commands.ListInvalidCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
