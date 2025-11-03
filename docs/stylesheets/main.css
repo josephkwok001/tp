@@ -168,14 +168,3 @@ h5,
 h6 {
   color: #e46c0a;
 }
-
-
-.page-nav {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: normal;
-}
-
-#page-nav .nav-component {
-    font-family: Arial, sans-serif;
-}
