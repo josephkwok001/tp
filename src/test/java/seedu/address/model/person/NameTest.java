@@ -28,16 +28,21 @@ public class NameTest {
         assertFalse(Name.isValidName("")); // empty string
         assertFalse(Name.isValidName(" ")); // spaces only
         assertFalse(Name.isValidName("^")); // only symbols
-        assertFalse(Name.isValidName("peter*")); // contains non-letter symbols
-        assertFalse(Name.isValidName("12345")); // numbers only (not allowed)
-        assertFalse(Name.isValidName("peter the 2nd")); // contains numbers
-        assertFalse(Name.isValidName("John3")); // mixed letters and numbers
+        assertFalse(Name.isValidName("peter^")); // contains invalid symbols
+        assertFalse(Name.isValidName("@12")); // symbols and numbers
+        // exceeds character limit
+        assertFalse(Name.isValidName("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ123"));
 
         // valid name
+        assertTrue(Name.isValidName("peter the 2nd")); // contains numbers
+        assertTrue(Name.isValidName("John3")); // mixed letters and numbers
         assertTrue(Name.isValidName("peter jack")); // letters only
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters
         assertTrue(Name.isValidName("David Roger Jackson Ray Jr")); // long name with spaces
         assertTrue(Name.isValidName("Élodie Chloé")); // supports unicode letters
+        assertTrue(Name.isValidName("Tsai Chin-Howe")); // supports hyphen
+        assertTrue(Name.isValidName("Tan Chin Bock @ David Tan")); // supports @ symbol
+        assertTrue(Name.isValidName("Lim Tse Xiang, Nicholas")); // supports comma
     }
 
     @Test
