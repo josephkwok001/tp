@@ -149,7 +149,15 @@ public class Person {
         if (otherPerson == this) {
             return true;
         }
-        return otherPerson != null && otherPerson.equals(this);
+        if (otherPerson == null) {
+            return false;
+        }
+
+        boolean sameName = this.name.fullName.equalsIgnoreCase(otherPerson.name.fullName);
+        boolean samePhone = this.phone.value.equalsIgnoreCase(otherPerson.phone.value);
+        boolean sameEmail = this.email.value.equalsIgnoreCase(otherPerson.email.value);
+        boolean sameAddr = this.address.value.equalsIgnoreCase(otherPerson.address.value);
+        return sameName && samePhone && sameEmail && sameAddr;
     }
 
     /**

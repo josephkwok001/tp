@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -26,7 +27,15 @@ public class ExportCommandParser implements Parser<ExportCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
 
-        return new ExportCommand(trimmedArgs);
+        if (!args.equals(trimmedArgs) && !args.equals(" " + trimmedArgs)) {
+            throw new ParseException("Filename cannot contain extra spaces.");
+        }
+
+        try {
+            return new ExportCommand(trimmedArgs);
+        } catch (CommandException e) {
+            throw new ParseException(e.getMessage());
+        }
     }
 
 }

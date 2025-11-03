@@ -92,4 +92,53 @@ public class PersonTest {
         Person p = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", Set.of());
         org.junit.jupiter.api.Assertions.assertTrue(p.isFullyValid());
     }
+
+    /**
+     * Returns false when comparing a person against null.
+     */
+    @Test
+    public void isSamePerson_null_false() {
+        Person a = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", Set.of());
+        org.junit.jupiter.api.Assertions.assertFalse(a.isSamePerson(null));
+    }
+
+    /**
+     * Returns true when all identity fields match ignoring case.
+     */
+    @Test
+    public void isSamePerson_allFieldsMatchIgnoringCase_true() {
+        Person a = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", Set.of());
+        Person b = person("aLiCe bOb", "91234567", "ALICE@EXAMPLE.COM", "1 MAIN ST", Set.of());
+        org.junit.jupiter.api.Assertions.assertTrue(a.isSamePerson(b));
+    }
+
+    /**
+     * Returns false when phone differs even if other fields match ignoring case.
+     */
+    @Test
+    public void isSamePerson_differentPhone_false() {
+        Person a = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", Set.of());
+        Person b = person("ALICE BOB", "93334444", "ALICE@EXAMPLE.COM", "1 MAIN ST", Set.of());
+        org.junit.jupiter.api.Assertions.assertFalse(a.isSamePerson(b));
+    }
+
+    /**
+     * Returns false when email differs even if other fields match ignoring case.
+     */
+    @Test
+    public void isSamePerson_differentEmail_false() {
+        Person a = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", Set.of());
+        Person b = person("ALICE BOB", "91234567", "alice2@example.com", "1 MAIN ST", Set.of());
+        org.junit.jupiter.api.Assertions.assertFalse(a.isSamePerson(b));
+    }
+
+    /**
+     * Returns false when address differs even if other fields match ignoring case.
+     */
+    @Test
+    public void isSamePerson_differentAddress_false() {
+        Person a = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", Set.of());
+        Person b = person("ALICE BOB", "91234567", "ALICE@EXAMPLE.COM", "2 OTHER RD", Set.of());
+        org.junit.jupiter.api.Assertions.assertFalse(a.isSamePerson(b));
+    }
 }

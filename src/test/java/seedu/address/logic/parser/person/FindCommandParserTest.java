@@ -25,14 +25,29 @@ public class FindCommandParserTest {
     public void parse_validArgs_returnsFindCommand() {
         List<String> keywords = Arrays.asList("Alice", "Bob");
         FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(keywords));
+                new FindCommand(new NameContainsKeywordsPredicate(keywords), "name", "Alice Bob");
 
-        // no leading and trailing whitespaces, with prefix
         assertParseSuccess(parser, "n/Alice Bob", expectedFindCommand);
 
-        // multiple whitespaces between keywords, with prefix
         assertParseSuccess(parser, "n/ \n Alice \n \t Bob  \t", expectedFindCommand);
     }
 
+    @Test
+    public void parse_emptyTagValue_throwsParseException() {
+        assertParseFailure(parser, "t/", "No tag provided after t/");
+
+        assertParseFailure(parser, "t/   ", "No tag provided after t/");
+    }
+
+    @Test
+    public void parse_nameAndTagCombined_throwsParseException() {
+        assertParseFailure(parser, "n/ t/", "Please use only one search parameter at a time: n/NAME or t/TAG");
+
+        assertParseFailure(parser, "n/Alice t/friends",
+                "Please use only one search parameter at a time: n/NAME or t/TAG");
+
+        assertParseFailure(parser, "t/friends n/Alice",
+                "Please use only one search parameter at a time: n/NAME or t/TAG");
+    }
 
 }
