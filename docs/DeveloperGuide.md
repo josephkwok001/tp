@@ -41,7 +41,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-W12-4/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-W12-4/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -1047,7 +1047,7 @@ testers are expected to do more _exploratory_ testing.
 
 2. No keyword found
     1. Prerequisites: List all properties using the `listp` command.
-    2. Test case: `find n/Name`<br>
+    2. Test case: `findp n/Name`<br>
        Expected: No properties are listed. Shows "0 properties listed!" in the status message.
 
 ### Linking Properties to Clients
@@ -1069,7 +1069,7 @@ testers are expected to do more _exploratory_ testing.
     3. Test case: `setip n/Hannah`<br>
        Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
-### Deleting owned property
+#### Deleting owned property
 1. Deleting client's owned properties while all clients are being shown
     1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
     2. Test case: `deleteop 1 n/Hannah Mansion`<br>
@@ -1079,7 +1079,7 @@ testers are expected to do more _exploratory_ testing.
        Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 
-### Deleting interested property
+#### Deleting interested property
 1. Deleting client's interested properties while all clients are being shown
     1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
     2. Test case: `deleteip 1 n/Hannah Mansion`<br>
