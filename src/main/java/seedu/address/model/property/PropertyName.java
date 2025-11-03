@@ -11,7 +11,7 @@ public class PropertyName {
 
     public static final String MESSAGE_CONSTRAINTS =
         "Property names should only contain alphanumeric characters and spaces, and it should not be blank.\n"
-        + "It is limited to 50 characters long";
+        + "It is limited to 50 characters.";
 
     /*
      * The first character of the address must not be a whitespace,

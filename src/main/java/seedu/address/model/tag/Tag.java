@@ -10,7 +10,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Tag {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Tags names should be alphanumeric and not more than 30 characters long";
+            "Tags names should be alphanumeric and not more than 30 characters.";
     public static final String VALIDATION_REGEX = "\\p{Alnum}+";
 
     public final String tagName;
