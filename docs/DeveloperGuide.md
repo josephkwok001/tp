@@ -855,6 +855,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Glossary
 
+| Term | Meaning |
+|------|---------|
 | **AB3** | AddressBook Level 3 — the base codebase on which EstateSearch is built. |
 | **Architecture Diagram** | A UML diagram showing the high-level relationships among components (UI, Logic, Model, Storage, Commons). |
 | **Command** | Represents an executable user action (e.g., `AddCommand`, `DeleteCommand`). Each command encapsulates its own logic. |
@@ -868,11 +870,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | **ObservableList** | A JavaFX collection that notifies the UI when its contents change, allowing auto-updates. |
 | **Filtered List** | A view of data after applying search filters (e.g., results of `find`). |
 | **Property** | A new entity type in EstateSearch, representing a real estate listing with attributes like address and price. |
-| **Client** | A person (buyer/seller) entry in EstateSearch, adapted from AB3’s Person entity. |
+| **Client** | A person (buyer/seller) entry in EstateSearch, adapted from AB3's Person entity. |
 | **Relationship Command** | Commands that link clients and properties (e.g., `setop`, `setip`, `deleteop`, `deleteip`). |
 | **VersionedAddressBook** | A proposed data structure for implementing undo/redo functionality. |
 | **FXML** | XML-based layout files defining UI components in JavaFX. |
-| **Dual-pane Interface** | EstateSearch’s UI layout that displays both client and property lists simultaneously. |
+| **Dual-pane Interface** | EstateSearch's UI layout that displays both client and property lists simultaneously. |
 
 
 --------------------------------------------------------------------------------------------------------------------
