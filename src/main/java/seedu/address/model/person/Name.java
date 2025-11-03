@@ -11,7 +11,7 @@ public class Name {
 
     public static final String MESSAGE_CONSTRAINTS =
             "Names should only contain alphanumeric characters, '@', '-', ',', spaces,\n"
-            + "and it should not be blank. It is limited to 100 characters.";
+            + "and it should not be blank. It is limited to 50 characters.";
 
     /*
      * The first character of the address must not be a whitespace,
@@ -36,7 +36,7 @@ public class Name {
      * Returns true if a given string is a valid name.
      */
     public static boolean isValidName(String test) {
-        return test.matches(VALIDATION_REGEX) & test.length() <= 100;
+        return test.matches(VALIDATION_REGEX) & test.length() <= 50;
     }
 
 
