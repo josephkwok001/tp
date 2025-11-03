@@ -853,8 +853,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     3. The system must support at least 1,000 clients and 1,000 properties without exceeding 1s for add/delete/update/search operations.
     4. The dual-pane UI must render and switch between client and property views without noticeable lag (< 500ms).
 
-### Glossary
+## Glossary
 
+| Term                                | Meaning                                                                   |
+|-------------------------------------|---------------------------------------------------------------------------|
 | **AB3** | AddressBook Level 3 — the base codebase on which EstateSearch is built. |
 | **Architecture Diagram** | A UML diagram showing the high-level relationships among components (UI, Logic, Model, Storage, Commons). |
 | **Command** | Represents an executable user action (e.g., `AddCommand`, `DeleteCommand`). Each command encapsulates its own logic. |
@@ -873,7 +875,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | **VersionedAddressBook** | A proposed data structure for implementing undo/redo functionality. |
 | **FXML** | XML-based layout files defining UI components in JavaFX. |
 | **Dual-pane Interface** | EstateSearch’s UI layout that displays both client and property lists simultaneously. |
-
 
 --------------------------------------------------------------------------------------------------------------------
 
