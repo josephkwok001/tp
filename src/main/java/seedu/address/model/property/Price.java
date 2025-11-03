@@ -38,7 +38,7 @@ public class Price {
 
     @Override
     public String toString() {
-        return price.toString();
+        return String.format("%,d", price);
     }
 
     @Override
