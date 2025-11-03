@@ -1074,7 +1074,7 @@ testers are expected to do more _exploratory_ testing.
     2. Test case: `deleteop i/1 n/Hannah Mansion`<br>
        Expected: If properties with the specification exists, property will be deleted from client's owned properties.
        Client's and property detail in the status message.
-    3. Test case: `deleteop n/Hannah'`<br>'
+    3. Test case: `deleteop n/Hannah`<br>
        Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 
