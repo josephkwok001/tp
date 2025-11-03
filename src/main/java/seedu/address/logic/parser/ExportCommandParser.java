@@ -27,6 +27,10 @@ public class ExportCommandParser implements Parser<ExportCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
         }
 
+        if (!args.equals(trimmedArgs) && !args.equals(" " + trimmedArgs)) {
+            throw new ParseException("Filename cannot contain extra spaces.");
+        }
+
         try {
             return new ExportCommand(trimmedArgs);
         } catch (CommandException e) {

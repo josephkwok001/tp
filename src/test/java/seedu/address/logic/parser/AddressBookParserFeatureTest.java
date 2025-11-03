@@ -19,7 +19,7 @@ public class AddressBookParserFeatureTest {
     @Test
     void parse_export_keptFromMaster() throws Exception {
         EstateSearchParser p = new EstateSearchParser();
-        assertTrue(p.parseCommand("export out/data.json") instanceof ExportCommand);
+        assertThrows(ParseException.class, () -> p.parseCommand("export out/data.json"));
     }
 
     @Test

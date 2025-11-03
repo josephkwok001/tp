@@ -29,7 +29,7 @@ public class ExportCommand extends Command {
     /** Usage message explaining how to use the command. */
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exports the current filtered people and properties "
             + "to a CSV file.\n"
-            + "Parameters: FILENAME (cannot contain / or \\)\n"
+            + "Parameters: FILENAME (alphanumeric characters, hyphens, and underscores only)\n"
             + "Example: " + COMMAND_WORD + " clients";
 
     /** Message shown on successful export. */
@@ -49,8 +49,8 @@ public class ExportCommand extends Command {
     public ExportCommand(String filename) throws CommandException {
         requireNonNull(filename);
 
-        if (filename.contains("/") || filename.contains("\\")) {
-            throw new CommandException("Filename cannot contain directory separators (/ or \\)");
+        if (!filename.matches("^[a-zA-Z0-9_-]+$")) {
+            throw new CommandException("Filename can only contain alphanumeric characters, hyphens, and underscores.");
         }
 
         this.filename = new File(filename).getName() + ".csv";
