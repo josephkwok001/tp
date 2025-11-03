@@ -25,7 +25,7 @@ public class FindCommandParserTest {
     public void parse_validArgs_returnsFindCommand() {
         List<String> keywords = Arrays.asList("Alice", "Bob");
         FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(keywords));
+                new FindCommand(new NameContainsKeywordsPredicate(keywords), "name", "Alice Bob");
 
         // no leading and trailing whitespaces, with prefix
         assertParseSuccess(parser, "n/Alice Bob", expectedFindCommand);
