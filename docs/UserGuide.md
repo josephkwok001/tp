@@ -503,7 +503,8 @@ Format: `setop INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app.
 - The specified client must not already own a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F).
-- Repeating the command with the same property for the same client will throw an error.
+- Repeating the command with the same property for the same client will throw an error (e.g. This person already owns the property: PROPERTY_NAME)
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
 
 Examples:
 
@@ -531,7 +532,8 @@ Format: `setip INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must not already be interested in a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
-- Repeating the command with the same property for the same client will throw an error (e.g. This person already owns the property: PROPERTY_NAME)
+- Repeating the command with the same property for the same client will throw an error (e.g. This person is already marked as interested in this property: PROPERTY_NAME)
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
 
 Examples:
 
@@ -558,6 +560,7 @@ Format: `deleteop INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must already own a property with the exact same `PROPERTY_NAME`, otherwise an error message will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
 
 Examples:
 
@@ -582,6 +585,7 @@ Format: `deleteip INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must already be interested in a property with the exact same `PROPERTY_NAME`, otherwise an error will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
 
 Examples:
 
