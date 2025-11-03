@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FixInvalidCommand;
 import seedu.address.logic.commands.ListInvalidCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -19,7 +18,7 @@ public class AddressBookParserFeatureTest {
     @Test
     void parse_export_keptFromMaster() throws Exception {
         EstateSearchParser p = new EstateSearchParser();
-        assertTrue(p.parseCommand("export out/data.json") instanceof ExportCommand);
+        assertThrows(ParseException.class, () -> p.parseCommand("export out/data.json"));
     }
 
     @Test

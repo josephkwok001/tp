@@ -89,6 +89,71 @@ public class AddPropertyCommandTest {
     }
 
     /**
+     * Adds a property when an existing property has a similar name differing only by case/spacing.
+     * Expects success message followed by a warning about the similar name.
+     */
+    @Test
+    public void execute_propertyWithSimilarName_warnsButAdds() throws Exception {
+        Property existing = new PropertyBuilder()
+                .withName("Hillside Villa")
+                .withAddress("311, Clementi Ave 2, #02-25")
+                .withPrice(1000000)
+                .build();
+
+        Property toAdd = new PropertyBuilder()
+                .withName("hillside   villa")
+                .withAddress("10, Dover Road, #01-01")
+                .withPrice(999999)
+                .build();
+
+        AddressBook seeded = new AddressBook();
+        seeded.addProperty(existing);
+        ModelStubAcceptingPropertyAddedWithSeed modelStub =
+                new ModelStubAcceptingPropertyAddedWithSeed(seeded);
+
+        CommandResult commandResult = new AddPropertyCommand(toAdd).execute(modelStub);
+
+        String expected = String.format(AddPropertyCommand.MESSAGE_SUCCESS, Messages.formatProperty(toAdd))
+                + String.format(
+                "\nWarning: A similar property name already exists: \"%s\" (differs only by spacing/case).",
+                existing.getPropertyName().toString());
+
+        assertEquals(expected, commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(toAdd), modelStub.propertiesAdded);
+    }
+
+    /**
+     * A Model stub that is pre-seeded with properties in its AddressBook and accepts new properties.
+     * Duplicate detection is based on isSameProperty and the seeded data is visible through getAddressBook().
+     */
+    private class ModelStubAcceptingPropertyAddedWithSeed extends AddPropertyCommandTest.ModelStub {
+        final ArrayList<Property> propertiesAdded = new ArrayList<>();
+        final AddressBook backing;
+
+        ModelStubAcceptingPropertyAddedWithSeed(ReadOnlyAddressBook seed) {
+            this.backing = new AddressBook(seed);
+        }
+
+        @Override
+        public boolean hasProperty(Property property) {
+            requireNonNull(property);
+            return propertiesAdded.stream().anyMatch(property::isSameProperty)
+                    || backing.getPropertyList().stream().anyMatch(property::isSameProperty);
+        }
+
+        @Override
+        public void addProperty(Property property) {
+            requireNonNull(property);
+            propertiesAdded.add(property);
+        }
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return backing;
+        }
+    }
+
+    /**
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
