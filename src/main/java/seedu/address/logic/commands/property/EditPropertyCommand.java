@@ -86,7 +86,6 @@ public class EditPropertyCommand extends Command {
 
         model.setProperty(propertyToEdit, editedProperty);
         model.updatePropertyInAllPersons(propertyToEdit, editedProperty);
-        model.updateFilteredPropertyList(PREDICATE_SHOW_ALL_PROPERTIES);
 
         String msg = String.format(MESSAGE_EDIT_PROPERTY_SUCCESS, Messages.formatProperty(editedProperty));
         if (similar.isPresent()) {
