@@ -14,7 +14,7 @@ pageNav: 3
 ## **Acknowledgements**
 
 This application, EstateSearch, is built on top of the Address-Book Level 3 (AB3) project, which is developed by the
-[SE-EDU Initiative](https://se-education.org/). 
+[SE-EDU Initiative](https://se-education.org/).
 
 The libraries and resources that were used include the following:
 1. [AB3](https://se-education.org/addressbook-level3/)
@@ -385,8 +385,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 1a. Agent requests help for a specific command.
-  * 1a1. System shows detailed usage for that command.
-  * Use case ends.
+    * 1a1. System shows detailed usage for that command.
+    * Use case ends.
 
 ---
 
@@ -409,12 +409,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 3a. One or more fields are missing/invalid.
-  * 3a1. System shows an error message
-  * 3a2. Agent re-enters details.
-  * Use case resumes at step 4.
+    * 3a1. System shows an error message
+    * 3a2. Agent re-enters details.
+    * Use case resumes at step 4.
 * 3b. A duplicate client is detected (based on unique fields).
-  * 3b1. System warns about duplication and rejects the add.
-  * Use case ends.
+    * 3b1. System warns about duplication and rejects the add.
+    * Use case ends.
 
 ---
 
@@ -437,12 +437,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 3a. One or more fields are missing/invalid.
-  * 3a1. System shows an error message
-  * 3a2. Agent re-enters details.
-  * Use case resumes at step 4.
+    * 3a1. System shows an error message
+    * 3a2. Agent re-enters details.
+    * Use case resumes at step 4.
 * 3b. A duplicate property is detected (based on property name).
-  * 3b1. System warns about duplication and rejects the add.
-  * Use case ends.
+    * 3b1. System warns about duplication and rejects the add.
+    * Use case ends.
 
 ---
 
@@ -466,15 +466,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 1a. The specified client does not exist.
-  * 1a1. System shows an error message.
-  * Use case ends.
+    * 1a1. System shows an error message.
+    * Use case ends.
 * 3a. New values are invalid
-  * 3a1. System indicates invalid fields.
-  * 3a2. Agent corrects and resubmits.
-  * Use case resumes at step 4.
+    * 3a1. System indicates invalid fields.
+    * 3a2. Agent corrects and resubmits.
+    * Use case resumes at step 4.
 * 3b. Update would create a duplicate with another client.
-  * 3b1. System warns and rejects the update.
-  * Use case ends.
+    * 3b1. System warns and rejects the update.
+    * Use case ends.
 
 ---
 
@@ -528,10 +528,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 2a. The list is empty.
-  * Use case ends.
+    * Use case ends.
 * 3a. The given index is invalid.
-  * 3a1. System shows an error message.
-  * Use case resumes at step 2.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
 * 3b. The given email is invalid.
     * 3b1. System shows an error message.
     * Use case resumes at step 2.
@@ -558,10 +558,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 2a. The list is empty.
-  * Use case ends.
+    * Use case ends.
 * 3a. The given index is invalid.
-  * 3a1. System shows an error message.
-  * Use case resumes at step 2.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
 
 ---
 
@@ -583,11 +583,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 1a. Keywords are invalid
-  * 1a1. System shows usage guidance.
-  * Use case ends.
+    * 1a1. System shows usage guidance.
+    * Use case ends.
 * 2a. No clients match the keywords.
-  * 2a1. System shows "no results found".
-  * Use case ends.
+    * 2a1. System shows "no results found".
+    * Use case ends.
 
 ---
 
@@ -609,11 +609,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 1a. Keywords are invalid (e.g., empty/whitespace only).
-  * 1a1. System shows usage guidance.
-  * Use case ends.
+    * 1a1. System shows usage guidance.
+    * Use case ends.
 * 2a. No properties match the keywords.
-  * 2a1. System shows "no results found".
-  * Use case ends.
+    * 2a1. System shows "no results found".
+    * Use case ends.
 
 ---
 
@@ -634,8 +634,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 1a. There are no clients stored.
-  * 1a1. System shows an empty list message.
-  * Use case ends.
+    * 1a1. System shows an empty list message.
+    * Use case ends.
 
 ---
 
@@ -656,8 +656,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 1a. There are no properties stored.
-  * 1a1. System shows an empty list message with count of 0.
-  * Use case ends.
+    * 1a1. System shows an empty list message with count of 0.
+    * Use case ends.
 
 ---
 
@@ -685,16 +685,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 2a. The client list is empty.
-  * Use case ends.
+    * Use case ends.
 * 3a. The given client index is invalid.
-  * 3a1. System shows an error message.
-  * Use case resumes at step 2.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
 * 4a. The specified property does not exist in the property list.
-  * 4a1. System shows "Property not found" error.
-  * Use case ends.
+    * 4a1. System shows "Property not found" error.
+    * Use case ends.
 * 4b. The client already owns the specified property.
-  * 4b1. System shows "duplicate property" error.
-  * Use case ends.
+    * 4b1. System shows "duplicate property" error.
+    * Use case ends.
 
 ---
 
@@ -720,16 +720,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 2a. The client list is empty.
-  * Use case ends.
+    * Use case ends.
 * 3a. The given client index is invalid.
-  * 3a1. System shows an error message.
-  * Use case resumes at step 2.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
 * 4a. The specified property does not exist in the property list.
-  * 4a1. System shows "Property not found" error.
-  * Use case ends.
+    * 4a1. System shows "Property not found" error.
+    * Use case ends.
 * 4b. The client is already interested in the specified property.
-  * 4b1. System shows "duplicate link" error.
-  * Use case ends.
+    * 4b1. System shows "duplicate link" error.
+    * Use case ends.
 
 ---
 
@@ -755,16 +755,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 2a. The client list is empty.
-  * Use case ends.
+    * Use case ends.
 * 3a. The given client index is invalid.
-  * 3a1. System shows an error message.
-  * Use case resumes at step 2.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
 * 4a. The specified property does not exist in the property list.
-  * 4a1. System shows "Property not found" error.
-  * Use case ends.
+    * 4a1. System shows "Property not found" error.
+    * Use case ends.
 * 4b. The client does not own the specified property.
-  * 4b1. System shows error that the property is not in the client's owned list.
-  * Use case ends.
+    * 4b1. System shows error that the property is not in the client's owned list.
+    * Use case ends.
 
 ---
 
@@ -790,16 +790,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 2a. The client list is empty.
-  * Use case ends.
+    * Use case ends.
 * 3a. The given client index is invalid.
-  * 3a1. System shows an error message.
-  * Use case resumes at step 2.
+    * 3a1. System shows an error message.
+    * Use case resumes at step 2.
 * 4a. The specified property does not exist in the property list.
-  * 4a1. System shows "Property not found" error.
-  * Use case ends.
+    * 4a1. System shows "Property not found" error.
+    * Use case ends.
 * 4b. The client is not interested in the specified property.
-  * 4b1. System shows error that the property is not in the client's interested list.
-  * Use case ends.
+    * 4b1. System shows error that the property is not in the client's interested list.
+    * Use case ends.
 
 ---
 
@@ -822,36 +822,36 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 2a. Agent cancels at the confirmation step.
-  * 2a1. System aborts the operation.
-  * Use case ends.
+    * 2a1. System aborts the operation.
+    * Use case ends.
 
 ### Non-Functional Requirements
 
 1. Technical Requirements
-   1. The system must avoid OS-dependent features and be portable across Windows, Linux, and macOS without requiring code changes.
-   2. The app must run exclusively on Java 17, and shall not require features from higher versions.
-   3. The data should be stored in a single human-editable text file in JSON format.
-   4. The app should not rely on external database software.
-   5. The app should only support offline usage with no server component.
-   6. The app must maintain separate storage structures for clients and properties while preserving their relationships.
+    1. The system must avoid OS-dependent features and be portable across Windows, Linux, and macOS without requiring code changes.
+    2. The app must run exclusively on Java 17, and shall not require features from higher versions.
+    3. The data should be stored in a single human-editable text file in JSON format.
+    4. The app should not rely on external database software.
+    5. The app should only support offline usage with no server component.
+    6. The app must maintain separate storage structures for clients and properties while preserving their relationships.
 
 2. Usability & Quality Requirements
-   1. Any user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-   2. The app should be usable by people with visual disabilities (e.g. colour blindness).
-   3. All error messages must provide clear, actionable guidance without technical jargon, including specific messages for relationship operations (e.g., property not found, duplicate property link).
-   4. The product is offered as a free offline service.
-   5. The user interface should be intuitive enough for users who are not IT-savvy.
-   6. The application should not require the user to have advanced IT knowledge to operate.
-   7. The app shall not require an installer; it should be deliverable as a standalone package (e.g. single JAR) that can run without setup steps.
-   8. The product should be for a single user.
-   9. The UI should clearly distinguish between owned properties and interested properties for each client.
-   10. The dual-pane interface should provide clear visual separation between client list and property list views.
+    1. Any user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+    2. The app should be usable by people with visual disabilities (e.g. colour blindness).
+    3. All error messages must provide clear, actionable guidance without technical jargon, including specific messages for relationship operations (e.g., property not found, duplicate property link).
+    4. The product is offered as a free offline service.
+    5. The user interface should be intuitive enough for users who are not IT-savvy.
+    6. The application should not require the user to have advanced IT knowledge to operate.
+    7. The app shall not require an installer; it should be deliverable as a standalone package (e.g. single JAR) that can run without setup steps.
+    8. The product should be for a single user.
+    9. The UI should clearly distinguish between owned properties and interested properties for each client.
+    10. The dual-pane interface should provide clear visual separation between client list and property list views.
 
 3. Performance Requirements
-   1. All command-based operations (add, delete, update, search) for both clients and properties must complete within 1 second under normal usage.
-   2. The GUI must support standard resolutions (e.g. 1920×1080 and above) without layout issues, and degrade gracefully (no broken layouts) down to lower resolutions (e.g. 1280×720) or scaled UI modes.
-   3. The system must support at least 1,000 clients and 1,000 properties without exceeding 1s for add/delete/update/search operations.
-   4. The dual-pane UI must render and switch between client and property views without noticeable lag (< 500ms).
+    1. All command-based operations (add, delete, update, search) for both clients and properties must complete within 1 second under normal usage.
+    2. The GUI must support standard resolutions (e.g. 1920×1080 and above) without layout issues, and degrade gracefully (no broken layouts) down to lower resolutions (e.g. 1280×720) or scaled UI modes.
+    3. The system must support at least 1,000 clients and 1,000 properties without exceeding 1s for add/delete/update/search operations.
+    4. The dual-pane UI must render and switch between client and property views without noticeable lag (< 500ms).
 
 ### Glossary
 
@@ -874,6 +874,40 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | **FXML** | XML-based layout files defining UI components in JavaFX. |
 | **Dual-pane Interface** | EstateSearch’s UI layout that displays both client and property lists simultaneously. |
 
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+**Team Size: 5**
+
+1. **Handle long property names and addresses in UI**: Currently, very long property names or addresses may be truncated or cause display issues in the property list panel. We plan to implement proper text wrapping and tooltips to show full details on hover.
+    - Current behavior: Property names longer than 50 characters are cut off with "..."
+    - Planned behavior: Long property names wrap to multiple lines, and hovering shows the full name in a tooltip
+
+2. **Enhance phone number validation**: Currently, phone number validation only checks for digits and minimum length. We plan to support international phone number formats and provide more specific validation feedback.
+    - Current behavior: `add n/John p/12 e/john@example.com a/123 St` shows generic "Phone numbers should only contain numbers..."
+    - Planned behavior: `add n/John p/12 e/john@example.com a/123 St` shows "Phone number must be at least 3 digits long. Examples: 91234567, +65 9123 4567"
+
+3. **Improve GUI separation between client and property panels**: Currently, the dual-pane interface shows both client and property lists in similar-looking panels, which can cause confusion about which panel is active. We plan to add clearer visual distinction with headers, different background colors, and active panel highlighting.
+    - Current behavior: Both panels look identical with no clear indication of which list is being displayed
+    - Planned behavior: Client panel will have a blue header labeled "Clients", property panel will have a green header labeled "Properties", and the active panel will have a highlighted border
+
+4. **Add visual indicators for clients with property relationships**: Currently, users cannot tell at a glance which clients have owned or interested properties without viewing the details. We plan to add icons/badges to the client list cards showing property relationship status.
+    - Current behavior: Client card shows only basic information (name, phone, email, tags)
+    - Planned behavior: Client card displays small icons: "🏠" badge showing number of owned properties, "⭐" badge showing number of interested properties (e.g., "🏠 2" means owns 2 properties)
+
+5. **Allow filtering clients by property ownership or interest**: Currently, users cannot filter clients based on their property relationships. We plan to add filter options to show only clients who own properties, only clients interested in properties, or clients with specific property associations.
+    - Current behavior: `find n/John` only searches by client name or tags
+    - Planned behavior: `find owns/Hillside Villa` shows all clients who own "Hillside Villa", `find interested/` shows all clients with at least one interested property
+
+6. **Improve error messages for duplicate entries**: Currently, when adding duplicate clients or properties, the error message is generic ("This person already exists"). We plan to show which specific field caused the duplicate (e.g., same phone number, same email, same property name).
+    - Current behavior: `add n/Alice p/91234567 e/alice@example.com a/123 St` when Alice exists shows "This person already exists in the address book"
+    - Planned behavior: Shows "Duplicate client detected: A client with phone number 91234567 (Alice Tan) already exists"
+
+7. **Add confirmation prompt for clear command**: Currently, the `clear` command immediately deletes all clients and properties without confirmation, which can lead to accidental data loss. We plan to add a confirmation step for destructive operations.
+    - Current behavior: Typing `clear` immediately deletes all data
+    - Planned behavior: `clear` prompts "Are you sure you want to delete ALL clients and properties? Type 'clear confirm' to proceed" requiring `clear confirm` to actually execute the deletion
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -900,7 +934,7 @@ testers are expected to do more _exploratory_ testing.
 #### Saving window preferences
 1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 2. Re-launch the app by double-clicking the jar file.<br>
-       Expected: The most recent window size and location is retained.
+   Expected: The most recent window size and location is retained.
 
 ### Managing Persons
 #### Adding a person
@@ -914,25 +948,25 @@ testers are expected to do more _exploratory_ testing.
        Expected: Client is added the first time. On second time, no person is added and error showing duplicate person.
 
 3. Adding a client with missing fields
-   1. Test case: `add n/Missing Fields p/91234567`<br>
-      Expected: No client is added. Shows invalid command.
-   2. This can be repeated with other fields, eg. `add n/Missing Fields e/field@mail.com`<br>
-      Expected: No client is added. Shows invalid command.
+    1. Test case: `add n/Missing Fields p/91234567`<br>
+       Expected: No client is added. Shows invalid command.
+    2. This can be repeated with other fields, eg. `add n/Missing Fields e/field@mail.com`<br>
+       Expected: No client is added. Shows invalid command.
 
 #### Listing all client
 1. Listing all persons
     1. Test case: `list`<br>
        Expected: All persons in the address book are listed.
-       
+
 #### Editing a client
 1. Editing a client while all clients are being shown
-   1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-   2. Test case: `edit 1 n/Hannah`<br>
-      Expected: First client is edited. Details of the edited client shown in the status message.
-   3. Test case: `edit 0 n/Hannah`<br>
-      Expected: No client is deleted. Error details shown in the status message. Status bar remains the same.
-   4. Other incorrect delete commands to try: `edit `, `edit x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
+    2. Test case: `edit 1 n/Hannah`<br>
+       Expected: First client is edited. Details of the edited client shown in the status message.
+    3. Test case: `edit 0 n/Hannah`<br>
+       Expected: No client is deleted. Error details shown in the status message. Status bar remains the same.
+    4. Other incorrect delete commands to try: `edit `, `edit x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to previous.
 
 #### Deleting a client
 1. Deleting a client while all clients are being shown
@@ -941,7 +975,7 @@ testers are expected to do more _exploratory_ testing.
        Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
     3. Test case: `delete 100`<br>
        Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-    4. Other incorrect delete commands to try: `delete`, `delete 0`, `delete x`, `...` 
+    4. Other incorrect delete commands to try: `delete`, `delete 0`, `delete x`, `...`
        (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
@@ -977,16 +1011,16 @@ testers are expected to do more _exploratory_ testing.
        Expected: No property is added. Shows invalid command.
     2. This can be repeated with other fields, eg. `add n/Missing property pr/214`<br>
        Expected: No property is added. Shows invalid command.
-       
+
 #### Editing a property
 1. Editing a property while all properties are being shown
-   1. Prerequisites: List all properties using the `listp` command. Multiple properties in the list.
-   2. Test case: `editp 1 n/Hannah Mansion`<br>
-      Expected: First property is edited. Details of the edited property shown in the status message.
-   3. Test case: `editp 0 n/Hannah's Mansion`<br>
-      Expected: No property is deleted. Error details shown in the status message. Status bar remains the same.
-   4. Other incorrect delete commands to try: `editp `, `editp x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+    1. Prerequisites: List all properties using the `listp` command. Multiple properties in the list.
+    2. Test case: `editp 1 n/Hannah Mansion`<br>
+       Expected: First property is edited. Details of the edited property shown in the status message.
+    3. Test case: `editp 0 n/Hannah's Mansion`<br>
+       Expected: No property is deleted. Error details shown in the status message. Status bar remains the same.
+    4. Other incorrect delete commands to try: `editp `, `editp x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to previous.
 
 #### Listing all properties
 1. Listing all property
@@ -1018,40 +1052,40 @@ testers are expected to do more _exploratory_ testing.
 ### Linking Properties to Clients
 #### Setting owned property
 1. Setting client's owned properties while all clients are being shown
-   1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-   2. Test case: `setop i/1 n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, property will be added into client's owned properties.
-      Client's and property detail in the status message.
-   3. Test case: `setop n/Hannah`<br>
-      Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
+    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
+    2. Test case: `setop i/1 n/Hannah Mansion`<br>
+       Expected: If properties with the specification exists, property will be added into client's owned properties.
+       Client's and property detail in the status message.
+    3. Test case: `setop n/Hannah`<br>
+       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 #### Setting interested property
 1. Setting client's interested properties while all clients are being shown
-   1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-   2. Test case: `setip i/1 n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, property will be added into client's interested properties.
-      Client's and property detail in the status message.
-   3. Test case: `setip n/Hannah`<br>
-      Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
+    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
+    2. Test case: `setip i/1 n/Hannah Mansion`<br>
+       Expected: If properties with the specification exists, property will be added into client's interested properties.
+       Client's and property detail in the status message.
+    3. Test case: `setip n/Hannah`<br>
+       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 ### Deleting owned property
 1. Deleting client's owned properties while all clients are being shown
-   1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-   2. Test case: `deleteop i/1 n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, property will be deleted from client's owned properties. 
-      Client's and property detail in the status message.
-   3. Test case: `deleteop n/Hannah'`<br>'
-      Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
+    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
+    2. Test case: `deleteop i/1 n/Hannah Mansion`<br>
+       Expected: If properties with the specification exists, property will be deleted from client's owned properties.
+       Client's and property detail in the status message.
+    3. Test case: `deleteop n/Hannah`<br>
+       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 
 ### Deleting interested property
 1. Deleting client's interested properties while all clients are being shown
-   1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-   2. Test case: `deleteip i/1 n/Hannah Mansion`<br>
-      Expected: If properties with the specification exists, property will be deleted from client's interested properties.
-      Client's and property detail in the status message.
-   3. Test case: `deleteip n/Hannah`<br>
-      Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
+    1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
+    2. Test case: `deleteip i/1 n/Hannah Mansion`<br>
+       Expected: If properties with the specification exists, property will be deleted from client's interested properties.
+       Client's and property detail in the status message.
+    3. Test case: `deleteip n/Hannah`<br>
+       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -1066,9 +1100,9 @@ EstateSearch presented significantly greater complexity compared to AB3 due to t
 1. **Multiple Entity Management**: Implementing operations for Client and Property entities required careful design to maintain consistency across the codebase. Each entity needed its own set of commands, parsers, and UI components, effectively doubling the implementation effort for core features.
 
 2. **Entity Relationships**: The most challenging aspect was managing relationships between clients and properties. Clients can own properties or be interested in properties, creating a many-to-many relationship. This required:
-   - Careful synchronization when properties are deleted (automatically removing references from all associated clients)
-   - Complex validation to ensure referential integrity
-   - Additional commands for managing these associations (e.g., `setownedp`, `setinterestedp`)
+    - Careful synchronization when properties are deleted (automatically removing references from all associated clients)
+    - Complex validation to ensure referential integrity
+    - Additional commands for managing these associations (e.g., `setownedp`, `setinterestedp`)
 
 3. **Data Model Complexity**: Properties have distinct attributes (address, price, property name) that differ significantly from Client attributes. This necessitated separate validation logic, storage adapters, and display components for each entity type.
 
@@ -1097,7 +1131,7 @@ Despite the increased complexity, the team successfully delivered:
 The project benefited from the AB3 foundation, which provided:
 
 - **Core Architecture**: The Logic-Model-Storage-UI architecture was reused and extended for property management
-- **Client class**: The AB3's person class was reused and adapted for client management, alongside its features such as add, edit, delete, etc. 
+- **Client class**: The AB3's person class was reused and adapted for client management, alongside its features such as add, edit, delete, etc.
 - **Command Pattern**: The existing command execution framework was adapted for property commands with minimal modifications (~10% effort saved)
 - **Testing Framework**: AB3's testing utilities and patterns were reused, saving significant effort in test setup
 

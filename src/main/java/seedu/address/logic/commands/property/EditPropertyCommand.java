@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES; // figure out what this is
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PROPERTIES;
 
 import java.util.List;
 import java.util.Objects;

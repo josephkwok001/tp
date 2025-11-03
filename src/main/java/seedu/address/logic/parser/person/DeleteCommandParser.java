@@ -34,15 +34,11 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             }
             Email email = ParserUtil.parseEmail(emailArg);
             return new DeleteCommand(email);
+        } else if (!argMultimap.getPreamble().isEmpty()) {
+            Index index = ParserUtil.parseIndex(args.trim());
+            return new DeleteCommand(index);
         } else {
-            try {
-                Index index = ParserUtil.parseIndex(args.trim());
-                return new DeleteCommand(index);
-            } catch (ParseException pe) {
-                throw new ParseException(
-                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
-            }
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
     }
-
 }
