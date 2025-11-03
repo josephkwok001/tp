@@ -2,7 +2,6 @@ package seedu.address.logic.parser.person;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -21,7 +20,7 @@ public class DeleteOwnedPropertyCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() throws Exception {
-        String userInput = " n/PropertyName i/1";
+        String userInput = "1 n/PropertyName";
         DeleteOwnedPropertyCommand expectedCommand = new DeleteOwnedPropertyCommand(
                 new PropertyName("PropertyName"), Index.fromOneBased(1));
 
@@ -32,7 +31,7 @@ public class DeleteOwnedPropertyCommandParserTest {
     public void parse_compulsoryFieldsMissing_failure() {
 
         // missing name
-        String userInputWithoutName = " i/1";
+        String userInputWithoutName = " 1";
         assertParseFailure(parser, userInputWithoutName, String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                 DeleteOwnedPropertyCommand.MESSAGE_USAGE));
 
@@ -44,20 +43,16 @@ public class DeleteOwnedPropertyCommandParserTest {
 
     @Test
     public void parse_invalidArguments_failure() {
-        String userInput = " n/PropertyName i/abc";
+        String userInput = " abc n/PropertyName";
         assertParseFailure(parser, userInput, ParserUtil.MESSAGE_INVALID_INDEX);
     }
 
     @Test
     public void parse_repeatedValue_failure() {
-        String validUserInput = " n/PropertyName i/1";
+        String validUserInput = " 1 n/PropertyName";
 
         // multiple names
-        assertParseFailure(parser, NAME_DESC_AMY + validUserInput,
+        assertParseFailure(parser, validUserInput + NAME_DESC_AMY,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
-
-        // multiple indexes
-        assertParseFailure(parser, validUserInput + " i/2",
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_INDEX));
     }
 }
