@@ -1,0 +1,73 @@
+===== INVESTIGATING DELETE BY EMAIL BUG =====
+
+
+>>> add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01
+List size before: 0
+Result: New person added: John Doe; Phone: 98765432; Email: johnd@example.com; Address: John street, block 123, #01-01; Tags: 
+List size after: 1
+Current list contents:
+  - John Doe (email: johnd@example.com)
+
+>>> add n/Betsy Crowe t/client e/betsycrowe@example.com a/Changi p/1234567 t/buyer
+List size before: 1
+Result: New person added: Betsy Crowe; Phone: 1234567; Email: betsycrowe@example.com; Address: Changi; Tags: [buyer][client]
+List size after: 2
+Current list contents:
+  - John Doe (email: johnd@example.com)
+  - Betsy Crowe (email: betsycrowe@example.com)
+
+>>> list
+List size before: 2
+Result: Listed all persons (2 persons)
+List size after: 2
+Current list contents:
+  - John Doe (email: johnd@example.com)
+  - Betsy Crowe (email: betsycrowe@example.com)
+
+>>> find n/John
+List size before: 2
+Result: Found 1 person matching name: John
+List size after: 1
+Current list contents:
+  - John Doe (email: johnd@example.com)
+
+>>> find t/buyer
+List size before: 1
+Result: Found 1 person matching tag: buyer
+List size after: 1
+Current list contents:
+  - Betsy Crowe (email: betsycrowe@example.com)
+
+>>> edit 1 p/91234567 e/johndoe@example.com
+List size before: 1
+Result: Edited Person: Betsy Crowe; Phone: 91234567; Email: johndoe@example.com; Address: Changi; Tags: [buyer][client]
+List size after: 2
+Current list contents:
+  - John Doe (email: johnd@example.com)
+  - Betsy Crowe (email: johndoe@example.com)
+
+>>> list
+List size before: 2
+Result: Listed all persons (2 persons)
+List size after: 2
+Current list contents:
+  - John Doe (email: johnd@example.com)
+  - Betsy Crowe (email: johndoe@example.com)
+
+>>> delete 2
+List size before: 2
+Result: Deleted Person: Betsy Crowe; Phone: 91234567; Email: johndoe@example.com; Address: Changi; Tags: [buyer][client]
+List size after: 1
+Current list contents:
+  - John Doe (email: johnd@example.com)
+
+>>> list
+List size before: 1
+Result: Listed all persons (1 person)
+List size after: 1
+Current list contents:
+  - John Doe (email: johnd@example.com)
+
+>>> delete e/johndoe@example.com
+List size before: 1
+ERROR: No person found with the specified email.

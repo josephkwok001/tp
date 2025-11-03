@@ -1,0 +1,223 @@
+
+=== Testing: help ===
+Command: help
+Result: Opened help window.
+
+=== Testing: clear ===
+Command: clear
+Result: Person and property data has been cleared!
+BUG FOUND: [clear] Expected message containing 'Address book has been cleared', but got: Person and property data has been cleared!
+
+=== Testing: add - basic ===
+Command: add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01
+Result: New person added: John Doe; Phone: 98765432; Email: johnd@example.com; Address: John street, block 123, #01-01; Tags: 
+
+=== Testing: add - with tags ===
+Command: add n/Betsy Crowe t/client e/betsycrowe@example.com a/Changi p/1234567 t/buyer
+Result: New person added: Betsy Crowe; Phone: 1234567; Email: betsycrowe@example.com; Address: Changi; Tags: [client][buyer]
+
+=== Testing (should fail): add - duplicate ===
+Command: add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01
+Failed as expected: This person already exists in the address book
+
+=== Testing (should fail): add - invalid phone ===
+Command: add n/Test p/12 e/test@example.com a/Test address
+Failed as expected: Phone numbers should only contain numbers, and it should be between 3 and 20 digits long.
+
+=== Testing (should fail): add - invalid email ===
+Command: add n/Test p/12345678 e/invalidemail a/Test address
+Failed as expected: Emails should be of the format local-part@domain and adhere to the following constraints:
+1. The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters.
+2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods.
+The domain name must:
+    - end with a domain label at least 2 characters long
+    - have each domain label start and end with alphanumeric characters
+    - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
+
+=== Testing (should fail): add - missing phone ===
+Command: add n/Test e/test@example.com a/Test address
+Failed as expected: Invalid command format! 
+add: Adds a person to the address book.
+Parameters: n/NAME p/PHONE e/EMAIL a/ADDRESS [t/TAG]...
+Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney
+
+=== Testing: list ===
+Command: list
+Result: Listed all persons (2 persons)
+
+=== Testing: find - by name ===
+Command: find n/John
+Result: Found 1 person matching name: John
+
+=== Testing: find - by tag ===
+Command: find t/buyer
+Result: Found 1 person matching tag: buyer
+
+=== Testing: edit ===
+Command: edit 1 p/91234567 e/johndoe@example.com
+Result: Edited Person: Betsy Crowe; Phone: 91234567; Email: johndoe@example.com; Address: Changi; Tags: [client][buyer]
+
+=== Testing (should fail): edit - invalid index ===
+Command: edit 999 p/91234567
+Failed as expected: The person index provided is invalid
+
+=== Testing: delete - by index ===
+Command: delete 2
+Result: Deleted Person: Betsy Crowe; Phone: 91234567; Email: johndoe@example.com; Address: Changi; Tags: [client][buyer]
+
+=== Testing: delete - by email ===
+Command: delete e/johndoe@example.com
+BUG FOUND: [delete - by email] Command failed with exception: No person found with the specified email.
+
+=== Testing: addp - basic ===
+Command: addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000
+Result: New property added: Sunshine Condo; Price: 800,000; Address: 123, Sunshine Rd, 123456
+
+=== Testing: addp - another property ===
+Command: addp n/Ocean View HDB a/456, Ocean Ave, 654321 pr/1000000
+Result: New property added: Ocean View HDB; Price: 1,000,000; Address: 456, Ocean Ave, 654321
+
+=== Testing (should fail): addp - duplicate ===
+Command: addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000
+Failed as expected: This property already exists in the address book
+
+=== Testing (should fail): addp - decimal price ===
+Command: addp n/Test Property a/Test Address pr/800000.50
+Failed as expected: Price can only take positive numbers less than $2147483647 and it should be a singular integer with no commas or decimal points.
+
+=== Testing (should fail): addp - negative price ===
+Command: addp n/Test Property a/Test Address pr/-100000
+Failed as expected: Price can only take positive numbers less than $2147483647 and it should be a singular integer with no commas or decimal points.
+
+=== Testing (should fail): addp - price exceeds max ===
+Command: addp n/Test Property a/Test Address pr/9999999999
+Failed as expected: Price can only take positive numbers less than $2147483647 and it should be a singular integer with no commas or decimal points.
+
+=== Testing: listp ===
+Command: listp
+Result: Listed all properties (2 properties)
+
+=== Testing: findp ===
+Command: findp n/Sunshine
+Result: 1 properties listed!
+
+=== Testing: editp ===
+Command: editp 1 n/Sunshine Condo pr/1200000 a/123 Testing Rd
+Result: Edited Property: Sunshine Condo; Price: 1,200,000; Address: 123 Testing Rd
+
+=== Testing (should fail): editp - invalid index ===
+Command: editp 999 pr/100000
+Failed as expected: The property index provided is invalid
+
+=== Testing: deletep ===
+Command: deletep 2
+Result: Deleted Property: Ocean View HDB; Price: 1,000,000; Address: 456, Ocean Ave, 654321
+
+=== Testing: add - client for relationship ===
+Command: add n/Alice Smith p/87654321 e/alice@example.com a/Alice street
+Result: New person added: Alice Smith; Phone: 87654321; Email: alice@example.com; Address: Alice street; Tags: 
+
+=== Testing: addp - property for relationship ===
+Command: addp n/Hillside Villa a/789, Hill Road pr/500000
+Result: New property added: Hillside Villa; Price: 500,000; Address: 789, Hill Road
+
+=== Testing: setop ===
+Command: setop 1 n/Hillside Villa
+Result: Set owned property for John Doe: Hillside Villa
+
+=== Testing (should fail): setop - property not found ===
+Command: setop 1 n/Nonexistent Property
+Failed as expected: Property not found: Nonexistent Property
+
+=== Testing (should fail): setop - duplicate ===
+Command: setop 1 n/Hillside Villa
+Failed as expected: This person already owns the property: Hillside Villa
+
+=== Testing: setip ===
+Command: setip 1 n/Sunshine Condo
+Result: Set interested property for John Doe: Sunshine Condo
+
+=== Testing (should fail): setip - property not found ===
+Command: setip 1 n/Nonexistent Property
+Failed as expected: Property not found: Nonexistent Property
+
+=== Testing (should fail): setip - duplicate ===
+Command: setip 1 n/Sunshine Condo
+Failed as expected: This person is already marked as interested in this property: Sunshine Condo
+
+=== Testing: deleteop ===
+Command: deleteop 1 n/Hillside Villa
+Result: Deleted property: Hillside Villa from John Doe's list of owned properties.
+BUG FOUND: [deleteop] Expected message containing 'Deleted owned property', but got: Deleted property: Hillside Villa from John Doe's list of owned properties.
+
+=== Testing (should fail): deleteop - not owned ===
+Command: deleteop 1 n/Hillside Villa
+Failed as expected: The property Hillside Villa is not in John Doe's list of owned properties.
+
+=== Testing: deleteip ===
+Command: deleteip 1 n/Sunshine Condo
+Result: Deleted property: Sunshine Condo from John Doe's list of interested properties.
+BUG FOUND: [deleteip] Expected message containing 'Deleted interested property', but got: Deleted property: Sunshine Condo from John Doe's list of interested properties.
+
+=== Testing (should fail): deleteip - not interested ===
+Command: deleteip 1 n/Sunshine Condo
+Failed as expected: The property Sunshine Condo is not in John Doe's list of interested properties.
+
+=== Testing: export - basic ===
+Command: export test_export
+Result: Exported 2 clients and 2 properties to test_export.csv
+BUG FOUND: [export - basic] Expected message containing 'exported to CSV', but got: Exported 2 clients and 2 properties to test_export.csv
+
+=== Testing (should fail): export - filename with spaces ===
+Command: export my file
+Failed as expected: Filename can only contain alphanumeric characters, hyphens, and underscores.
+
+=== Testing (should fail): export - empty filename ===
+Command: export   
+Failed as expected: Invalid command format! 
+export: Exports the current filtered people and properties to a CSV file.
+Parameters: FILENAME (alphanumeric characters, hyphens, and underscores only)
+Example: export clients
+
+=== Testing: command - extra spaces ===
+Command: list   
+Result: Listed all persons (2 persons)
+
+=== Testing: command - case sensitivity ===
+Command: LIST
+BUG FOUND: [command - case sensitivity] Command failed with exception: Unknown command
+
+=== Testing: parameter - spaces stripped ===
+Command: add n/  Spaced Name  p/98765432 e/spaced@example.com a/Test
+Result: New person added: Spaced Name; Phone: 98765432; Email: spaced@example.com; Address: Test; Tags: 
+
+=== Testing (should fail): add - name too long ===
+Command: add n/ThisIsAVeryLongNameThatExceedsFiftyCharactersInLength12 p/98765432 e/longname@example.com a/Test
+Failed as expected: Names should only contain alphanumeric characters, '@', '-', ',', spaces,
+and it should not be blank. It is limited to 50 characters.
+
+=== Testing: add - phone minimum length ===
+Command: add n/Min Phone p/123 e/minphone@example.com a/Test
+Result: New person added: Min Phone; Phone: 123; Email: minphone@example.com; Address: Test; Tags: 
+
+=== Testing: add - phone maximum length ===
+Command: add n/Max Phone p/12345678901234567890 e/maxphone@example.com a/Test
+Result: New person added: Max Phone; Phone: 12345678901234567890; Email: maxphone@example.com; Address: Test; Tags: 
+
+=== Testing (should fail): add - phone too long ===
+Command: add n/Too Long Phone p/123456789012345678901 e/toolong@example.com a/Test
+Failed as expected: Phone numbers should only contain numbers, and it should be between 3 and 20 digits long.
+
+=== Testing (should fail): add - tag too long ===
+Command: add n/Tag Test p/98765432 e/tag@example.com a/Test t/ThisIsAVeryLongTagThatExceeds30
+Failed as expected: Tags names should be alphanumeric and not more than 30 characters.
+
+
+===== TEST SUMMARY =====
+✗ Found 6 bug(s):
+1. [clear] Expected message containing 'Address book has been cleared', but got: Person and property data has been cleared!
+2. [delete - by email] Command failed with exception: No person found with the specified email.
+3. [deleteop] Expected message containing 'Deleted owned property', but got: Deleted property: Hillside Villa from John Doe's list of owned properties.
+4. [deleteip] Expected message containing 'Deleted interested property', but got: Deleted property: Sunshine Condo from John Doe's list of interested properties.
+5. [export - basic] Expected message containing 'exported to CSV', but got: Exported 2 clients and 2 properties to test_export.csv
+6. [command - case sensitivity] Command failed with exception: Unknown command
