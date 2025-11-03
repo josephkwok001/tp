@@ -28,13 +28,7 @@ public class DeletePropertyCommandParser implements Parser<DeletePropertyCommand
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePropertyCommand.MESSAGE_USAGE));
         }
-
-        try {
-            Index index = ParserUtil.parseIndex(trimmedArgs);
-            return new DeletePropertyCommand(index);
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeletePropertyCommand.MESSAGE_USAGE), pe);
-        }
+        Index index = ParserUtil.parseIndex(trimmedArgs);
+        return new DeletePropertyCommand(index);
     }
 }

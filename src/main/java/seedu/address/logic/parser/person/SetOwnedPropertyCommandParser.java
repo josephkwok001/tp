@@ -1,5 +1,6 @@
 package seedu.address.logic.parser.person;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.stream.Stream;
@@ -25,18 +26,17 @@ public class SetOwnedPropertyCommandParser implements Parser<SetOwnedPropertyCom
 
     @Override
     public SetOwnedPropertyCommand parse(String args) throws ParseException {
+        requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_INDEX, CliSyntax.PREFIX_NAME);
+                ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_NAME);
 
-        if (!arePrefixesPresent(argMultimap, CliSyntax.PREFIX_INDEX, CliSyntax.PREFIX_NAME)
-                || !argMultimap.getPreamble().isEmpty()) {
+        if (!arePrefixesPresent(argMultimap, CliSyntax.PREFIX_NAME)
+                || argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     SetOwnedPropertyCommand.MESSAGE_USAGE));
         }
-
-        argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_INDEX, CliSyntax.PREFIX_NAME);
-
-        Index index = ParserUtil.parseIndex(argMultimap.getValue(CliSyntax.PREFIX_INDEX).get());
+        Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
+        argMultimap.verifyNoDuplicatePrefixesFor(CliSyntax.PREFIX_NAME);
 
         String propertyNameRaw = argMultimap.getValue(CliSyntax.PREFIX_NAME).get().trim();
         if (!PropertyName.isValidName(propertyNameRaw)) {

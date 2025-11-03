@@ -8,6 +8,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.person.DeleteCommand;
+import seedu.address.logic.parser.ParserUtil;
 
 /**
  * As we are only doing white-box testing, our test cases do not cover path
@@ -29,7 +30,7 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_invalidIndex_nonNumeric() {
-        assertParseFailure(parser, "a", String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "a", ParserUtil.MESSAGE_INVALID_INDEX);
     }
 
     @Test
@@ -38,6 +39,6 @@ public class DeleteCommandParserTest {
     }
     @Test
     public void parse_invalidIndex_negative() {
-        assertParseFailure(parser, "-1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "-1", ParserUtil.MESSAGE_INVALID_INDEX);
     }
 }
