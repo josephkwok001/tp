@@ -29,7 +29,7 @@ public class DeleteOwnedPropertyCommand extends Command {
             + ": Deletes a specified property from the selected person's "
             + "list of owned properties.\n"
             + "Parameters: "
-            + PREFIX_INDEX + "INDEX "
+            + "INDEX "
             + PREFIX_NAME + "PROPERTY NAME \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_INDEX + "1 "

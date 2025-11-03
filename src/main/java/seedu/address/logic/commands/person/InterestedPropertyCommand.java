@@ -25,7 +25,7 @@ public class InterestedPropertyCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Sets an interested property for the specified person.\n"
             + "Parameters: "
-            + PREFIX_INDEX + "PERSON INDEX "
+            + "PERSON INDEX "
             + PREFIX_NAME + "NAME OF PROPERTY\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_INDEX + "1 "

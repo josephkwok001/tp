@@ -17,14 +17,14 @@ import seedu.address.model.property.Property;
 
 /**
  * Adds an existing {@link Property} in the address book to a target {@link Person}'s owned properties.
- * Usage: {@code setop i/INDEX n/NAME_OF_PROPERTY}
+ * Usage: {@code setop INDEX n/NAME_OF_PROPERTY}
  */
 public class SetOwnedPropertyCommand extends Command {
 
     public static final String COMMAND_WORD = "setop";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sets an owned property for the specified person.\n"
-            + "Parameters: i/INDEX n/NAME_OF_PROPERTY\n"
-            + "Example: " + COMMAND_WORD + " i/1 n/Marina Bay Apt 12F";
+            + "Parameters: INDEX n/NAME_OF_PROPERTY\n"
+            + "Example: " + COMMAND_WORD + " 1 n/Marina Bay Apt 12F";
 
     public static final String MESSAGE_SUCCESS = "Set owned property for %s: %s";
     public static final String MESSAGE_PROP_NOT_FOUND = "Property not found: %s";

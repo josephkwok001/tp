@@ -7,8 +7,8 @@ pageNav: 3
 # Welcome to EstateSearch!
 
 
-**EstateSearch** is a desktop application that is designed specifically for fast-typing **real estate agents** 
-who are looking for a tool that allows them to be fast and efficient through the use of a **Command-Line Interface (CLI)**. 
+**EstateSearch** is a desktop application designed for fast-typing **real estate agents** 
+who want to work efficiently using a **Command-Line Interface (CLI)**. 
 
 With EstateSearch, you can:
 * Store and manage client contacts and property details in one integrated system. 
@@ -37,8 +37,7 @@ For any terms that you are not familiar with, do refer to the [Glossary of Terms
 --------------------------------------------------------------------------------------------------------------------
 ## How to use this User Guide
 
-This user guide is designed to help you navigate EstateSearch and maximise your productivity with the
-available features. It's designed to walk you through all the application's features, from getting started to using 
+This user guide helps you navigate EstateSearch and maximise your productivity. It walks you through all the application's features, from getting started to using 
 advanced commands—no prior experience is necessary. Through this user guide, users will learn to be able
 to **confidently use** the various features that EstateSearch has to offer. 
 
@@ -117,19 +116,27 @@ On macOS:
 3. Copy the file to the folder you want to use as the _home folder_ for your EstateSearch application.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar estatesearch.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds.<br>
-   ![Ui](images/results/Ui.png)
+   A GUI similar to the below should appear in a few seconds. The interface consists of:
+   * **Command Box** (top): Where you type your commands
+   * **Result Display** (middle): Shows feedback from your commands
+   * **Client List** (left panel): Displays your client contacts
+   * **Property List** (right panel): Shows your property listings<br>
+
+    ![Ui](images/results/Ui.png)
+
+  ---
+
 
 5. Type a command in the command box and press the <kbd>ENTER</kbd> key to execute it. e.g. typing **`help`** and pressing the <kbd>ENTER</kbd> key will open the help window.<br>
    Some example commands you can try:
 
    - `list` : Lists all contacts.
 
-    * `add n/Edward Lim p/98765432 e/edwardl@gmail.com a/John street, block 123, #01-01` : Adds a client named `Edward Lim` to Estate Search.
+    * `add n/Edward Lim p/98765432 e/edwardl@gmail.com a/John street, block 123, #01-01` : Adds a client named `Edward Lim` to EstateSearch.
 
     * `delete 3` : Deletes the 3rd client shown in the current list.
 
-    * `clear` : Deletes all clients.
+    * `clear` : Deletes all clients and properties
 
    - `exit` : Exits the app.
 
@@ -137,8 +144,7 @@ On macOS:
 
 <box type="tip">
 
-**Tip**:
-* When you first open EstateSearch, you will see that the application is populated with sample data. Feel free to test
+**Tip**: When you first open EstateSearch, you will see that the application is populated with sample data. Feel free to test
 out the features on the sample data to get comfortable with the app and its functions. Once you are ready to start
 adding your own data, type in the <code>clear</code> command and press <kbd>ENTER</kbd>to reset all the client and
 property data.
@@ -153,18 +159,18 @@ property data.
 |--------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [**General Utilities**](#general-utilities)                                                |                                                                                                                                                                       |
 | [**Help**](#viewing-help--help)                                                            | `help`                                                                                                                                                                |
-| [**Export**](#exporting-data--export)                                                      | `export FILENAME`                                                                                                                                                     |
+| [**Export**](#exporting-data--export)                                                      | `export FILENAME`<br>e.g. export transfer_file                                                                                                                        |
 | [**Clear**](#clearing-all-entries--clear)                                                  | `clear`                                                                                                                                                               |
 | [**Exit**](#exiting-the-program--exit)                                                     | `exit`                                                                                                                                                                |
 | [**Managing Clients**](#managing-clients)                                                  |                                                                                                                                                                       |
 | [**Add**](#adding-a-client-add)                                                            | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/client t/colleague` |
-| [**Delete**](#deleting-a-client--delete)                                                   | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
-| [**Edit**](#editing-a-client--edit)                                                        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                               |
+| [**Delete**](#deleting-a-client--delete)                                                   | `delete INDEX`<br> e.g., `delete 3` `delete e/samantha123@gmail.com`                                                                                                  |
+| [**Edit**](#editing-a-client--edit)                                                        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
 | [**Find**](#locating-clients-by-name-find)                                                 | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`                                                                                               |
 | [**List**](#listing-all-clients--list)                                                     | `list`                                                                                                                                                                |
 | [**Managing Properties**](#managing-properties)                                            |                                                                                                                                                                       |
 | [**Add Property**](#adding-a-property-addp)                                                | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`                                                              |
-| [**Delete Property**](#deleting-a-property--deletep)                                       | `deletep INDEX`<br> e.g., `deletep 3`                                                                                                                                 |
+| [**Delete Property**](#deleting-a-property--deletep)                                       | `deletep INDEX`<br> e.g., ``delete`p 3`                                                                                                                               |
 | [**Edit Property**](#editing-a-property--editp)                                            | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/123 Testing Rd`                                                        |
 | [**Find Property**](#locating-properties-by-property-name-findp)                           | `findp n/PROPERTY` <br> e.g., `findp n/Sunshine Condo`                                                                                                                |
 | [**List Property**](#listing-all-properties--listp)                                        | `listp`                                                                                                                                                               |
@@ -224,6 +230,13 @@ Format: `help`
 
 Exports the current filtered contacts to a CSV file
 
+<box type="warning">
+
+**Caution:**
+If a file with the same filename already exists in the data folder, it will be overwritten without confirmation.
+</box>
+
+
 Format: `export FILENAME`
 
 - Exports all contacts currently shown in the filtered list to a CSV file.
@@ -237,6 +250,7 @@ Examples:
 
 <box type="tip">
 
+**Tip**:
 The generated CSV file can be found at `[JAR file location]/data/[EXPORT_FILENAME].csv`.<br>
 
 </box>
@@ -292,11 +306,17 @@ Examples:
 ### Deleting a client : `delete`
 
 Deletes the specified client from EstateSearch.
+<box type="warning">
+
+**Caution:**
+Deleting a client is permanent and cannot be undone. All associated owned and interested property relationships will also be removed.
+</box>
+
 
 Format: `delete INDEX` or `delete e/EMAIL`
 
-- In the case where both an EMAIL and INDEX is specified, the EMAIL parameter will take precedence over the INDEX, and the client with the specified EMAIL will be deleted while the INDEX parameter will be ignored. This precedence remains true even if the INDEX is the first parameter.
-  For example: `delete 2 e/random@gmail.com` will delete the client with the email matching `random@gmail.com` and ignore the index parameter.
+- In the case where both an `EMAIL` and `INDEX` is specified, the `EMAIL` parameter will take precedence over the `INDEX`, and the client with the specified `EMAIL` will be deleted while the `INDEX` parameter will be ignored. This precedence remains true even if the `INDEX` is the first parameter.
+  For example, `delete 2 e/random@gmail.com` will delete the client with the email matching `random@gmail.com` and ignore the `INDEX` parameter.
 - If only an INDEX is specified, deletes the client at the specified `INDEX`
 - If only an EMAIL is specified, deletes the client with a matching `EMAIL`
 - The index refers to the index number shown in the current displayed client list
@@ -325,7 +345,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 - Edits the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
 - At least one of the optional fields must be provided.
 - Existing values will be updated to the input values.
-- When editing tags, the existing tags of the client will be removed i.e. adding of tags is not cumulative.
+- When editing tags, all existing tags are replaced with your new tags. To keep existing tags, you must re-enter them along with any new tags.
 - You can remove all the client’s tags by typing `t/` without
   specifying any tags after it.
 
@@ -345,7 +365,7 @@ Format: `find n/NAME or find t/TAG`
 
 - The search is case-insensitive. e.g. `hans` will match `Hans`
 - The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-- Only the name and tag is searched.
+- Only the name or tag parameter is searched.
 - Substring matching will be used e.g. `Han` will match `Hans` and `Hannah`
 - Clients matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
@@ -372,7 +392,7 @@ Format: `list`
 
 ## Managing Properties
 This section contains the features and commands that will allow you to manage your property portfolio in EstateSearch.
-You will be able to keep track of your properties' important information such as their address, listing name, and price.
+You will be able to keep track of your properties' important information such as their address, name, and price.
 
 ### Adding a property: `addp`
 
@@ -393,6 +413,12 @@ Examples:
 ### Deleting a property : `deletep`
 
 Deletes the specified property from EstateSearch.
+<box type="warning">
+
+**Caution:**
+Deleting a property will permanently remove it from EstateSearch and clear all ownership and interest relationships with clients. This action cannot be undone.
+</box>
+
 
 Format: `deletep INDEX`
 
@@ -405,7 +431,7 @@ Examples:
 
 - `deletep 2` deletes the 2nd property in the current displayed property list.
 
-![result for 'deletep 4'](images/results/deletep.png)
+![result for 'deletep 2'](images/results/deletep.png)
 *Result from using the command `deletep 2` where Ocean View HDB was the second property in the displayed property list*
 
 <box type="info">
@@ -420,7 +446,7 @@ Edits an existing property in EstateSearch.
 
 Format: `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…`
 
-- Edits the property at the specified `INDEX`. The index refers to the index number shown in the displayed property list. The index **must be a positive integer** 1, 2, 3, …​
+- Edits the property at the specified `INDEX`. `INDEX` here refers to the index number shown in the displayed property list. `INDEX` **must be a positive integer** 1, 2, 3, …​
 - At least one of the optional fields must be provided.
 - Existing values will be updated to the input values.
 
@@ -433,14 +459,14 @@ Examples:
 
 ### Locating properties by property name: `findp`
 
-Finds listings by property name.
+Finds properties by property name.
 
 Format: `findp n/PROPERTY NAME`
 
 - The search is case-insensitive. e.g. `Sunshine` will match `sunshine`
 - The order of the keywords does not matter. e.g. `Sunshine Lodge` will match `Lodge Sunshine`
 - Only the property name is searched.
-- Only full words will be matched e.g. `Sunshine` will not match `Sunshines`
+- findp uses substring matching for keywords. e.g. `Sun` matches `Sunflower Mansion` and `Sunshine Lodge`
 - Properties matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Sunshine Lodge` will return `Sunshine Home`, `Lodge Farm`
 - `findp n/Sunshine` returns all properties whose property names contain `sunshine` (case-insensitive)
@@ -473,11 +499,11 @@ Associates an existing property with the specified client as one of their owned 
 
 Format: `setop INDEX_OF_CLIENT n/PROPERTY_NAME`
 
-- Sets the owned property for the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
+- Sets the owned property for the client at the specified `INDEX`. `INDEX` here refers to the index number shown in the displayed client list. `INDEX` **must be a positive integer** 1, 2, 3, …​
 - `PROPERTY_NAME` must match the name of a property that already exists in the app.
 - The specified client must not already own a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F).
-- Repeating the command with the same property for the same client has no effect (duplicates are ignored).
+- Repeating the command with the same property for the same client will throw an error.
 
 Examples:
 
@@ -485,7 +511,7 @@ Examples:
 - list followed by 'setop 3 n/Choa Chu Kang Landed Property' — adds **Choa Chu Kang Landed Property** to the 3rd client’s owned properties.
   
 ![result for 'setop 4 n/Hillside Villa'](images/results/setop.png)
-*Result from using the command `set*
+*Result from using the command `setop 4 n/Hillside Villa`*
 
 <box type="info">
 
@@ -501,11 +527,11 @@ Associates an existing property with the specified client as one of their intere
 
 Format: `setip INDEX_OF_CLIENT n/PROPERTY_NAME`
 
-- Sets the interested property for the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
+- Sets the interested property for the client at the specified `INDEX`. `INDEX` here refers to the index number shown in the displayed client list. `INDEX` **must be a positive integer** 1, 2, 3, …​
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must not already be interested in a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
-- Repeating the command with the same property for the same client has no effect (duplicates are ignored)
+- Repeating the command with the same property for the same client will throw an error (e.g. This person already owns the property: PROPERTY_NAME)
 
 Examples:
 
@@ -528,9 +554,9 @@ Removes an existing property from the specified client's list of owned propertie
 
 Format: `deleteop INDEX_OF_CLIENT n/PROPERTY_NAME`
 
-- Removes the owned property from the client at the specified `INDEX`. The index refers to the index number displayed in the client list currently. The index **must be a positive integer** 1, 2, 3, …​
+- Removes the owned property from the client at the specified `INDEX`. `INDEX` refers to the index number displayed in the client list currently. `INDEX` **must be a positive integer** 1, 2, 3, …​
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
-- The specified client must already be owned in a property with the exact same `PROPERTY_NAME`, otherwise an error message will be shown
+- The specified client must already own a property with the exact same `PROPERTY_NAME`, otherwise an error message will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
 
 Examples:
@@ -542,8 +568,7 @@ Examples:
 
 <box type="info">
 
-**Info**:
-* The deleteop command operates on the clients in the list that is currently displayed.
+**Info**: The deleteop command operates on the clients in the list that is currently displayed.
   For example, using the command `find n/John` followed by `deleteop 1 n/Valor House` will remove `Valor House` from the owned properties list of the first client returned by the `find n/John` command.
   </box>
 
@@ -553,7 +578,7 @@ Removes an existing property from the specified client's list of interested prop
 
 Format: `deleteip INDEX_OF_CLIENT n/PROPERTY_NAME`
 
-- Removes the interested property from the client at the specified `INDEX`. The index refers to the index number displayed in the client list currently. The index **must be a positive integer** 1, 2, 3, …​
+- Removes the interested property from the client at the specified `INDEX`. `INDEX` refers to the index number displayed in the client list currently. `INDEX` **must be a positive integer** 1, 2, 3, …​
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must already be interested in a property with the exact same `PROPERTY_NAME`, otherwise an error will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
@@ -648,19 +673,19 @@ same <code>PROPERTY NAME</code><br>
 | exit                             | No parameters required                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | **Managing Clients**             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | add                              | **Name**: Up to 50 alphanumeric characters, spaces and the following special characters: `@`, `,` and `-`. Should not be blank<br>**Phone**: Numbers, at least 3 digits and at most 20 digits long<br>**Email**: Emails should be of the format local-part@domain and adhere to the following constraints:<br>• The local-part should only contain alphanumeric characters and these special characters, excluding the parentheses, (+_.-). The local-part may not start or end with any special characters.<br>• This is followed by a '@' and then a domain name. The domain name is made up of domain labels separated by periods.<br>• The domain name must end with a domain label at least 2 characters long, have each domain label start and end with alphanumeric characters, and have each domain label consist of alphanumeric characters, separated only by hyphens, if any.<br>• Special characters (+_.-) can only be used to separate alphanumeric values and not be put together consecutively.<br>**Address**: Can take any value, should not be blank<br>**Tag**: Tags should only contain up to 30 alphanumeric characters with no spaces between words. Tags can be left empty |
-| delete                           | **Index**: Positive integers only.<br>• Integers less than 1 will cause an invalid command format error.<br>• Integers greater than the number of clients displayed in the given mode are invalid.<br> **Email**: Refer to Client > add > Email                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| edit                             | **Index**: Refer to Client > delete > Index<br>**Remaining parameters**: Refer to Client > add                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| find                             | **Name**: Refer to Client > Add > Name<br>**Tag**: Refer to Client > Add > Tag                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| delete                           | **Index**: Positive integers only.<br>• Integers less than 1 will cause an invalid command format error.<br>• Integers greater than the number of clients displayed in the given mode are invalid.<br> **Email**: Refer to Managing Clients > add > Email                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| edit                             | **Index**: Refer to Managing Clients > delete > Index<br>**Remaining parameters**: Refer to Managing Clients > add                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| find                             | **Name**: Refer to Managing Clients > Add > Name<br>**Tag**: Refer to Managing Clients > Add > Tag                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | list                             | No parameters required                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | **Managing Properties**          |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| addp                             | **Address**: Refer to Client > add > Address<br>**Price**: Can only take positive numbers less than 2147483647 and should be a singular integer with no commas or decimal points<br>**Property Name**: Refer to Client > Add > Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| deletep                          | **Index**: Refer to Client > delete > Index                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| editp                            | **Index**: Refer to Client > delete > Index<br>**Remaining parameters**: Refer to Property > addp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| findp                            | **Property Name**: Refer to Client > add > Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| addp                             | **Address**: Refer to Managing Client > add > Address<br>**Price**: Can only take positive numbers less than 2147483647 and should be a singular integer with no commas or decimal points<br>**Property Name**: Refer to Managing Clients > Add > Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| deletep                          | **Index**: Refer to Managing Clients > delete > Index                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| editp                            | **Index**: Refer to Managing Clients > delete > Index<br>**Remaining parameters**: Refer to Managing Properties > addp                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| findp                            | **Property Name**: Refer to Managing Client > add > Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | listp                            | No parameters required                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | **Client-Property Relationship** |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| setop, setip                     | **Property Name**: Refer to Client > add > Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| deleteop, deleteip               | **Property Name**: Refer to Client > add > Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| setop, setip                     | **Property Name**: Refer to Managing Clients > add > Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| deleteop, deleteip               | **Property Name**: Refer to Managing Clients > add > Name                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 ---
 ## Glossary
@@ -670,11 +695,10 @@ same <code>PROPERTY NAME</code><br>
 | **CLI (Command-Line Interface)**    | Use the app by typing commands (e.g., `add …`).                           |
 | **GUI (Graphical User Interface)**  | The visual window with lists, buttons, and panels.                        |
 | **Command Box**                     | Text field where you enter commands; press <kbd>ENTER</kbd> to run.       |
-| **Result Display**                  | Panel that shows feedback after a command executes.                       |
 | **Index**                           | 1-based position shown in the current list; changes with filtering.       |
 | **Filtered List**                   | The list after `find`/`findp`; commands using indices refer to this list. |
 | **Client**                          | A contact entry with Name, Phone, Email, Address, and Tags.               |
-| **Property (Listing)**              | A real-estate entry with Property Name, Address, and Price.               |
+| **Property**                        | A real-estate entry with Property Name, Address, and Price.               |
 | **Owned Properties**                | Properties a client owns; managed via `setop`.                            |
 | **Interested Properties**           | Properties a client is interested in; managed via `setip`.                |
 | **Tag**                             | Short label (e.g., `buyer`, `vip`) for grouping/filtering contacts.       |
