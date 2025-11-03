@@ -36,6 +36,9 @@ public class FindCommandParser implements Parser<FindCommand> {
             if (nameArgs.isEmpty()) {
                 throw new ParseException("No name provided after n/");
             }
+            if (!nameArgs.matches(TAG_VALIDATION_REGEX)) {
+                throw new ParseException("Client name can only contain letters, numbers, and spaces");
+            }
             String[] nameKeywords = nameArgs.split("\\s+");
             return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)), "name", nameArgs);
         } else if (trimmedArgs.startsWith("t/")) {
