@@ -117,8 +117,16 @@ On macOS:
 3. Copy the file to the folder you want to use as the _home folder_ for your EstateSearch application.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar estatesearch.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds.<br>
-   ![Ui](images/results/Ui.png)
+   A GUI similar to the below should appear in a few seconds. The interface consists of:
+   * **Command Box** (top): Where you type your commands
+   * **Result Display** (middle): Shows feedback from your commands
+   * **Client List** (left panel): Displays your client contacts
+   * **Property List** (right panel): Shows your property listings<br>
+
+    ![Ui](images/results/Ui.png)
+
+  ---
+
 
 5. Type a command in the command box and press the <kbd>ENTER</kbd> key to execute it. e.g. typing **`help`** and pressing the <kbd>ENTER</kbd> key will open the help window.<br>
    Some example commands you can try:
