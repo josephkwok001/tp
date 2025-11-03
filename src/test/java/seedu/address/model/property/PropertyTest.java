@@ -53,4 +53,53 @@ public class PropertyTest {
         assertTrue(s.contains("10"));
         assertTrue(s.contains("PN"));
     }
+
+    /**
+     * Returns true when comparing the same instance.
+     */
+    @Test
+    public void isSameProperty_sameInstance_returnsTrue() {
+        Property p = new Property(new Address("A1"), new Price(100), new PropertyName("N"));
+        assertTrue(p.isSameProperty(p));
+    }
+
+    /**
+     * Returns false when the other property is null.
+     */
+    @Test
+    public void isSameProperty_null_returnsFalse() {
+        Property p = new Property(new Address("A1"), new Price(100), new PropertyName("N"));
+        assertFalse(p.isSameProperty(null));
+    }
+
+    /**
+     * Returns true when names differ but addresses are equal under canonicalLoose normalization.
+     */
+    @Test
+    public void isSameProperty_sameCanonicalAddressDifferentName_returnsTrue() {
+        Property p1 = new Property(new Address("Block 1"), new Price(100), new PropertyName("Alpha"));
+        Property p2 = new Property(new Address("block 1"), new Price(200), new PropertyName("Beta"));
+        assertTrue(p1.isSameProperty(p2));
+    }
+
+    /**
+     * Returns false when both names and addresses (under canonicalLoose) differ.
+     */
+    @Test
+    public void isSameProperty_differentNameAndAddress_returnsFalse() {
+        Property p1 = new Property(new Address("10 Main Rd"), new Price(100), new PropertyName("N1"));
+        Property p2 = new Property(new Address("20 Main Rd"), new Price(200), new PropertyName("N2"));
+        assertFalse(p1.isSameProperty(p2));
+    }
+
+    /**
+     * Returns false for equals when any field differs, complementing the equals(true) case.
+     */
+    @Test
+    public void equals_differentFields_returnsFalse() {
+        Property base = new Property(new Address("Addr"), new Price(10), new PropertyName("PN"));
+        assertFalse(base.equals(new Property(new Address("AddrX"), new Price(10), new PropertyName("PN"))));
+        assertFalse(base.equals(new Property(new Address("Addr"), new Price(11), new PropertyName("PN"))));
+        assertFalse(base.equals(new Property(new Address("Addr"), new Price(10), new PropertyName("PNX"))));
+    }
 }
