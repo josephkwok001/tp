@@ -65,7 +65,7 @@ public class InterestedPropertyCommand extends Command {
         requireNonNull(model);
 
         toAdd = model.getAddressBook().getPropertyList().stream()
-                .filter(property -> property.getPropertyName().fullName.equals(targetPropertyName.fullName))
+                .filter(property -> property.getPropertyName().equals(targetPropertyName))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND,
                         targetPropertyName.fullName)));

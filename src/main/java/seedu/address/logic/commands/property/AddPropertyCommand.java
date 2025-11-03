@@ -5,6 +5,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 
+import java.util.Optional;
+
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Command;
@@ -12,6 +14,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.property.Property;
+import seedu.address.model.property.PropertyName;
 
 /**
  * Adds a property to the address book.
@@ -52,8 +55,21 @@ public class AddPropertyCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
         }
 
+        String newKey = PropertyName.canonicalLoose(toAdd.getPropertyName().toString());
+        Optional<Property> similar = model.getAddressBook().getPropertyList().stream()
+                .filter(p -> PropertyName.canonicalLoose(p.getPropertyName().toString()).equals(newKey))
+                .filter(p -> !p.getPropertyName().equals(toAdd.getPropertyName()))
+                .findFirst();
+
         model.addProperty(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.formatProperty(toAdd)));
+
+        String msg = String.format(MESSAGE_SUCCESS, Messages.formatProperty(toAdd));
+        if (similar.isPresent()) {
+            msg += String.format(
+                    "\nWarning: A similar property name already exists: \"%s\" (differs only by spacing/case).",
+                    similar.get().getPropertyName().toString());
+        }
+        return new CommandResult(msg);
     }
 
     @Override

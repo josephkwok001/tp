@@ -87,6 +87,71 @@ public class AddCommandTest {
     }
 
     /**
+     * Adds a person when another person with identical phone, email and address exists
+     * but the name differs only by spacing; expects success message followed by the warning.
+     */
+    @Test
+    public void execute_personWithSameDetailsDifferentNameSpacing_warnsButAdds() throws Exception {
+        Person existing = new PersonBuilder()
+                .withName("John Doe")
+                .withPhone("98765432")
+                .withEmail("johnd@example.com")
+                .withAddress("311, Clementi Ave 2, #02-25")
+                .build();
+
+        Person toAdd = new PersonBuilder()
+                .withName("John    Doe")
+                .withPhone("98765432")
+                .withEmail("johnd@example.com")
+                .withAddress("311, Clementi Ave 2, #02-25")
+                .build();
+
+        AddressBook seeded = new AddressBook();
+        seeded.addPerson(existing);
+        ModelStubAcceptingPersonAddedWithSeed modelStub =
+                new ModelStubAcceptingPersonAddedWithSeed(seeded);
+
+        CommandResult result = new AddCommand(toAdd).execute(modelStub);
+
+        String expected = String.format(AddCommand.MESSAGE_SUCCESS, Messages.formatPerson(toAdd))
+                + "\nWarning: Another contact with the same details exists but with different spacing in the name.";
+
+        assertEquals(expected, result.getFeedbackToUser());
+        assertEquals(Arrays.asList(toAdd), modelStub.personsAdded);
+    }
+
+    /**
+     * A Model stub pre-seeded with an AddressBook and accepting newly added persons.
+     * Duplicate detection checks both the pre-seeded data and newly added data.
+     */
+    private static class ModelStubAcceptingPersonAddedWithSeed extends ModelStub {
+        final ArrayList<Person> personsAdded = new ArrayList<>();
+        final AddressBook backing;
+
+        ModelStubAcceptingPersonAddedWithSeed(ReadOnlyAddressBook seed) {
+            this.backing = new AddressBook(seed);
+        }
+
+        @Override
+        public boolean hasPerson(Person person) {
+            requireNonNull(person);
+            return personsAdded.stream().anyMatch(person::isSamePerson)
+                    || backing.getPersonList().stream().anyMatch(person::isSamePerson);
+        }
+
+        @Override
+        public void addPerson(Person person) {
+            requireNonNull(person);
+            personsAdded.add(person);
+        }
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return backing;
+        }
+    }
+
+    /**
      * A default model stub that have all of the methods failing.
      */
     private static class ModelStub implements Model {

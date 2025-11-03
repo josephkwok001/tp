@@ -63,8 +63,8 @@ public class DeleteOwnedPropertyCommand extends Command {
         Person targetPerson = model.getFilteredPersonList().get(targetPersonIndex.getZeroBased());
 
         Property toDelete = model.getAddressBook().getPropertyList().stream()
-                .filter(property -> property.getPropertyName()
-                        .fullName.equals(targetPropertyName.getFullName()))
+                .filter(p -> PropertyName.canonicalLoose(p.getPropertyName().toString())
+                        .equals(PropertyName.canonicalLoose(targetPropertyName.getFullName())))
                 .findFirst()
                 .orElseThrow(() -> new CommandException(String.format(MESSAGE_PROPERTY_NOT_FOUND,
                         targetPropertyName.getFullName())));

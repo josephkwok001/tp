@@ -18,7 +18,6 @@ public class PropertyName {
      * otherwise " " (a blank string) becomes a valid input.
      */
     public static final String VALIDATION_REGEX = "[\\p{L}\\p{N}][\\p{L}\\p{N} ]*"; // ./?.etc not allowed
-
     public final String fullName;
 
     /**
@@ -29,7 +28,7 @@ public class PropertyName {
     public PropertyName(String name) {
         requireNonNull(name);
         checkArgument(isValidName(name), MESSAGE_CONSTRAINTS);
-        fullName = name;
+        this.fullName = name;
     }
 
     /**
@@ -39,6 +38,9 @@ public class PropertyName {
         return (test.matches(VALIDATION_REGEX) & test.length() <= 50);
     }
 
+    private String canonical() {
+        return fullName.trim().toLowerCase();
+    }
 
     @Override
     public String toString() {
@@ -50,23 +52,23 @@ public class PropertyName {
         if (other == this) {
             return true;
         }
-
-        // instanceof handles nulls
         if (!(other instanceof PropertyName)) {
             return false;
         }
-
-        PropertyName otherName = (PropertyName) other;
-        return fullName.equals(otherName.fullName);
+        PropertyName o = (PropertyName) other;
+        return this.canonical().equals(o.canonical());
     }
 
     @Override
     public int hashCode() {
-        return fullName.hashCode();
+        return canonical().hashCode();
     }
 
     public String getFullName() {
         return fullName;
     }
 
+    public static String canonicalLoose(String s) {
+        return s.trim().toLowerCase().replaceAll("\\s+", " ");
+    }
 }

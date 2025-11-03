@@ -22,6 +22,24 @@ public class PropertyNameTest {
         assertEquals(n1.hashCode(), n2.hashCode());
     }
 
+    /**
+     * Verifies canonicalLoose collapses spaces and lowercases.
+     */
+    @Test
+    public void canonicalLoose_collapsesSpacesAndLowercases() {
+        assertEquals("sunny villa", PropertyName.canonicalLoose("  Sunny   Villa "));
+        assertEquals("block 10a", PropertyName.canonicalLoose("Block   10A"));
+    }
+
+    /**
+     * Verifies toString returns the original full name unchanged.
+     */
+    @Test
+    public void toString_returnsOriginal() {
+        PropertyName n = new PropertyName("Sunny Villa");
+        assertEquals("Sunny Villa", n.toString());
+    }
+
     @Test
     public void isValidName() {
         // null name

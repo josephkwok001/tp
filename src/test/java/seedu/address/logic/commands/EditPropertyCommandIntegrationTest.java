@@ -109,18 +109,15 @@ public class EditPropertyCommandIntegrationTest {
         ab.addProperty(propB);
         ModelManager model = new ModelManager(ab, new UserPrefs());
 
+        model.updateFilteredPropertyList(p -> true);
+
         // attempt to edit propA to have same identity as propB (same name)
         EditPropertyDescriptor desc = new EditPropertyDescriptor();
-        desc.setPropertyName(new PropertyName("NameB")); // now edited property will "match" propB by identity
+        desc.setPropertyName(new PropertyName("NameB")); // match propB name
+        desc.setAddress(new Address("A2"));
         EditPropertyCommand cmd = new EditPropertyCommand(Index.fromOneBased(1), desc);
 
-        CommandException thrown = null;
-        try {
-            cmd.execute(model);
-        } catch (CommandException e) {
-            thrown = e;
-        }
-        // should throw duplicate property exception
-        assertEquals(EditPropertyCommand.MESSAGE_DUPLICATE_PROPERTY, thrown.getMessage());
+        CommandException ex = assertThrows(CommandException.class, () -> cmd.execute(model));
+        assertEquals(EditPropertyCommand.MESSAGE_DUPLICATE_PROPERTY, ex.getMessage());
     }
 }

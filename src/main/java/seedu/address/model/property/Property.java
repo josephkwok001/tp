@@ -50,7 +50,9 @@ public class Property {
         }
 
         return otherProperty != null
-                && otherProperty.getPropertyName().equals(getPropertyName());
+                && (otherProperty.getPropertyName().equals(getPropertyName())
+                || Address.canonicalLoose(otherProperty.getAddress().value)
+                .equals(Address.canonicalLoose(this.getAddress().value)));
     }
 
     @Override
