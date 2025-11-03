@@ -38,6 +38,8 @@ public class PropertyNameTest {
     public void toString_returnsOriginal() {
         PropertyName n = new PropertyName("Sunny Villa");
         assertEquals("Sunny Villa", n.toString());
+    }
+
     @Test
     public void isValidName() {
         // null name
