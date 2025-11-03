@@ -7,8 +7,8 @@ pageNav: 3
 # Welcome to EstateSearch!
 
 
-**EstateSearch** is a desktop application that is designed specifically for fast-typing **real estate agents** 
-who are looking for a tool that allows them to be fast and efficient through the use of a **Command-Line Interface (CLI)**. 
+**EstateSearch** is a desktop application designed for fast-typing **real estate agents** 
+who want to work efficiently using a **Command-Line Interface (CLI)**. 
 
 With EstateSearch, you can:
 * Store and manage client contacts and property details in one integrated system. 
@@ -37,8 +37,7 @@ For any terms that you are not familiar with, do refer to the [Glossary of Terms
 --------------------------------------------------------------------------------------------------------------------
 ## How to use this User Guide
 
-This user guide is designed to help you navigate EstateSearch and maximise your productivity with the
-available features. It's designed to walk you through all the application's features, from getting started to using 
+This user guide helps you navigate EstateSearch and maximise your productivity. It walks you through all the application's features, from getting started to using 
 advanced commands—no prior experience is necessary. Through this user guide, users will learn to be able
 to **confidently use** the various features that EstateSearch has to offer. 
 
@@ -117,19 +116,27 @@ On macOS:
 3. Copy the file to the folder you want to use as the _home folder_ for your EstateSearch application.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar estatesearch.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds.<br>
-   ![Ui](images/results/Ui.png)
+   A GUI similar to the below should appear in a few seconds. The interface consists of:
+   * **Command Box** (top): Where you type your commands
+   * **Result Display** (middle): Shows feedback from your commands
+   * **Client List** (left panel): Displays your client contacts
+   * **Property List** (right panel): Shows your property listings<br>
+
+    ![Ui](images/results/Ui.png)
+
+  ---
+
 
 5. Type a command in the command box and press the <kbd>ENTER</kbd> key to execute it. e.g. typing **`help`** and pressing the <kbd>ENTER</kbd> key will open the help window.<br>
    Some example commands you can try:
 
    - `list` : Lists all contacts.
 
-    * `add n/Edward Lim p/98765432 e/edwardl@gmail.com a/John street, block 123, #01-01` : Adds a client named `Edward Lim` to Estate Search.
+    * `add n/Edward Lim p/98765432 e/edwardl@gmail.com a/John street, block 123, #01-01` : Adds a client named `Edward Lim` to EstateSearch.
 
     * `delete 3` : Deletes the 3rd client shown in the current list.
 
-    * `clear` : Deletes all clients.
+    * `clear` : Deletes all clients and properties
 
    - `exit` : Exits the app.
 
@@ -149,30 +156,30 @@ property data.
 ## EstateSearch Command Summary
 [](#mana)
 
-| Action                                                                                     | Format, Examples                                                                                                                                                      |
-|--------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**General Utilities**](#general-utilities)                                                |                                                                                                                                                                       |
-| [**Help**](#viewing-help--help)                                                            | `help`                                                                                                                                                                |
-| [**Export**](#exporting-data--export)                                                      | `export FILENAME`                                                                                                                                                     |
-| [**Clear**](#clearing-all-entries--clear)                                                  | `clear`                                                                                                                                                               |
-| [**Exit**](#exiting-the-program--exit)                                                     | `exit`                                                                                                                                                                |
-| [**Managing Clients**](#managing-clients)                                                  |                                                                                                                                                                       |
+| Action                                                                                     | Format, Examples                                                                                                                                                     |
+|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [**General Utilities**](#general-utilities)                                                |                                                                                                                                                                      |
+| [**Help**](#viewing-help--help)                                                            | `help`                                                                                                                                                               |
+| [**Export**](#exporting-data--export)                                                      | `export FILENAME`                                                                                                                                                    |
+| [**Clear**](#clearing-all-entries--clear)                                                  | `clear`                                                                                                                                                              |
+| [**Exit**](#exiting-the-program--exit)                                                     | `exit`                                                                                                                                                               |
+| [**Managing Clients**](#managing-clients)                                                  |                                                                                                                                                                      |
 | [**Add**](#adding-a-client-add)                                                            | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/client t/colleague` |
-| [**Delete**](#deleting-a-client--delete)                                                   | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
-| [**Edit**](#editing-a-client--edit)                                                        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [l/LISTING] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                               |
-| [**Find**](#locating-clients-by-name-find)                                                 | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`                                                                                               |
-| [**List**](#listing-all-clients--list)                                                     | `list`                                                                                                                                                                |
-| [**Managing Properties**](#managing-properties)                                            |                                                                                                                                                                       |
-| [**Add Property**](#adding-a-property-addp)                                                | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`                                                              |
-| [**Delete Property**](#deleting-a-property--deletep)                                       | `deletep INDEX`<br> e.g., `deletep 3`                                                                                                                                 |
-| [**Edit Property**](#editing-a-property--editp)                                            | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/123 Testing Rd`                                                        |
-| [**Find Property**](#locating-properties-by-property-name-findp)                           | `findp n/PROPERTY` <br> e.g., `findp n/Sunshine Condo`                                                                                                                |
-| [**List Property**](#listing-all-properties--listp)                                        | `listp`                                                                                                                                                               |
-| [**Managing Client-Property relationships**](#managing-client-property-relationships)      |                                                                                                                                                                       |
-| [**Set Owned Property**](#setting-an-owned-property-for-a-client--setop)                   | `setop INDEX n/PROPERTY_NAME`<br> e.g., `setop 1 n/City Loft`                                                                                                         |
-| [**Set Interested Property**](#setting-an-interested-property-for-a-client--setip)         | `setip INDEX n/PROPERTY_NAME`<br> e.g., `setip 2 n/Sunshine Condo`                                                                                                    |
-| [**Delete Owned Property**](#deleting-an-owned-property-from-a-client--deleteop)           | `deleteop INDEX n/PROPERTY_NAME` <br> e.g., `deleteop 1 n/Cinnamon Height`                                                                                            |
-| [**Delete Interested Property**](#deleting-an-interested-property-from-a-client--deleteip) | `deleteip INDEX n/PROPERTY_NAME` <br> e.g., `deleteip 2 n/Sunshine Garden`                                                                                            |
+| [**Delete**](#deleting-a-client--delete)                                                   | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                  |
+| [**Edit**](#editing-a-client--edit)                                                        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                               |
+| [**Find**](#locating-clients-by-name-find)                                                 | `find n/NAME` or `find t/TAG` <br> e.g., `find n/James` `find t/client`                                                                                              |
+| [**List**](#listing-all-clients--list)                                                     | `list`                                                                                                                                                               |
+| [**Managing Properties**](#managing-properties)                                            |                                                                                                                                                                      |
+| [**Add Property**](#adding-a-property-addp)                                                | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`                                                             |
+| [**Delete Property**](#deleting-a-property--deletep)                                       | `deletep INDEX`<br> e.g., `deletep 3`                                                                                                                                |
+| [**Edit Property**](#editing-a-property--editp)                                            | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/123 Testing Rd`                                                       |
+| [**Find Property**](#locating-properties-by-property-name-findp)                           | `findp n/PROPERTY` <br> e.g., `findp n/Sunshine Condo`                                                                                                               |
+| [**List Property**](#listing-all-properties--listp)                                        | `listp`                                                                                                                                                              |
+| [**Managing Client-Property relationships**](#managing-client-property-relationships)      |                                                                                                                                                                      |
+| [**Set Owned Property**](#setting-an-owned-property-for-a-client--setop)                   | `setop INDEX n/PROPERTY_NAME`<br> e.g., `setop 1 n/City Loft`                                                                                                        |
+| [**Set Interested Property**](#setting-an-interested-property-for-a-client--setip)         | `setip INDEX n/PROPERTY_NAME`<br> e.g., `setip 2 n/Sunshine Condo`                                                                                                   |
+| [**Delete Owned Property**](#deleting-an-owned-property-from-a-client--deleteop)           | `deleteop INDEX n/PROPERTY_NAME` <br> e.g., `deleteop 1 n/Cinnamon Height`                                                                                           |
+| [**Delete Interested Property**](#deleting-an-interested-property-from-a-client--deleteip) | `deleteip INDEX n/PROPERTY_NAME` <br> e.g., `deleteip 2 n/Sunshine Garden`                                                                                           |
 ---
 
 ## Features
@@ -223,6 +230,13 @@ Format: `help`
 ### Exporting data : `export`
 
 Exports the current filtered contacts to a CSV file
+
+<box type="warning">
+
+**Caution:**
+If a file with the same filename already exists in the data folder, it will be overwritten without confirmation.
+</box>
+
 
 Format: `export FILENAME`
 
@@ -292,6 +306,12 @@ Examples:
 ### Deleting a client : `delete`
 
 Deletes the specified client from EstateSearch.
+<box type="warning">
+
+**Caution:**
+Deleting a client is permanent and cannot be undone. All associated owned and interested property relationships will also be removed.
+</box>
+
 
 Format: `delete INDEX` or `delete e/EMAIL`
 
@@ -325,7 +345,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 - Edits the client at the specified `INDEX`. The index refers to the index number shown in the displayed client list. The index **must be a positive integer** 1, 2, 3, …​
 - At least one of the optional fields must be provided.
 - Existing values will be updated to the input values.
-- When editing tags, the existing tags of the client will be removed i.e. adding of tags is not cumulative.
+- When editing tags, all existing tags are replaced with your new tags. To keep existing tags, you must re-enter them along with any new tags.
 - You can remove all the client’s tags by typing `t/` without
   specifying any tags after it.
 
@@ -393,6 +413,12 @@ Examples:
 ### Deleting a property : `deletep`
 
 Deletes the specified property from EstateSearch.
+<box type="warning">
+
+**Caution:**
+Deleting a property will permanently remove it from EstateSearch and clear all ownership and interest relationships with clients. This action cannot be undone.
+</box>
+
 
 Format: `deletep INDEX`
 
@@ -405,7 +431,7 @@ Examples:
 
 - `deletep 2` deletes the 2nd property in the current displayed property list.
 
-![result for 'deletep 4'](images/results/deletep.png)
+![result for 'deletep 2'](images/results/deletep.png)
 *Result from using the command `deletep 2` where Ocean View HDB was the second property in the displayed property list*
 
 <box type="info">
@@ -485,7 +511,7 @@ Examples:
 - list followed by 'setop 3 n/Choa Chu Kang Landed Property' — adds **Choa Chu Kang Landed Property** to the 3rd client’s owned properties.
   
 ![result for 'setop 4 n/Hillside Villa'](images/results/setop.png)
-*Result from using the command `set*
+*Result from using the command `setop 4 n/Hillside Villa`*
 
 <box type="info">
 
@@ -530,7 +556,7 @@ Format: `deleteop INDEX_OF_CLIENT n/PROPERTY_NAME`
 
 - Removes the owned property from the client at the specified `INDEX`. The index refers to the index number displayed in the client list currently. The index **must be a positive integer** 1, 2, 3, …​
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
-- The specified client must already be owned in a property with the exact same `PROPERTY_NAME`, otherwise an error message will be shown
+- The specified client must already own a property with the exact same `PROPERTY_NAME`, otherwise an error message will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
 
 Examples:
