@@ -107,7 +107,7 @@ The sequence diagram below illustrates the interactions within the `Logic` compo
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
+1. When `Logic` is called upon to execute a command, it is passed to an `EstateSearchParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
 1. The command can communicate with the `Model` when it is executed (e.g. to delete a client).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
@@ -118,7 +118,7 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 <puml src="diagrams/ParserClasses.puml" width="600"/>
 
 How the parsing works:
-* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
+* When called upon to parse a user command, the `EstateSearchParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `EstateSearchParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
@@ -162,106 +162,144 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
 
+
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### Add Property Feature
 
-#### Proposed Implementation
+#### Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `EstateSearch` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The Add Property feature allows real estate agents to add new properties to EstateSearch. It is implemented through the `AddPropertyCommand` class located in `seedu.address.logic.commands.property`.
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+**Key Components:**
+* `AddPropertyCommand` — Handles the addition of new properties to the system
+* `Model#hasProperty(Property)` — Checks if a property already exists
+* `Model#addProperty(Property)` — Adds the property to the property list
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+**How it works:**
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+When an agent executes `addp a/ADDRESS pr/PRICE n/NAME`, the following sequence occurs:
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+1. The `EstateSearchParser` parses the command and creates an `AddPropertyCommandParser`
+2. The parser validates all required fields (address, price, name) and creates a `Property` object
+3. The parser returns an `AddPropertyCommand` containing the property to add
+4. `LogicManager` executes the command by calling `AddPropertyCommand#execute(Model)`
+5. The command checks for duplicate properties using `Model#hasProperty(Property)`
+    - If a duplicate exists (same property name), a `CommandException` is thrown
+    - Otherwise, the property is added using `Model#addProperty(Property)`
+6. A success message is returned to the user
 
-<puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
+**Duplicate Detection:**
 
-Step 2. The user executes `delete 5` command to delete the 5th client in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+Properties are considered duplicates if they have the same property name (case-sensitive). This prevents agents from accidentally adding the same property multiple times, maintaining data integrity.
 
-<puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
+**Example Usage:**
+```
+addp a/311, Clementi Ave 2, #02-25 pr/1000000 n/Hillside Villa
+```
 
-Step 3. The user executes `add n/David …​` to add a new client. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
+**Design Considerations:**
 
-<puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
+**Aspect: Duplicate Detection Strategy**
 
-<box type="info">
+* **Current Implementation:** Compare by property name only
+    * Pros: Simple and efficient; property names are typically unique identifiers in real estate
+    * Cons: Two different properties with identical names would be rejected
 
-**Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
+* **Alternative:** Compare by multiple fields (name + address)
+    * Pros: More precise duplicate detection
+    * Cons: Same property at same address with different names could slip through; more complex comparison logic
 
-</box>
+---
 
-Step 4. The user now decides that adding the client was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+### Delete Property Feature with Cascading Deletion
 
-<puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
+#### Implementation
 
+The Delete Property feature allows agents to remove properties from EstateSearch. A critical aspect of this feature is **cascading deletion** — when a property is deleted, all references to it are automatically removed from clients' owned and interested property lists. This maintains referential integrity across the system.
 
-<box type="info">
+**Key Components:**
+* `DeletePropertyCommand` — Handles property deletion
+* `Model#removePropertyFromAllPersons(Property)` — Removes property references from all clients
+* `Model#deleteProperty(Property)` — Deletes the property from the property list
 
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
+**How it works:**
 
-</box>
+When an agent executes `deletep INDEX`, the following sequence occurs:
 
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
+<puml src="diagrams/DeletePropertySequenceDiagram.puml" alt="Delete Property Sequence Diagram" />
 
-<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
+**Step-by-step execution:**
 
-<box type="info">
+1. The `EstateSearchParser` parses the command and creates a `DeletePropertyCommandParser`
+2. The parser validates the index and returns a `DeletePropertyCommand`
+3. `LogicManager` executes the command by calling `DeletePropertyCommand#execute(Model)`
+4. The command retrieves the property from the filtered property list using the index
+5. **Cascading deletion step:** `Model#removePropertyFromAllPersons(Property)` is called
+    - This method iterates through all clients in the system
+    - For each client, it checks both owned and interested property lists
+    - If the property is found in either list, it is removed
+    - The client is updated in the address book
+6. After all references are cleaned up, `Model#deleteProperty(Property)` removes the property itself
+7. A success message is returned to the user
 
-**Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+**Cascading Deletion Implementation (ModelManager.java:124-145):**
 
-</box>
+```java
+public void removePropertyFromAllPersons(Property propertyToDelete) {
+    requireNonNull(propertyToDelete);
 
-Similarly, how an undo operation goes through the `Model` component is shown below:
+    List<Person> allPersons = addressBook.getPersonList();
+    for (Person person : allPersons) {
+        boolean changed = false;
 
-<puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
+        if (person.getOwnedProperties().contains(propertyToDelete)) {
+            person.removeOwnedProperty(propertyToDelete);
+            changed = true;
+        }
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
+        if (person.getInterestedProperties().contains(propertyToDelete)) {
+            person.removeInterestedProperty(propertyToDelete);
+            changed = true;
+        }
 
-<box type="info">
+        if (changed) {
+            addressBook.setPerson(person, person);
+        }
+    }
+}
+```
 
-**Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+**Why Cascading Deletion Matters:**
 
-</box>
+Without cascading deletion, deleting a property would leave "dangling references" — clients would still have references to a property that no longer exists. This would cause:
+- Data inconsistency
+- Potential null pointer exceptions
+- Confusion for users seeing references to non-existent properties
 
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
+**Design Considerations:**
 
-<puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
+**Aspect: When to remove property references**
 
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
+* **Current Implementation:** Remove references before deleting the property
+    * Pros: Ensures referential integrity; no dangling references possible
+    * Cons: Requires iterating through all clients (O(n) complexity)
 
-<puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
+* **Alternative:** Delete property first, remove references on-demand when accessed
+    * Pros: Faster deletion operation
+    * Cons: Dangling references persist; requires null checks throughout codebase; poor user experience
 
-The following activity diagram summarizes what happens when a user executes a new command:
+**Aspect: Should users be warned before cascading deletion?**
 
-<puml src="diagrams/CommitActivityDiagram.puml" width="250" />
+* **Current Implementation:** No warning, automatic cleanup
+    * Pros: Seamless user experience; maintains data integrity automatically
+    * Cons: Users might not realize client-property links are being removed
 
-#### Design considerations:
-
-**Aspect: How undo & redo executes:**
-
-* **Alternative 1 (current choice):** Saves the entire address book.
-    * Pros: Easy to implement.
-    * Cons: May have performance issues in terms of memory usage.
-
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-    * Pros: Will use less memory (e.g. for `delete`, just save the client being deleted).
-    * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
+* **Alternative:** Show confirmation dialog listing affected clients
+    * Pros: Transparency; users aware of side effects
+    * Cons: Extra step slows down workflow; most users expect automatic cleanup
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -294,14 +332,37 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                   | I want to …​                 | So that I can…​                                                      |
-|----------|-------------------------------------------|------------------------------|----------------------------------------------------------------------|
-| `* * *`  | agent using the app                       | add contacts to my contact list       | see my contacts                |
-| `* * *`  | long-time user                            | delete contacts that I am no longer interested in or require             |  clean my contacts list                                                                    |
-| `* * *`  | user  | exit the application through the cli              | be efficient in my use of the cli without having to use the gui                                 |
-| `* * *`  | real estate agent                                      | see all the contacts that I have        | better organise my contacts based on their purposes such as buyers, sellers, rentals etc. |
-
-*{More to be added}*
+| Priority | As a …​                                   | I want to …​                 | So that I can…​                                               |
+|-------|-------------------------------------------|------------------------------|---------------------------------------------------------------|
+| `* * *` | real estate agent                         | add new client contacts with their details | keep track of potential buyers and sellers                    |
+| `* * *` | real estate agent                         | delete clients that I no longer work with | keep my contact list clean and up-to-date                     |
+| `* * *` | real estate agent                         | view a list of all my clients | see all the people I'm working with at a glance               |
+| `* * *` | real estate agent                         | add properties to my listing database | track all properties I'm managing                             |
+| `* * *` | real estate agent                         | delete properties that are no longer available | keep my property listings current                             |
+| `* * *` | real estate agent                         | view all properties I'm managing | see my complete inventory of listings                         |
+| `* * *` | real estate agent                         | exit the application through CLI | close the app efficiently without using the mouse             |
+| `* *` | real estate agent                         | edit client information | update contact details when they change                       |
+| `* *` | real estate agent                         | edit property details | update prices and information when they change                |
+| `* *` | real estate agent                         | find clients by name or tags | quickly locate specific people I'm working with               |
+| `* *` | real estate agent                         | find properties by name | quickly locate specific properties in my listings             |
+| `* *` | real estate agent                         | get help on available commands | learn how to use the application effectively                  |
+| `* *` | real estate agent                         | link properties that clients own | track who owns which properties                               |
+| `* *` | real estate agent                         | link properties that clients are interested in | match buyers with suitable properties                         |
+| `* *` | real estate agent                         | remove property ownership links from clients | update records when properties are sold                       |
+| `* *` | real estate agent                         | remove property interest links from clients | update records when clients lose interest                     |
+| `* *` | real estate agent                         | tag clients with labels like "buyer" or "seller" | categorize and organize my contacts                           |
+| `* *` | real estate agent                         | export my client and property data to CSV | use the data in other applications like Excel                 |
+| `* *` | real estate agent                         | see clients with their owned and interested properties | understand each client's property portfolio and interests     |
+| `* *` | real estate agent managing many properties | search for properties by keywords | quickly find properties matching their property name          |
+| `* *` | real estate agent with many contacts | filter clients by tags | view only buyers, sellers, or other specific categories       |
+| `* *` | organized agent                          | clear all data at once | start fresh when beginning a new business cycle               |
+| `* *` | real estate agent                         | view which properties a client owns | avoid showing them properties they already own                |
+| `* *` | real estate agent                         | track which properties a client is interested in | follow up with relevant property updates                      |
+| `*`   | new user                                  | see sample data when I first start the app | understand what the app can do without entering data manually |
+| `*`   | real estate agent                         | have property relationships automatically removed when I delete a property | avoid manual cleanup of stale references                      |
+| `*`   | real estate agent                         | prevent duplicate clients from being added | maintain data integrity in my contact list                    |
+| `*`   | real estate agent                         | prevent duplicate properties from being added | avoid confusion with identical property names                 |
+| `*`   | real estate agent                         | have my exported files saved to a consistent location | easily find my exported data                                  |
 
 
 ### Use cases
@@ -309,6 +370,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `EstateSearch` and the **Actor** is the `real estate agents`, unless specified otherwise)
 
 **Use case UC01: View help**
+
+**Preconditions:**
+* The system is running and responsive
+
+**Guarantees:**
+* Help information is displayed to the agent
+* System state remains unchanged
 
 **MSS**
 1. Agent requests to view help
@@ -324,6 +392,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Use case UC02: Add a client**
 
+**Preconditions:**
+* The system is running and responsive
+* No client with identical unique identifiers (e.g., phone/email) exists in the system
+
+**Guarantees:**
+* If successful, a new client with valid details is added to the system
+* If unsuccessful, the system state remains unchanged
+
 **MSS**
 1. Agent requests to add a client
 2. System requests required details (name, phone, email, address)
@@ -333,7 +409,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 3a. One or more fields are missing/invalid.
-  * 3a1. System indicates the problematic fields.
+  * 3a1. System shows an error message
   * 3a2. Agent re-enters details.
   * Use case resumes at step 4.
 * 3b. A duplicate client is detected (based on unique fields).
@@ -344,6 +420,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Use case UC03: Add a property**
 
+**Preconditions:**
+* The system is running and responsive
+* No property with the same property name exists in the system
+
+**Guarantees:**
+* If successful, a new property with valid details is added to the system
+* If unsuccessful, the system state remains unchanged
+
 **MSS**
 1. Agent requests to add a property
 2. System requests required details (address, price, property name)
@@ -353,7 +437,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 * 3a. One or more fields are missing/invalid.
-  * 3a1. System indicates the problematic fields.
+  * 3a1. System shows an error message
   * 3a2. Agent re-enters details.
   * Use case resumes at step 4.
 * 3b. A duplicate property is detected (based on property name).
@@ -363,6 +447,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ---
 
 **Use case UC04: Edit a client**
+
+**Preconditions:**
+* The system is running and responsive
+* At least one client exists in the system
+
+**Guarantees:**
+* If successful, the specified client's details are updated with valid values
+* If unsuccessful, the system state remains unchanged
+* Client relationships (owned/interested properties) are preserved
 
 **MSS**
 1. Agent requests to edit a specific client
@@ -375,7 +468,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 1a. The specified client does not exist.
   * 1a1. System shows an error message.
   * Use case ends.
-* 3a. New values are invalid (e.g., phone/email format).
+* 3a. New values are invalid
   * 3a1. System indicates invalid fields.
   * 3a2. Agent corrects and resubmits.
   * Use case resumes at step 4.
@@ -387,35 +480,44 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Use case UC05: Edit a property**
 
+**Preconditions:**
+* The system is running and responsive
+* At least one property exists in the system
+
+**Guarantees:**
+* If successful, the specified property's details are updated with valid values
+* If unsuccessful, the system state remains unchanged
+* Property relationships with clients are preserved
+
 **MSS**
-1. Agent requests to list properties
-2. System shows a list of properties
-3. Agent requests to edit a specific property in the list
-4. System requests the fields to update
-5. Agent provides new values for one or more fields (name, address, price)
-6. System validates and updates the property, then shows confirmation
+1. Agent requests to edit a specific property
+2. System requests the fields to update
+3. Agent provides new values
+4. System validates and updates the property, then shows confirmation
    Use case ends.
 
 **Extensions**
-* 2a. The list is empty.
-  * Use case ends.
-* 3a. The specified index is invalid.
-  * 3a1. System shows an error message.
-  * Use case resumes at step 2.
-* 5a. No fields are provided for update.
-  * 5a1. System indicates that at least one field must be provided.
-  * Use case resumes at step 4.
-* 5b. New values are invalid (e.g., price format).
-  * 5b1. System indicates invalid fields.
-  * 5b2. Agent corrects and resubmits.
-  * Use case resumes at step 6.
-* 5c. Update would create a duplicate with another property.
-  * 5c1. System warns and rejects the update.
-  * Use case ends.
-
+* 1a. The specified property does not exist.
+    * 1a1. System shows an error message.
+    * Use case ends.
+* 3a. New values are invalid
+    * 3a1. System indicates invalid fields.
+    * 3a2. Agent corrects and resubmits.
+    * Use case resumes at step 4.
+* 3b. Update would create a duplicate with another property.
+    * 3b1. System warns and rejects the update.
+    * Use case ends.
 ---
 
 **Use case UC06: Delete a client**
+
+**Preconditions:**
+* The system is running and responsive
+* The client list has been loaded
+
+**Guarantees:**
+* If successful, the specified client is permanently removed from the system
+* If unsuccessful, the system state remains unchanged
 
 **MSS**
 1. Agent requests to list clients
@@ -430,10 +532,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 3a. The given index is invalid.
   * 3a1. System shows an error message.
   * Use case resumes at step 2.
+* 3b. The given email is invalid.
+    * 3b1. System shows an error message.
+    * Use case resumes at step 2.
 
 ---
 
 **Use case UC07: Delete a property**
+
+**Preconditions:**
+* The system is running and responsive
+* The property list has been loaded
+
+**Guarantees:**
+* If successful, the specified property is permanently removed from the system
+* All references to the property are removed from associated clients' owned and interested property lists
+* If unsuccessful, the system state remains unchanged
 
 **MSS**
 1. Agent requests to list properties
@@ -453,13 +567,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Use case UC08: Find clients by keywords**
 
+**Preconditions:**
+* The system is running and responsive
+* Client list has been loaded
+
+**Guarantees:**
+* The displayed client list is filtered to show only clients matching the keywords
+* The underlying data remains unchanged
+* If no matches found, an empty list is displayed with appropriate message
+
 **MSS**
-1. Agent requests to find clients by one or more keywords
+1. Agent requests to find clients by one or more keywords in client's name or tag
 2. System filters and shows matching clients
    Use case ends.
 
 **Extensions**
-* 1a. Keywords are invalid (e.g., empty/whitespace only).
+* 1a. Keywords are invalid
   * 1a1. System shows usage guidance.
   * Use case ends.
 * 2a. No clients match the keywords.
@@ -469,6 +592,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ---
 
 **Use case UC09: Find properties by keywords**
+
+**Preconditions:**
+* The system is running and responsive
+* Property list has been loaded
+
+**Guarantees:**
+* The displayed property list is filtered to show only properties matching the keywords
+* The underlying data remains unchanged
+* If no matches found, an empty list is displayed with appropriate message
 
 **MSS**
 1. Agent requests to find properties by one or more keywords in property name
@@ -485,35 +617,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC10: Add a tag to a client (find-then-act)**
+**Use case UC10: List clients**
 
-**MSS**
-1. Agent requests to find clients by keyword(s)
-2. System shows matching clients
-3. Agent selects a specific client from the results
-4. System requests the tag to add
-5. Agent provides the tag
-6. System adds the tag to the client and shows confirmation
-   Use case ends.
+**Preconditions:**
+* The system is running and responsive
 
-**Extensions**
-* 2a. No clients match the keyword(s).
-  * 2a1. System shows "no results found".
-  * Use case ends.
-* 3a. The selected index is invalid.
-  * 3a1. System shows an error message.
-  * Use case resumes at step 2.
-* 5a. The tag already exists on this client.
-  * 5a1. System informs duplication and rejects the add.
-  * Use case ends.
-* 5b. Tag value is invalid (e.g., length/characters).
-  * 5b1. System shows validation error.
-  * 5b2. Agent re-enters a valid tag.
-  * Use case resumes at step 6.
-
----
-
-**Use case UC11: List clients**
+**Guarantees:**
+* All clients in the system are displayed
+* Any previously applied filters are cleared
+* System state remains unchanged
 
 **MSS**
 1. Agent requests to list clients
@@ -527,7 +639,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC12: List properties**
+**Use case UC11: List properties**
+
+**Preconditions:**
+* The system is running and responsive
+
+**Guarantees:**
+* All properties in the system are displayed
+* Any previously applied filters are cleared
+* System state remains unchanged
 
 **MSS**
 1. Agent requests to list properties
@@ -543,7 +663,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC13: Set owned property for a client**
+**Use case UC12: Set owned property for a client**
+
+**Preconditions:**
+* The system is running and responsive
+* At least one client exists in the system
+* At least one property exists in the system
+
+**Guarantees:**
+* If successful, the specified property is added to the client's owned properties list
+* If unsuccessful, the system state remains unchanged
+* No duplicate property ownership is created
 
 **MSS**
 1. Agent requests to list clients
@@ -568,7 +698,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC14: Set interested property for a client**
+**Use case UC13: Set interested property for a client**
+
+**Preconditions:**
+* The system is running and responsive
+* At least one client exists in the system
+* At least one property exists in the system
+
+**Guarantees:**
+* If successful, the specified property is added to the client's interested properties list
+* If unsuccessful, the system state remains unchanged
+* No duplicate property interest is created
 
 **MSS**
 1. Agent requests to list clients
@@ -593,7 +733,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC15: Delete owned property from a client**
+**Use case UC14: Delete owned property from a client**
+
+**Preconditions:**
+* The system is running and responsive
+* At least one client exists in the system
+* The specified client has at least one owned property
+
+**Guarantees:**
+* If successful, the specified property is removed from the client's owned properties list
+* If unsuccessful, the system state remains unchanged
+* The property itself remains in the system (only the relationship is removed)
 
 **MSS**
 1. Agent requests to list clients
@@ -618,7 +768,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC16: Delete interested property from a client**
+**Use case UC15: Delete interested property from a client**
+
+**Preconditions:**
+* The system is running and responsive
+* At least one client exists in the system
+* The specified client has at least one interested property
+
+**Guarantees:**
+* If successful, the specified property is removed from the client's interested properties list
+* If unsuccessful, the system state remains unchanged
+* The property itself remains in the system (only the relationship is removed)
 
 **MSS**
 1. Agent requests to list clients
@@ -643,7 +803,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ---
 
-**Use case UC17: Clear all clients (dangerous operation)**
+**Use case UC16: Clear all clients (dangerous operation)**
+
+**Preconditions:**
+* The system is running and responsive
+
+**Guarantees:**
+* If successful, all clients are permanently removed from the system
+* If cancelled, the system state remains unchanged
+* All property relationships with deleted clients are removed
 
 **MSS**
 1. Agent requests to clear all clients
@@ -854,7 +1022,7 @@ testers are expected to do more _exploratory_ testing.
    2. Test case: `setop i/1 n/Hannah Mansion`<br>
       Expected: If properties with the specification exists, property will be added into client's owned properties.
       Client's and property detail in the status message.
-   3. Test case: `setop n/Hannah'`<br>'
+   3. Test case: `setop n/Hannah`<br>
       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 #### Setting interested property
@@ -863,7 +1031,7 @@ testers are expected to do more _exploratory_ testing.
    2. Test case: `setip i/1 n/Hannah Mansion`<br>
       Expected: If properties with the specification exists, property will be added into client's interested properties.
       Client's and property detail in the status message.
-   3. Test case: `setip n/Hannah'`<br>'
+   3. Test case: `setip n/Hannah`<br>
       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 ### Deleting owned property
@@ -882,7 +1050,7 @@ testers are expected to do more _exploratory_ testing.
    2. Test case: `deleteip i/1 n/Hannah Mansion`<br>
       Expected: If properties with the specification exists, property will be deleted from client's interested properties.
       Client's and property detail in the status message.
-   3. Test case: `deleteip n/Hannah'`<br>'
+   3. Test case: `deleteip n/Hannah`<br>
       Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 --------------------------------------------------------------------------------------------------------------------
