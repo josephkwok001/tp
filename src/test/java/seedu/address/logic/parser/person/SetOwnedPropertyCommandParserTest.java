@@ -10,7 +10,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.person.SetOwnedPropertyCommand;
 import seedu.address.logic.parser.CliSyntax;
 import seedu.address.logic.parser.ParserUtil;
-import seedu.address.model.person.Name;
+import seedu.address.model.property.PropertyName;
 
 public class SetOwnedPropertyCommandParserTest {
 
@@ -54,7 +54,7 @@ public class SetOwnedPropertyCommandParserTest {
         String bad = "  ";
         String userInput = " " + "1 "
                 + CliSyntax.PREFIX_NAME + bad;
-        assertParseFailure(parser, userInput, Name.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, userInput, PropertyName.MESSAGE_CONSTRAINTS);
     }
 
     @Test

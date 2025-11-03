@@ -1,9 +1,9 @@
 package seedu.address.model.property;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Test;
+import seedu.address.testutil.Assert;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PropertyNameTest {
 
@@ -18,5 +18,24 @@ public class PropertyNameTest {
         PropertyName n2 = new PropertyName("Sunny Villa");
         assertEquals(n1, n2);
         assertEquals(n1.hashCode(), n2.hashCode());
+    }
+
+    @Test
+    public void isValidName() {
+        // null name
+        assertThrows(NullPointerException.class, () -> PropertyName.isValidName(null));
+
+        // invalid property names
+        assertFalse(PropertyName.isValidName("")); // empty string
+        assertFalse(PropertyName.isValidName(" ")); // only spaces
+        assertFalse(PropertyName.isValidName("^")); // only symbols
+        assertFalse(PropertyName.isValidName("ABC@")); // name and symbols
+        assertFalse(PropertyName.isValidName("ThisNameIsWayTooLongToBeConsideredValidBecauseItExceedsFifty"));
+        // over 50 characters
+
+        // valid property names
+        assertTrue(PropertyName.isValidName("Sunny Villa")); // Only Alphabets
+        assertTrue(PropertyName.isValidName("Sunny Villa Level 27")); // Contains Numbers
+        assertTrue(PropertyName.isValidName("42")); // Only Numbers
     }
 }
