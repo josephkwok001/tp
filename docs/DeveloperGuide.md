@@ -853,8 +853,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     3. The system must support at least 1,000 clients and 1,000 properties without exceeding 1s for add/delete/update/search operations.
     4. The dual-pane UI must render and switch between client and property views without noticeable lag (< 500ms).
 
-### Glossary
+## Glossary
 
+| Term | Meaning |
+|------|---------|
 | **AB3** | AddressBook Level 3 — the base codebase on which EstateSearch is built. |
 | **Architecture Diagram** | A UML diagram showing the high-level relationships among components (UI, Logic, Model, Storage, Commons). |
 | **Command** | Represents an executable user action (e.g., `AddCommand`, `DeleteCommand`). Each command encapsulates its own logic. |
@@ -868,12 +870,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | **ObservableList** | A JavaFX collection that notifies the UI when its contents change, allowing auto-updates. |
 | **Filtered List** | A view of data after applying search filters (e.g., results of `find`). |
 | **Property** | A new entity type in EstateSearch, representing a real estate listing with attributes like address and price. |
-| **Client** | A person (buyer/seller) entry in EstateSearch, adapted from AB3’s Person entity. |
+| **Client** | A person (buyer/seller) entry in EstateSearch, adapted from AB3's Person entity. |
 | **Relationship Command** | Commands that link clients and properties (e.g., `setop`, `setip`, `deleteop`, `deleteip`). |
 | **VersionedAddressBook** | A proposed data structure for implementing undo/redo functionality. |
 | **FXML** | XML-based layout files defining UI components in JavaFX. |
-| **Dual-pane Interface** | EstateSearch’s UI layout that displays both client and property lists simultaneously. |
-
+| **Dual-pane Interface** | EstateSearch's UI layout that displays both client and property lists simultaneously. |
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -1053,7 +1054,7 @@ testers are expected to do more _exploratory_ testing.
 #### Setting owned property
 1. Setting client's owned properties while all clients are being shown
     1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-    2. Test case: `setop i/1 n/Hannah Mansion`<br>
+    2. Test case: `setop 1 n/Hannah Mansion`<br>
        Expected: If properties with the specification exists, property will be added into client's owned properties.
        Client's and property detail in the status message.
     3. Test case: `setop n/Hannah`<br>
@@ -1062,7 +1063,7 @@ testers are expected to do more _exploratory_ testing.
 #### Setting interested property
 1. Setting client's interested properties while all clients are being shown
     1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-    2. Test case: `setip i/1 n/Hannah Mansion`<br>
+    2. Test case: `setip 1 n/Hannah Mansion`<br>
        Expected: If properties with the specification exists, property will be added into client's interested properties.
        Client's and property detail in the status message.
     3. Test case: `setip n/Hannah`<br>
@@ -1071,7 +1072,7 @@ testers are expected to do more _exploratory_ testing.
 ### Deleting owned property
 1. Deleting client's owned properties while all clients are being shown
     1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-    2. Test case: `deleteop i/1 n/Hannah Mansion`<br>
+    2. Test case: `deleteop 1 n/Hannah Mansion`<br>
        Expected: If properties with the specification exists, property will be deleted from client's owned properties.
        Client's and property detail in the status message.
     3. Test case: `deleteop n/Hannah`<br>
@@ -1081,7 +1082,7 @@ testers are expected to do more _exploratory_ testing.
 ### Deleting interested property
 1. Deleting client's interested properties while all clients are being shown
     1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
-    2. Test case: `deleteip i/1 n/Hannah Mansion`<br>
+    2. Test case: `deleteip 1 n/Hannah Mansion`<br>
        Expected: If properties with the specification exists, property will be deleted from client's interested properties.
        Client's and property detail in the status message.
     3. Test case: `deleteip n/Hannah`<br>
@@ -1102,7 +1103,7 @@ EstateSearch presented significantly greater complexity compared to AB3 due to t
 2. **Entity Relationships**: The most challenging aspect was managing relationships between clients and properties. Clients can own properties or be interested in properties, creating a many-to-many relationship. This required:
     - Careful synchronization when properties are deleted (automatically removing references from all associated clients)
     - Complex validation to ensure referential integrity
-    - Additional commands for managing these associations (e.g., `setop`, `setip`)
+    - Additional commands for managing these associations (e.g., `setop`, `setip`, `deleteop`, `deleteip`)
 
 3. **Data Model Complexity**: Properties have distinct attributes (address, price, property name) that differ significantly from Client attributes. This necessitated separate validation logic, storage adapters, and display components for each entity type.
 

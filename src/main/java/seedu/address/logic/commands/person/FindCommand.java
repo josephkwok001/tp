@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.model.Model;
@@ -26,9 +25,20 @@ public class FindCommand extends Command {
             + "Example: " + COMMAND_WORD + " t/Friends";
 
     private final Predicate<Person> predicate;
+    private final String searchType;
+    private final String keywords;
 
-    public FindCommand(Predicate<Person> predicate) {
+    /**
+     * Creates a FindCommand to find persons matching the given predicate.
+     *
+     * @param predicate The predicate to filter persons.
+     * @param searchType The type of search (e.g., "name" or "tag").
+     * @param keywords The keywords used for searching.
+     */
+    public FindCommand(Predicate<Person> predicate, String searchType, String keywords) {
         this.predicate = predicate;
+        this.searchType = searchType;
+        this.keywords = keywords;
     }
 
 
@@ -36,8 +46,11 @@ public class FindCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredPersonList(predicate);
-        return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+        String resultMessage = String.format("Found %d person%s matching %s: %s",
+                model.getFilteredPersonList().size(),
+                model.getFilteredPersonList().size() == 1 ? "" : "s",
+                searchType, keywords);
+        return new CommandResult(resultMessage);
     }
 
     @Override

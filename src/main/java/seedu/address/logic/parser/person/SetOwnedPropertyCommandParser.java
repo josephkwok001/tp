@@ -19,7 +19,7 @@ import seedu.address.model.property.PropertyName;
 /**
  * Parses input arguments to create a {@link SetOwnedPropertyCommand}.
  * <p>
- * Expected format: {@code i/INDEX n/PROPERTY_NAME}. Both prefixes are required and the preamble must be empty.
+ * Expected format: {@code INDEX n/PROPERTY_NAME}. Both prefixes are required and the preamble must be empty.
  * Duplicate prefixes are rejected.
  */
 public class SetOwnedPropertyCommandParser implements Parser<SetOwnedPropertyCommand> {

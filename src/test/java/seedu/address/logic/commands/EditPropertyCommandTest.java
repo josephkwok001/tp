@@ -78,13 +78,13 @@ public class EditPropertyCommandTest {
         String expected = "seedu.address.logic.commands.property.EditPropertyCommand"
                 + "{index=seedu.address.commons.core.index.Index{zeroBasedIndex=0}, "
                 + "editPropertyDescriptor=seedu.address.logic.commands.property.EditPropertyCommand"
-                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500000}}";
+                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500,000}}";
 
         assertEquals(expected, command.toString());
 
         // Descriptor toString format
         String expectedDescriptor = "seedu.address.logic.commands.property.EditPropertyCommand"
-                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500000}";
+                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500,000}";
 
         assertEquals(expectedDescriptor, descriptor.toString());
     }
@@ -98,7 +98,7 @@ public class EditPropertyCommandTest {
 
         String actual = descriptor.toString();
         String expected = "seedu.address.logic.commands.property.EditPropertyCommand"
-                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500000}";
+                + ".EditPropertyDescriptor{name=TestName, address=Test Address, price=500,000}";
 
         assertEquals(expected, actual);
     }

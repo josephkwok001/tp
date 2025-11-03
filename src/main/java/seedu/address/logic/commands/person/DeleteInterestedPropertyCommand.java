@@ -29,7 +29,7 @@ public class DeleteInterestedPropertyCommand extends Command {
             + ": Deletes a specified property from the selected person's "
             + "list of interested properties.\n"
             + "Parameters: "
-            + PREFIX_INDEX + "INDEX "
+            + "INDEX "
             + PREFIX_NAME + "PROPERTY NAME \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_INDEX + "1 "
@@ -41,7 +41,8 @@ public class DeleteInterestedPropertyCommand extends Command {
     private final Index targetPersonIndex;
 
     /**
-     * Creates a DeleteInterestedPropertyCommand to delete {@code Property} from the specified {@code Person}
+     * Creates a DeleteInterestedPropertyCommand to delete {@code Property} from the
+     * specified {@code Person}
      */
     public DeleteInterestedPropertyCommand(PropertyName propertyName, Index personIndex) {
         requireNonNull(propertyName);
