@@ -24,7 +24,7 @@ public class HelpWindow extends UiPart<Stage> {
             + "========================\n\n"
 
             // Managing Contacts
-            + "--- Managing Contacts ---\n"
+            + "--- Managing Clients ---\n"
             + "add: Adds a new client to EstateSearch.\n"
             + "  Format: add n/NAME p/PHONE e/EMAIL a/ADDRESS [t/TAG]...\n"
             + "  Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2 t/buyer\n\n"
@@ -62,8 +62,8 @@ public class HelpWindow extends UiPart<Stage> {
             + "  Example: setip i/1 n/Hillside Villa\n\n"
 
             + "setop: Sets an owned property for a client.\n"
-            + "  Format: setop o/PERSON INDEX n/PROPERTY NAME \n"
-            + "  Example: setop o/1 n/Hillside Villa\n\n"
+            + "  Format: setop i/PERSON INDEX n/PROPERTY NAME \n"
+            + "  Example: setop i/1 n/Hillside Villa\n\n"
 
             + "deleteip: Deletes an interested property from a client.\n"
             + "  Format: deleteip i/PERSON INDEX n/PROPERTY NAME \n"
