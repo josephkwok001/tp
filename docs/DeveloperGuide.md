@@ -1018,7 +1018,7 @@ testers are expected to do more _exploratory_ testing.
     1. Prerequisites: List all properties using the `listp` command. Multiple properties in the list.
     2. Test case: `editp 1 n/Hannah Mansion`<br>
        Expected: First property is edited. Details of the edited property shown in the status message.
-    3. Test case: `editp 0 n/Hannah's Mansion`<br>
+    3. Test case: `editp 0 n/Hannah Mansion`<br>
        Expected: No property is deleted. Error details shown in the status message. Status bar remains the same.
     4. Other incorrect delete commands to try: `editp `, `editp x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
