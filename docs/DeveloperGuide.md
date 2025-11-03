@@ -877,6 +877,40 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 --------------------------------------------------------------------------------------------------------------------
 
+## **Appendix: Planned Enhancements**
+
+**Team Size: 5**
+
+1. **Handle long property names and addresses in UI**: Currently, very long property names or addresses may be truncated or cause display issues in the property list panel. We plan to implement proper text wrapping and tooltips to show full details on hover.
+    - Current behavior: Property names longer than 50 characters are cut off with "..."
+    - Planned behavior: Long property names wrap to multiple lines, and hovering shows the full name in a tooltip
+
+2. **Enhance phone number validation**: Currently, phone number validation only checks for digits and minimum length. We plan to support international phone number formats and provide more specific validation feedback.
+    - Current behavior: `add n/John p/12 e/john@example.com a/123 St` shows generic "Phone numbers should only contain numbers..."
+    - Planned behavior: `add n/John p/12 e/john@example.com a/123 St` shows "Phone number must be at least 3 digits long. Examples: 91234567, +65 9123 4567"
+
+3. **Improve GUI separation between client and property panels**: Currently, the dual-pane interface shows both client and property lists in similar-looking panels, which can cause confusion about which panel is active. We plan to add clearer visual distinction with headers, different background colors, and active panel highlighting.
+    - Current behavior: Both panels look identical with no clear indication of which list is being displayed
+    - Planned behavior: Client panel will have a blue header labeled "Clients", property panel will have a green header labeled "Properties", and the active panel will have a highlighted border
+
+4. **Add visual indicators for clients with property relationships**: Currently, users cannot tell at a glance which clients have owned or interested properties without viewing the details. We plan to add icons/badges to the client list cards showing property relationship status.
+    - Current behavior: Client card shows only basic information (name, phone, email, tags)
+    - Planned behavior: Client card displays small icons: "🏠" badge showing number of owned properties, "⭐" badge showing number of interested properties (e.g., "🏠 2" means owns 2 properties)
+
+5. **Allow filtering clients by property ownership or interest**: Currently, users cannot filter clients based on their property relationships. We plan to add filter options to show only clients who own properties, only clients interested in properties, or clients with specific property associations.
+    - Current behavior: `find n/John` only searches by client name or tags
+    - Planned behavior: `find owns/Hillside Villa` shows all clients who own "Hillside Villa", `find interested/` shows all clients with at least one interested property
+
+6. **Improve error messages for duplicate entries**: Currently, when adding duplicate clients or properties, the error message is generic ("This person already exists"). We plan to show which specific field caused the duplicate (e.g., same phone number, same email, same property name).
+    - Current behavior: `add n/Alice p/91234567 e/alice@example.com a/123 St` when Alice exists shows "This person already exists in the address book"
+    - Planned behavior: Shows "Duplicate client detected: A client with phone number 91234567 (Alice Tan) already exists"
+
+7. **Add confirmation prompt for clear command**: Currently, the `clear` command immediately deletes all clients and properties without confirmation, which can lead to accidental data loss. We plan to add a confirmation step for destructive operations.
+    - Current behavior: Typing `clear` immediately deletes all data
+    - Planned behavior: `clear` prompts "Are you sure you want to delete ALL clients and properties? Type 'clear confirm' to proceed" requiring `clear confirm` to actually execute the deletion
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## **Appendix: Instructions for manual testing**
 
 
