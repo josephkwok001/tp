@@ -965,7 +965,7 @@ testers are expected to do more _exploratory_ testing.
     2. Test case: `edit 1 n/Hannah`<br>
        Expected: First client is edited. Details of the edited client shown in the status message.
     3. Test case: `edit 0 n/Hannah`<br>
-       Expected: No client is deleted. Error details shown in the status message. Status bar remains the same.
+       Expected: No client is edited. Error details shown in the status message. Status bar remains the same.
     4. Other incorrect delete commands to try: `edit `, `edit x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
@@ -1003,12 +1003,12 @@ testers are expected to do more _exploratory_ testing.
        Expected: Property is added to the list. Details of the new property shown in the status message.
 
 2. Adding a duplicate property
-    1. Test case: `add n/Duplicate Property a/321 Yishun Avenue 1 #12-18 pr/468810`
+    1. Test case: `addp n/Duplicate Property a/321 Yishun Avenue 1 #12-18 pr/468810`
     2. Repeat with the same command.
        Expected: Property is added the first time. On second time, no property is added and error showing duplicate person.
 
 3. Adding a property with missing fields
-    1. Test case: `add n/Missing property a/127 Bishan Avenue 4 #18-19`<br>
+    1. Test case: `addp n/Missing property a/127 Bishan Avenue 4 #18-19`<br>
        Expected: No property is added. Shows invalid command.
     2. This can be repeated with other fields, eg. `add n/Missing property pr/214`<br>
        Expected: No property is added. Shows invalid command.
@@ -1035,14 +1035,14 @@ testers are expected to do more _exploratory_ testing.
        Expected: First property is deleted from the list. Details of the deleted contact shown in the status message.
     3. Test case: `deletep 100`<br>
        Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-    4. Other incorrect delete commands to try: `delete`, `delete 0`, `delete x`, `...`
+    4. Other incorrect delete commands to try: `deletep`, `deletep 0`, `deletep x`, `...`
        (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
 #### Finding a property
 1. Finding a property by name keyword
     1. Prerequisites: List all properties using the `listp` command.
-    2. Test case: `find n/HDB`<br>
+    2. Test case: `findp n/HDB`<br>
        Expected: All properties contain "HDB" are listed. Shows "X properties listed!" in the status message.
 
 2. No keyword found
