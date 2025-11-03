@@ -41,11 +41,33 @@ public class ExportCommandTest {
     }
 
     @Test
-    public void execute_exportWithNoPeople_throwsCommandException() {
+    public void execute_exportWithNoPeople_throwsCommandException() throws CommandException {
         Model model = new ModelManager(new AddressBook(), new UserPrefs());
         ExportCommand command = new ExportCommand("empty_export");
 
         assertThrows(CommandException.class, () -> command.execute(model));
+    }
+
+    @Test
+    public void constructor_invalidFilenameWithSpecialCharacters_throwsCommandException() {
+        assertThrows(CommandException.class, () -> new ExportCommand("file@name"));
+        assertThrows(CommandException.class, () -> new ExportCommand("file!name"));
+        assertThrows(CommandException.class, () -> new ExportCommand("file#name"));
+        assertThrows(CommandException.class, () -> new ExportCommand("file$name"));
+    }
+
+    @Test
+    public void constructor_invalidFilenameWithSpaces_throwsCommandException() {
+        assertThrows(CommandException.class, () -> new ExportCommand("file name"));
+        assertThrows(CommandException.class, () -> new ExportCommand("my file"));
+    }
+
+    @Test
+    public void constructor_validFilenameWithHyphensAndUnderscores_success() throws CommandException {
+        ExportCommand command1 = new ExportCommand("my-file");
+        ExportCommand command2 = new ExportCommand("my_file");
+        ExportCommand command3 = new ExportCommand("my-file_name");
+        assertTrue(true);
     }
 
     @Test
